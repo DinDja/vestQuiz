@@ -10,5 +10,18 @@ export const BADGES = [
   { id: 'b-brasilia', name: "Construtor", desc: "Sabe quem construiu Brasília.", icon: '🏗️', reqQuestions: ['hist-q3'] },
   { id: 'b-geometria', name: "Mestre das Formas", desc: "Dominou triângulos e círculos.", icon: '📐', reqQuestions: ['math-q2', 'math-q3'] },
   { id: 'b-gramatica', name: "Gramático", desc: "Identificou sujeito inexistente e ortografia.", icon: 'abc', reqQuestions: ['port-q1', 'port-q3'] },
-  { id: 'b-polimata', name: "Polímata", desc: "Acertou uma questão difícil de cada matéria.", icon: '🏆', reqQuestions: ['math-q5', 'hist-q4', 'bio-q5', 'fis-q4', 'quim-q2', 'port-q5'] }
+  { id: 'b-polimata', name: "Polímata", desc: "Acertou uma questão difícil de cada matéria.", icon: '🏆', reqQuestions: ['math-q5', 'hist-q4', 'bio-q5', 'fis-q4', 'quim-q2', 'port-q5'] },
+  { id: 'geo-sniper', name: "Sniper Geográfico", desc: "Acertou um alvo com menos de 50km de desvio.", icon: '🎯', reqQuestions: [] },
+  { id: 'geo-explorer', name: "Navegador Global", desc: "Finalizou uma operação completa no Geo-Command.", icon: '🌍', reqQuestions: [] },
+  { id: 'geo-master', name: "Lorde das Coordenadas", desc: "Alcançou mais de 7000 XP em uma única sessão de radar.", icon: '👑', reqQuestions: [] },
+  { id: 'geo-sniper-elite', name: "Sniper de Elite", desc: "Atingiu um alvo com menos de 10km de erro.", icon: '🎯' },
+  { id: 'geo-marathon-300', name: "Lenda dos Mares", desc: "Completou uma operação de 300 missões.", icon: '⚓' },
+  { id: 'geo-streak-10', name: "Imbatível", desc: "Acertou 10 alvos seguidos sem errar.", icon: '🔥' },
+  { id: 'geo-no-sonda', name: "Olho de Águia", desc: "Finalizou 50 rodadas sem usar a sonda de reconhecimento.", icon: '🦅' },
+  { id: 'geo-bahia-expert', name: "Dono do Pelô", desc: "Acertou Salvador com menos de 5km de erro.", icon: '⛪' },
+  { id: 'geo-capital-master', name: "Diplomata orbital", desc: "Identificou 20 capitais mundiais com perfeição.", icon: '🏢' },
+  { id: 'geo-rich-session', name: "Magnata do Radar", desc: "Acumulou 100.000 XP em uma única sessão.", icon: '💰' },
+  { id: 'geo-half-marathon', name: "Cartógrafo Imperial", desc: "Completou uma operação de 100 missões.", icon: '🗺️' },
+  { id: 'geo-perfeccionista', name: "Zero Absoluto", desc: "Acertou um alvo com 0km de erro.", icon: '💎' },
+  { id: 'geo-pioneiro', name: "Desbravador", desc: "Completou sua primeira rodada de 50 missões.", icon: '🚩' }
 ];

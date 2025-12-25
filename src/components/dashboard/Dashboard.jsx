@@ -1,8 +1,10 @@
+// src/components/dashboard/Dashboard.tsx
 import { motion } from 'framer-motion';
-import { Brain, Zap, Layout, CheckCircle2, Award } from 'lucide-react';
+import { Brain, Zap } from 'lucide-react'; // Removi Layout, CheckCircle2, Award pois não eram usados no snippet direto, mas mantenha se precisar
 import { ThemeToggle } from '../common/ThemeToggle';
 import { StatsCards } from './StatsCards';
 import { AchievementCollection } from './AchievementCollection';
+import { GeoChallengeCard } from './GeoChallengeCard'; // Importação nova
 
 export const Dashboard = ({ 
   userData, 
@@ -18,6 +20,7 @@ export const Dashboard = ({
     exit={{ opacity: 0, y: -10 }}
     className="space-y-8"
   >
+    {/* HEADER */}
     <header className="flex justify-between items-center">
       <div>
         <h1 className={`text-2xl font-bold tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
@@ -42,6 +45,7 @@ export const Dashboard = ({
       </div>
     </header>
 
+    {/* XP CARD MAIN */}
     <div className="bg-gradient-to-br from-indigo-600 to-slate-800 dark:from-indigo-600 dark:to-slate-900 rounded-2xl p-6 text-white shadow-xl ring-1 ring-white/10 relative overflow-hidden transition-all">
       <Brain className="absolute -right-4 -bottom-4 opacity-10 w-32 h-32 rotate-12" />
       <div className="relative z-10">
@@ -73,6 +77,12 @@ export const Dashboard = ({
     </div>
 
     <StatsCards userData={userData} isDark={isDark} />
+
+    {/* SEÇÃO NOVA: JOGO GEOGRÁFICO */}
+    <GeoChallengeCard 
+      isDark={isDark} 
+      onClick={() => setView('geo-game')} // Isso dispara a mudança de tela
+    />
 
     <AchievementCollection 
       badges={badges}

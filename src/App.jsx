@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   signInWithPopup,
@@ -16,7 +16,8 @@ import {
   doc,
   getDoc,
   setDoc,
-  updateDoc
+  updateDoc,
+  arrayUnion
 } from 'firebase/firestore';
 import { auth, db } from './firebase';
 import { SUBJECTS } from './constants/subjects';
@@ -35,6 +36,7 @@ import { getIconComponent } from './utils/iconMapper';
 import LoadingScreen from './components/common/LoadingScreen';
 import { SimulatedScreen } from './components/simulated/SimulatedScreen';
 import { SubjectDetails } from './components/subjects/SubjectDetails';
+import { GeoGame } from './components/geo-game/GeoGame';
 
 export default function App() {
   const [view, setView] = useState('login');
@@ -51,7 +53,6 @@ export default function App() {
 
   const toggleTheme = () => setIsDark(!isDark);
 
-  // Converter subjects para incluir componente de ícone
   const subjectsWithIcons = useMemo(() =>
     SUBJECTS.map(subject => ({
       ...subject,
@@ -93,47 +94,23 @@ export default function App() {
   const generateRandomName = () => {
     const prefixes = ['Estudante', 'Curioso', 'Aprendiz', 'Candidato', 'Futuro', 'Brilhante', 'Dedicado'];
     const suffixes = ['Determinado', 'Esforçado', 'Focado', 'Inteligente', 'Persistente', 'Vencedor'];
-    const randomPrefix = prefixes[Math.floor(Math.random() * prefixes.length)];
-    const randomSuffix = suffixes[Math.floor(Math.random() * suffixes.length)];
-    const randomNumber = Math.floor(Math.random() * 1000);
-
-    return `${randomPrefix} ${randomSuffix} ${randomNumber}`;
-  };
-
-  // Função para gerar cores de avatar baseadas no ID do usuário
-  const generateAvatarColor = (uid) => {
-    const colors = [
-      'bg-indigo-500', 'bg-emerald-500', 'bg-rose-500', 'bg-amber-500',
-      'bg-purple-500', 'bg-blue-500', 'bg-cyan-500', 'bg-pink-500'
-    ];
-    const hash = uid.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-    return colors[hash % colors.length];
+    return `${prefixes[Math.floor(Math.random() * prefixes.length)]} ${suffixes[Math.floor(Math.random() * suffixes.length)]} ${Math.floor(Math.random() * 1000)}`;
   };
 
   const handleUpdateBackground = async (backgroundData) => {
     if (!auth.currentUser) return;
-
     try {
       const userDocRef = doc(db, 'users', auth.currentUser.uid);
       await updateDoc(userDocRef, backgroundData);
-
-      // Atualizar estado local
-      setUserData(prev => ({
-        ...prev,
-        ...backgroundData
-      }));
-
-      console.log('Fundo do perfil atualizado:', backgroundData);
+      setUserData(prev => ({ ...prev, ...backgroundData }));
     } catch (error) {
-      console.error("Erro ao atualizar fundo do perfil:", error);
+      console.error("Erro ao atualizar fundo:", error);
     }
   };
 
   const syncUserData = async (firebaseUser) => {
     const userDocRef = doc(db, 'users', firebaseUser.uid);
     const userDocSnap = await getDoc(userDocRef);
-
-    // Se for usuário anônimo sem nome, gerar um nome aleatório
     let displayName = firebaseUser.displayName;
     if (firebaseUser.isAnonymous && (!displayName || displayName === 'Pirata Sem Nome')) {
       displayName = generateRandomName();
@@ -154,33 +131,16 @@ export default function App() {
       badges: [],
       correctQuestions: [],
       streak: 1,
-      // NOVOS CAMPOS:
-      profileBackground: '', // URL da imagem ou cor
-      profileTheme: 'indigo', // Cor do tema: indigo, emerald, rose, amber, etc.
-      profileGradient: 'from-indigo-600 to-purple-600', // Gradiente padrão
-      coverImage: '', // Imagem de capa
-      coverColor: '#4f46e5' // Cor de fundo padrão (indigo-600)
+      profileBackground: '',
+      profileTheme: 'indigo',
+      profileGradient: 'from-indigo-600 to-purple-600',
+      coverImage: '',
+      coverColor: '#4f46e5'
     };
 
     if (userDocSnap.exists()) {
       const existingData = userDocSnap.data();
-
-      // Se for usuário anônimo e não tem nome ou tem nome genérico, atualizar
-      if (firebaseUser.isAnonymous &&
-        (!existingData.displayName ||
-          existingData.displayName === 'Pirata Sem Nome' ||
-          existingData.displayName === 'Estudante Anônimo')) {
-        userBasicData.displayName = generateRandomName();
-      }
-
-      const mergedData = {
-        ...userBasicData,
-        ...existingData,
-        uid: firebaseUser.uid,
-        lastLogin: new Date().toISOString(),
-        isAnonymous: firebaseUser.isAnonymous
-      };
-
+      const mergedData = { ...userBasicData, ...existingData, uid: firebaseUser.uid, lastLogin: new Date().toISOString() };
       setUserData(mergedData);
       await setDoc(userDocRef, mergedData, { merge: true });
     } else {
@@ -195,9 +155,7 @@ export default function App() {
       provider.setCustomParameters({ prompt: 'select_account' });
       await signInWithPopup(auth, provider);
     } catch (error) {
-      if (error.code !== 'auth/cancelled-popup-request' && error.code !== 'auth/popup-closed-by-user') {
-        console.error("Erro no login:", error);
-      }
+      console.error("Erro login google:", error);
     }
   };
 
@@ -218,19 +176,6 @@ export default function App() {
     }
   };
 
-  const saveProgressToFirestore = async (newData) => {
-    if (!auth.currentUser) return;
-    const userDocRef = doc(db, 'users', auth.currentUser.uid);
-    await updateDoc(userDocRef, newData);
-
-    const historyRef = collection(db, 'users', auth.currentUser.uid, 'history');
-    await setDoc(doc(historyRef, new Date().getTime().toString()), {
-      timestamp: new Date().toISOString(),
-      xpGained: newData.xp ? (newData.xp - (userData.xp || 0)) : 0,
-      action: 'Progress Update'
-    });
-  };
-
   const handleUpdateProfile = async (updatedFields) => {
     if (!auth.currentUser) return;
     try {
@@ -238,182 +183,102 @@ export default function App() {
       await updateDoc(userDocRef, updatedFields);
       setUserData(prev => ({ ...prev, ...updatedFields }));
     } catch (error) {
-      console.error("Erro ao atualizar perfil:", error);
+      console.error("Erro perfil:", error);
     }
   };
 
-  const updateProgress = async (newXp, subjectId) => {
-    if (!auth.currentUser) return;
+  const unlockBadge = async (badgeId) => {
+    if (!auth.currentUser || !userData || userData.badges.includes(badgeId)) return;
+    const badge = BADGES.find(b => b.id === badgeId);
+    if (!badge) return;
 
+    try {
+      const userDocRef = doc(db, 'users', auth.currentUser.uid);
+      await updateDoc(userDocRef, { badges: arrayUnion(badgeId) });
+      setUserData(prev => ({ ...prev, badges: [...prev.badges, badgeId] }));
+      setNewBadge(badge);
+      setTimeout(() => setNewBadge(null), 5000);
+
+      const achievementsRef = collection(db, 'users', auth.currentUser.uid, 'achievements');
+      await setDoc(doc(achievementsRef, badgeId), {
+        badgeId,
+        name: badge.name,
+        unlockedAt: new Date().toISOString(),
+        description: badge.desc || ''
+      });
+    } catch (error) {
+      console.error("Erro ao registrar medalha:", error);
+    }
+  };
+
+  const checkForBadges = async (currentCorrectQuestions) => {
+    if (!auth.currentUser) return;
+    const currentBadges = userData.badges || [];
+
+    for (const badge of BADGES) {
+      if (!currentBadges.includes(badge.id) && badge.reqQuestions?.length > 0) {
+        const hasAllRequirements = badge.reqQuestions.every(reqId =>
+          currentCorrectQuestions.includes(reqId)
+        );
+        if (hasAllRequirements) {
+          await unlockBadge(badge.id);
+        }
+      }
+    }
+  };
+
+  const updateProgress = async (newXp, subjectId = 'general') => {
+    if (!auth.currentUser) return;
     const totalXp = (userData.xp || 0) + newXp;
     const newPoints = (userData.points || 0) + (newXp * 0.5);
     const updatedCompleted = [...(userData.completed || [])];
     let shouldUpdateCompleted = false;
 
-    if (subjectId && !updatedCompleted.includes(subjectId)) {
+    if (subjectId && subjectId !== 'general' && !updatedCompleted.includes(subjectId)) {
       updatedCompleted.push(subjectId);
       shouldUpdateCompleted = true;
     }
 
-    const updatedData = {
-      ...userData,
-      xp: totalXp,
-      points: newPoints,
-      completed: updatedCompleted
-    };
-
     try {
       const userDocRef = doc(db, 'users', auth.currentUser.uid);
+      const updateData = { xp: totalXp, points: newPoints };
+      if (shouldUpdateCompleted) updateData.completed = updatedCompleted;
 
-      // Preparar dados para atualização
-      const updateData = {
-        xp: totalXp,
-        points: newPoints
-      };
-
-      // Adicionar completed apenas se necessário
-      if (shouldUpdateCompleted) {
-        updateData.completed = updatedCompleted;
-      }
-
-      // Atualizar no Firestore
       await updateDoc(userDocRef, updateData);
+      setUserData(prev => ({ ...prev, ...updateData }));
 
-      // Atualizar estado local
-      setUserData(updatedData);
-
-      // Salvar no histórico
       const historyRef = collection(db, 'users', auth.currentUser.uid, 'history');
       await setDoc(doc(historyRef, new Date().getTime().toString()), {
         timestamp: new Date().toISOString(),
         xpGained: newXp,
-        subjectId: subjectId,
-        action: 'Completed Subject'
+        subjectId: subjectId || 'activity',
+        action: 'Update'
       });
-
     } catch (error) {
-      console.error("Erro ao atualizar progresso:", error);
+      console.error("Erro progresso:", error);
     }
-  };
-
-
-  const checkForBadges = async (currentCorrectQuestions) => {
-    if (!auth.currentUser) {
-      console.error("Usuário não autenticado");
-      return null;
-    }
-
-    const currentBadges = [...(userData.badges || [])];
-    const newBadgesList = [];
-    let unlockedBadge = null;
-
-    // Verificar quais badges o usuário pode desbloquear
-    BADGES.forEach(badge => {
-      if (!currentBadges.includes(badge.id)) {
-        const hasAllRequirements = badge.reqQuestions.every(reqId =>
-          currentCorrectQuestions.includes(reqId)
-        );
-
-        if (hasAllRequirements) {
-          newBadgesList.push(badge.id);
-          unlockedBadge = badge; // Guardar a badge para mostrar no toast
-        }
-      }
-    });
-
-    // Se houver novas badges
-    if (newBadgesList.length > 0) {
-      console.log('Novas conquistas desbloqueadas:', newBadgesList);
-
-      const updatedBadges = [...currentBadges, ...newBadgesList];
-      const updatedData = {
-        ...userData,
-        badges: updatedBadges
-      };
-
-      try {
-        // Atualizar no Firestore
-        const userDocRef = doc(db, 'users', auth.currentUser.uid);
-        await updateDoc(userDocRef, { badges: updatedBadges });
-
-        // Atualizar estado local
-        setUserData(updatedData);
-
-        // Salvar histórico de cada conquista
-        const achievementsRef = collection(db, 'users', auth.currentUser.uid, 'achievements');
-
-        for (const badgeId of newBadgesList) {
-          const badgeDocRef = doc(achievementsRef, badgeId);
-          const badgeData = {
-            badgeId,
-            name: BADGES.find(b => b.id === badgeId)?.name || badgeId,
-            unlockedAt: new Date().toISOString(),
-            description: BADGES.find(b => b.id === badgeId)?.desc || ''
-          };
-
-          await setDoc(badgeDocRef, badgeData, { merge: true });
-          console.log(`Conquista ${badgeId} salva no Firestore`);
-        }
-
-        // Mostrar toast para a primeira conquista
-        if (unlockedBadge) {
-          setNewBadge(unlockedBadge);
-          setTimeout(() => setNewBadge(null), 5000);
-        }
-
-        return unlockedBadge;
-      } catch (error) {
-        console.error("Erro ao salvar conquistas:", error);
-        return null;
-      }
-    }
-
-    return null;
   };
 
   const handleAnswer = async (idx) => {
     if (answerFeedback || !activeSubject) return;
-
     const currentQuestion = activeSubject.questions[quizStep];
     const correct = currentQuestion.correct;
 
     if (idx === correct) {
       setAnswerFeedback({ index: idx, status: 'correct' });
-
       let updatedCorrectQuestions = [...(userData.correctQuestions || [])];
-      let shouldUpdate = false;
 
-      // Verificar se a questão já foi respondida corretamente
       if (!updatedCorrectQuestions.includes(currentQuestion.id)) {
         updatedCorrectQuestions.push(currentQuestion.id);
-        shouldUpdate = true;
-      }
-
-      if (shouldUpdate) {
         try {
-          // Atualizar questões corretas no Firestore primeiro
-          const updatedData = {
-            ...userData,
-            correctQuestions: updatedCorrectQuestions
-          };
-
-          // Salvar no Firestore
           const userDocRef = doc(db, 'users', auth.currentUser.uid);
-          await updateDoc(userDocRef, {
-            correctQuestions: updatedCorrectQuestions
-          });
-
-          // Atualizar estado local
-          setUserData(updatedData);
-
-          // Verificar conquistas
+          await updateDoc(userDocRef, { correctQuestions: updatedCorrectQuestions });
+          setUserData(prev => ({ ...prev, correctQuestions: updatedCorrectQuestions }));
           await checkForBadges(updatedCorrectQuestions);
-
         } catch (error) {
-          console.error("Erro ao salvar progresso:", error);
+          console.error("Erro questões:", error);
         }
       } else {
-        // Se já tinha a questão, só verifica badges com lista atual
         await checkForBadges(updatedCorrectQuestions);
       }
 
@@ -434,142 +299,37 @@ export default function App() {
     }
   };
 
-
   const activeSubject = useMemo(() =>
     subjectsWithIcons.find(s => s.id === activeSubjectId),
     [activeSubjectId, subjectsWithIcons]
   );
 
-  if (isLoading) {
-    return <LoadingScreen />;
-  }
+  if (isLoading) return <LoadingScreen />;
 
   return (
-    <div className={`min-h-screen font-sans selection:bg-indigo-500/30 transition-colors duration-300 ${isDark ? 'bg-slate-950 text-slate-200' : 'bg-slate-50 text-slate-800'} ${view !== 'login' ? 'pb-24' : ''}`}>
-
-      {view !== 'login' && (
-        <BottomNavigation view={view} setView={setView} isDark={isDark} />
-      )}
-
+    <div className={`min-h-screen font-sans transition-colors duration-300 ${isDark ? 'bg-slate-950 text-slate-200' : 'bg-slate-50 text-slate-800'} ${view !== 'login' ? 'pb-24' : ''}`}>
+      {view !== 'login' && <BottomNavigation view={view} setView={setView} isDark={isDark} />}
       <main className="max-w-md mx-auto px-6 pt-10 pb-4 h-full">
         <AnimatePresence mode="wait">
-          {view === 'login' && (
-            <LoginScreen
-              onGoogleLogin={handleGoogleLogin}
-              onAnonymousLogin={handleAnonymousLogin}
-              isDark={isDark}
-              toggleTheme={toggleTheme}
-            />
-          )}
-
-          {view === 'simulated' && (
-            <SimulatedScreen
-              userData={userData}
-              isDark={isDark}
-              setView={setView}
-              updateProgress={updateProgress}
-            />
-          )}
-
-          {view === 'dashboard' && (
-            <Dashboard
-              userData={userData}
-              isDark={isDark}
-              toggleTheme={toggleTheme}
-              setView={setView}
-              badges={BADGES}
-            />
-          )}
-
-          {view === 'subjects' && (
-            <SubjectsList
-              subjects={subjectsWithIcons}
-              userData={userData}
-              isDark={isDark}
-              toggleTheme={toggleTheme}
-              setActiveSubjectId={setActiveSubjectId}
-              setView={setView}
-              onClick={() => {
-                setSelectedSubject(subject);
-                setShowSubjectDetails(true);
-              }}
-            />
-          )}
-
-          {view === 'quiz' && activeSubject && (
-            <QuizScreen
-              activeSubject={activeSubject}
-              quizStep={quizStep}
-              isDark={isDark}
-              toggleTheme={toggleTheme}
-              setView={setView}
-              answerFeedback={answerFeedback}
-              handleAnswer={handleAnswer}
-            />
-          )}
-
-          {view === 'ranking' && (
-            <RankingScreen
-              globalLeaderboard={globalLeaderboard}
-              userData={userData}
-              isDark={isDark}
-              toggleTheme={toggleTheme}
-            />
-          )}
-
-          {view === 'profile' && (
-            <ProfileScreen
-              userData={userData}
-              isDark={isDark}
-              toggleTheme={toggleTheme}
-              handleLogout={handleLogout}
-              handleUpdateProfile={handleUpdateProfile}
-              handleUpdateBackground={handleUpdateBackground} // ← NOVA PROP
-              globalLeaderboard={globalLeaderboard}
-              subjects={subjectsWithIcons}
-              badges={BADGES}
-            />
-          )}
+          {view === 'login' && <LoginScreen onGoogleLogin={handleGoogleLogin} onAnonymousLogin={handleAnonymousLogin} isDark={isDark} toggleTheme={toggleTheme} />}
+          {view === 'simulated' && <SimulatedScreen userData={userData} isDark={isDark} setView={setView} updateProgress={updateProgress} />}
+          {view === 'dashboard' && <Dashboard userData={userData} isDark={isDark} toggleTheme={toggleTheme} setView={setView} badges={BADGES} />}
+          {view === 'subjects' && <SubjectsList subjects={subjectsWithIcons} userData={userData} isDark={isDark} toggleTheme={toggleTheme} setActiveSubjectId={setActiveSubjectId} setView={setView} />}
+          {view === 'quiz' && activeSubject && <QuizScreen activeSubject={activeSubject} quizStep={quizStep} isDark={isDark} toggleTheme={toggleTheme} setView={setView} answerFeedback={answerFeedback} handleAnswer={handleAnswer} />}
+          {view === 'ranking' && <RankingScreen globalLeaderboard={globalLeaderboard} userData={userData} isDark={isDark} toggleTheme={toggleTheme} />}
+          {view === 'profile' && <ProfileScreen userData={userData} isDark={isDark} toggleTheme={toggleTheme} handleLogout={handleLogout} handleUpdateProfile={handleUpdateProfile} handleUpdateBackground={handleUpdateBackground} globalLeaderboard={globalLeaderboard} subjects={subjectsWithIcons} badges={BADGES} />}
+          {view === 'geo-game' && <GeoGame setView={setView} isDark={isDark} userData={userData} updateProgress={updateProgress} unlockBadge={unlockBadge} />}
         </AnimatePresence>
-
         {showSubjectDetails && selectedSubject && (
           <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-            <SubjectDetails
-              subject={selectedSubject}
-              isDark={isDark}
-              onClose={() => {
-                setShowSubjectDetails(false);
-                setSelectedSubject(null);
-              }}
-            />
+            <SubjectDetails subject={selectedSubject} isDark={isDark} onClose={() => { setShowSubjectDetails(false); setSelectedSubject(null); }} />
           </div>
         )}
       </main>
-
       <AnimatePresence>
-        {newBadge && (
-          <AchievementToast
-            badge={newBadge}
-            onDismiss={() => setNewBadge(null)}
-          />
-        )}
+        {newBadge && <AchievementToast badge={newBadge} onDismiss={() => setNewBadge(null)} />}
       </AnimatePresence>
-
-      <style dangerouslySetInnerHTML={{
-        __html: `
-  .no-scrollbar::-webkit-scrollbar { display: none; }
-  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-  
-  /* Animações para o modal */
-  @keyframes badge-glow {
-    0%, 100% { filter: drop-shadow(0 0 5px rgba(16, 185, 129, 0.3)); }
-    50% { filter: drop-shadow(0 0 15px rgba(16, 185, 129, 0.6)); }
-  }
-  
-  .badge-glow {
-    animation: badge-glow 2s ease-in-out infinite;
-  }
-`}} />
+      <style dangerouslySetInnerHTML={{ __html: `.no-scrollbar::-webkit-scrollbar { display: none; } .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; } @keyframes badge-glow { 0%, 100% { filter: drop-shadow(0 0 5px rgba(16, 185, 129, 0.3)); } 50% { filter: drop-shadow(0 0 15px rgba(16, 185, 129, 0.6)); } } .badge-glow { animation: badge-glow 2s ease-in-out infinite; }` }} />
     </div>
   );
 }

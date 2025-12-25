@@ -11,3 +11,40 @@
 input, textarea {
   user-select: auto;
 }
+
+@keyframes scan {
+  0% { bottom: 100%; }
+  100% { bottom: -100px; }
+}
+
+
+.leaflet-container {
+  background: #020617 !important;
+  cursor: crosshair !important;
+}
+
+/* Efeito de scanline tático */
+.scanline-overlay {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 50%,
+    rgba(16, 185, 129, 0.02) 50%
+  );
+  background-size: 100% 4px;
+  z-index: 2000;
+  pointer-events: none;
+}
+
+.hud-glass {
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+}
+
+/* Esconder attribution do Leaflet para um visual de App nativo */
+.leaflet-control-attribution {
+  display: none !important;
+}
