@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   signInWithPopup,
@@ -19,6 +19,7 @@ import {
   updateDoc,
   arrayUnion
 } from 'firebase/firestore';
+
 import { auth, db } from './firebase';
 import { SUBJECTS } from './constants/subjects';
 import { BADGES } from './constants/badges';
@@ -37,6 +38,7 @@ import LoadingScreen from './components/common/LoadingScreen';
 import { SimulatedScreen } from './components/simulated/SimulatedScreen';
 import { SubjectDetails } from './components/subjects/SubjectDetails';
 import { GeoGame } from './components/geo-game/GeoGame';
+import { DifficultySelector } from './components/quiz/DifficultySelector';
 
 export default function App() {
   const [view, setView] = useState('login');
@@ -50,6 +52,8 @@ export default function App() {
   const [globalLeaderboard, setGlobalLeaderboard] = useState([]);
   const [selectedSubject, setSelectedSubject] = useState(null);
   const [showSubjectDetails, setShowSubjectDetails] = useState(false);
+  const [quizFinished, setQuizFinished] = useState(false);
+  const [filteredQuestions, setFilteredQuestions] = useState([]);
 
   const toggleTheme = () => setIsDark(!isDark);
 
@@ -74,117 +78,110 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    const q = query(
-      collection(db, 'users'),
-      orderBy('xp', 'desc'),
-      limit(50)
-    );
-
+    const q = query(collection(db, 'users'), orderBy('xp', 'desc'), limit(50));
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      const players = snapshot.docs.map(doc => ({
-        uid: doc.id,
-        ...doc.data()
-      }));
+      const players = snapshot.docs.map(doc => ({ uid: doc.id, ...doc.data() }));
       setGlobalLeaderboard(players);
     });
-
     return () => unsubscribe();
   }, []);
 
-  const generateRandomName = () => {
-    const prefixes = ['Estudante', 'Curioso', 'Aprendiz', 'Candidato', 'Futuro', 'Brilhante', 'Dedicado'];
-    const suffixes = ['Determinado', 'Esforçado', 'Focado', 'Inteligente', 'Persistente', 'Vencedor'];
-    return `${prefixes[Math.floor(Math.random() * prefixes.length)]} ${suffixes[Math.floor(Math.random() * suffixes.length)]} ${Math.floor(Math.random() * 1000)}`;
-  };
 
-  const handleUpdateBackground = async (backgroundData) => {
-    if (!auth.currentUser) return;
-    try {
-      const userDocRef = doc(db, 'users', auth.currentUser.uid);
-      await updateDoc(userDocRef, backgroundData);
-      setUserData(prev => ({ ...prev, ...backgroundData }));
-    } catch (error) {
-      console.error("Erro ao atualizar fundo:", error);
-    }
-  };
+const calculateDaysActive = (createdAt) => {
+  try {
+    if (!createdAt) return 1;
+    
+    // Converte para objeto Date e valida
+    const start = new Date(createdAt);
+    if (isNaN(start.getTime())) return 1;
 
-  const syncUserData = async (firebaseUser) => {
-    const userDocRef = doc(db, 'users', firebaseUser.uid);
-    const userDocSnap = await getDoc(userDocRef);
-    let displayName = firebaseUser.displayName;
-    if (firebaseUser.isAnonymous && (!displayName || displayName === 'Pirata Sem Nome')) {
-      displayName = generateRandomName();
-    }
+    const today = new Date();
+    
+    // Normalização para comparar apenas calendários (meia-noite)
+    const d1 = Date.UTC(today.getFullYear(), today.getMonth(), today.getDate());
+    const d2 = Date.UTC(start.getFullYear(), start.getMonth(), start.getDate());
 
-    const userBasicData = {
+    const msPerDay = 1000 * 60 * 60 * 24;
+    const diff = Math.floor((d1 - d2) / msPerDay);
+    
+    return diff + 1;
+  } catch (error) {
+    return 1;
+  }
+};
+
+const syncUserData = async (firebaseUser) => {
+  const userDocRef = doc(db, 'users', firebaseUser.uid);
+  const userDocSnap = await getDoc(userDocRef);
+  const now = new Date().toISOString();
+
+  if (userDocSnap.exists()) {
+    const data = userDocSnap.data();
+    
+    // Garante que createdAt exista
+    const creationDate = data.createdAt || now;
+    const daysActive = calculateDaysActive(creationDate);
+    
+    const mergedData = { 
+      ...data, 
       uid: firebaseUser.uid,
-      displayName: displayName || 'Estudante',
+      lastLogin: now,
+      streak: Number(daysActive) || 1, // Força tipo Number
+      createdAt: creationDate
+    };
+    
+    setUserData(mergedData);
+    await setDoc(userDocRef, mergedData, { merge: true });
+  } else {
+    const newUser = {
+      uid: firebaseUser.uid,
+      displayName: firebaseUser.displayName || 'Estudante',
       email: firebaseUser.email || '',
       photoURL: firebaseUser.photoURL || '',
-      lastLogin: new Date().toISOString(),
-      isAnonymous: firebaseUser.isAnonymous || false,
-      createdAt: firebaseUser.metadata.creationTime || new Date().toISOString(),
-      bio: firebaseUser.isAnonymous ? 'Estudando incógnito 🕵️‍♂️' : 'Em busca da aprovação! 💪',
+      createdAt: now,
+      lastLogin: now,
       xp: 0,
       points: 0,
       completed: [],
       badges: [],
       correctQuestions: [],
-      streak: 1,
-      profileBackground: '',
-      profileTheme: 'indigo',
-      profileGradient: 'from-indigo-600 to-purple-600',
-      coverImage: '',
-      coverColor: '#4f46e5'
+      streak: 1
     };
+    await setDoc(userDocRef, newUser);
+    setUserData(newUser);
+  }
+};
 
-    if (userDocSnap.exists()) {
-      const existingData = userDocSnap.data();
-      const mergedData = { ...userBasicData, ...existingData, uid: firebaseUser.uid, lastLogin: new Date().toISOString() };
-      setUserData(mergedData);
-      await setDoc(userDocRef, mergedData, { merge: true });
-    } else {
-      await setDoc(userDocRef, userBasicData);
-      setUserData(userBasicData);
-    }
+  const handleSelectSubject = (id) => {
+    setActiveSubjectId(id);
+    setQuizFinished(false);
+    setView('difficulty-selection');
   };
 
-  const handleGoogleLogin = async () => {
-    try {
-      const provider = new GoogleAuthProvider();
-      provider.setCustomParameters({ prompt: 'select_account' });
-      await signInWithPopup(auth, provider);
-    } catch (error) {
-      console.error("Erro login google:", error);
-    }
-  };
+  const startFilteredQuiz = (difficulty, skillCode) => {
+    const subject = subjectsWithIcons.find(s => s.id === activeSubjectId);
+    if (!subject) return;
 
-  const handleAnonymousLogin = async () => {
-    try {
-      await signInAnonymously(auth);
-    } catch (error) {
-      console.error("Erro login anônimo:", error);
-    }
-  };
+    let questions = [...subject.questions];
 
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      setView('login');
-    } catch (error) {
-      console.error("Erro logout:", error);
+    if (difficulty !== 'all') {
+      questions = questions.filter(q => q.difficulty === difficulty);
     }
-  };
 
-  const handleUpdateProfile = async (updatedFields) => {
-    if (!auth.currentUser) return;
-    try {
-      const userDocRef = doc(db, 'users', auth.currentUser.uid);
-      await updateDoc(userDocRef, updatedFields);
-      setUserData(prev => ({ ...prev, ...updatedFields }));
-    } catch (error) {
-      console.error("Erro perfil:", error);
+    if (skillCode !== 'all') {
+      questions = questions.filter(q => q.skillCode === skillCode);
     }
+
+    if (questions.length === 0) {
+      alert("Nenhuma questão encontrada com esses parâmetros, Comandante.");
+      return;
+    }
+
+    setFilteredQuestions(questions);
+    setQuizStep(0);
+    setQuizFinished(false);
+    setAnswerFeedback(null);
+    setView('quiz');
   };
 
   const unlockBadge = async (badgeId) => {
@@ -211,92 +208,97 @@ export default function App() {
     }
   };
 
-  const checkForBadges = async (currentCorrectQuestions) => {
-    if (!auth.currentUser) return;
-    const currentBadges = userData.badges || [];
-
-    for (const badge of BADGES) {
-      if (!currentBadges.includes(badge.id) && badge.reqQuestions?.length > 0) {
-        const hasAllRequirements = badge.reqQuestions.every(reqId =>
-          currentCorrectQuestions.includes(reqId)
-        );
-        if (hasAllRequirements) {
-          await unlockBadge(badge.id);
-        }
-      }
-    }
-  };
-
-  const updateProgress = async (newXp, subjectId = 'general') => {
-    if (!auth.currentUser) return;
-    const totalXp = (userData.xp || 0) + newXp;
-    const newPoints = (userData.points || 0) + (newXp * 0.5);
-    const updatedCompleted = [...(userData.completed || [])];
-    let shouldUpdateCompleted = false;
-
-    if (subjectId && subjectId !== 'general' && !updatedCompleted.includes(subjectId)) {
-      updatedCompleted.push(subjectId);
-      shouldUpdateCompleted = true;
-    }
-
-    try {
-      const userDocRef = doc(db, 'users', auth.currentUser.uid);
-      const updateData = { xp: totalXp, points: newPoints };
-      if (shouldUpdateCompleted) updateData.completed = updatedCompleted;
-
-      await updateDoc(userDocRef, updateData);
-      setUserData(prev => ({ ...prev, ...updateData }));
-
-      const historyRef = collection(db, 'users', auth.currentUser.uid, 'history');
-      await setDoc(doc(historyRef, new Date().getTime().toString()), {
-        timestamp: new Date().toISOString(),
-        xpGained: newXp,
-        subjectId: subjectId || 'activity',
-        action: 'Update'
-      });
-    } catch (error) {
-      console.error("Erro progresso:", error);
-    }
-  };
-
   const handleAnswer = async (idx) => {
-    if (answerFeedback || !activeSubject) return;
-    const currentQuestion = activeSubject.questions[quizStep];
-    const correct = currentQuestion.correct;
+    if (answerFeedback) return;
+    const currentQuestion = filteredQuestions[quizStep];
 
-    if (idx === correct) {
+    if (idx === currentQuestion.correct) {
       setAnswerFeedback({ index: idx, status: 'correct' });
-      let updatedCorrectQuestions = [...(userData.correctQuestions || [])];
 
+      let updatedCorrectQuestions = [...(userData.correctQuestions || [])];
       if (!updatedCorrectQuestions.includes(currentQuestion.id)) {
         updatedCorrectQuestions.push(currentQuestion.id);
-        try {
-          const userDocRef = doc(db, 'users', auth.currentUser.uid);
-          await updateDoc(userDocRef, { correctQuestions: updatedCorrectQuestions });
-          setUserData(prev => ({ ...prev, correctQuestions: updatedCorrectQuestions }));
-          await checkForBadges(updatedCorrectQuestions);
-        } catch (error) {
-          console.error("Erro questões:", error);
-        }
-      } else {
-        await checkForBadges(updatedCorrectQuestions);
+        const userDocRef = doc(db, 'users', auth.currentUser.uid);
+        await updateDoc(userDocRef, { correctQuestions: updatedCorrectQuestions });
+        setUserData(prev => ({ ...prev, correctQuestions: updatedCorrectQuestions }));
       }
 
       setTimeout(() => {
-        if (quizStep + 1 < activeSubject.questions.length) {
+        if (quizStep + 1 < filteredQuestions.length) {
           setQuizStep(quizStep + 1);
+          setAnswerFeedback(null);
         } else {
           updateProgress(activeSubject.xp, activeSubject.id);
-          setView('dashboard');
-          setActiveSubjectId(null);
-          setQuizStep(0);
+          setQuizFinished(true);
+          setAnswerFeedback(null);
         }
-        setAnswerFeedback(null);
       }, 800);
     } else {
       setAnswerFeedback({ index: idx, status: 'wrong' });
-      setTimeout(() => setAnswerFeedback(null), 3500);
     }
+  };
+
+  const handleResetQuiz = () => {
+    setQuizStep(0);
+    setQuizFinished(false);
+    setAnswerFeedback(null);
+  };
+
+  const updateProgress = async (newXp, subjectId) => {
+    if (!auth.currentUser) return;
+    const totalXp = (userData.xp || 0) + newXp;
+    const updatedCompleted = userData.completed.includes(subjectId)
+      ? userData.completed
+      : [...userData.completed, subjectId];
+
+    try {
+      const userDocRef = doc(db, 'users', auth.currentUser.uid);
+      await updateDoc(userDocRef, { xp: totalXp, completed: updatedCompleted });
+      setUserData(prev => ({ ...prev, xp: totalXp, completed: updatedCompleted }));
+    } catch (e) {
+      console.error("Erro ao atualizar progresso", e);
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    try {
+      const provider = new GoogleAuthProvider();
+      await signInWithPopup(auth, provider);
+    } catch (error) {
+      console.error("Erro Login Google:", error);
+    }
+  };
+
+  const handleAnonymousLogin = async () => {
+    try {
+      await signInAnonymously(auth);
+    } catch (error) {
+      console.error("Erro Login Anonimo:", error);
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      setView('login');
+    } catch (error) {
+      console.error("Erro Logout:", error);
+    }
+  };
+
+  const handleUpdateProfile = async (updates) => {
+    if (!auth.currentUser) return;
+    try {
+      const userDocRef = doc(db, 'users', auth.currentUser.uid);
+      await updateDoc(userDocRef, updates);
+      setUserData(prev => ({ ...prev, ...updates }));
+    } catch (error) {
+      console.error("Erro Update Profile:", error);
+    }
+  };
+
+  const handleUpdateBackground = async (bg) => {
+    handleUpdateProfile({ profileBg: bg });
   };
 
   const activeSubject = useMemo(() =>
@@ -309,27 +311,121 @@ export default function App() {
   return (
     <div className={`min-h-screen font-sans transition-colors duration-300 ${isDark ? 'bg-slate-950 text-slate-200' : 'bg-slate-50 text-slate-800'} ${view !== 'login' ? 'pb-24' : ''}`}>
       {view !== 'login' && <BottomNavigation view={view} setView={setView} isDark={isDark} />}
+
       <main className="max-w-md mx-auto px-6 pt-10 pb-4 h-full">
         <AnimatePresence mode="wait">
-          {view === 'login' && <LoginScreen onGoogleLogin={handleGoogleLogin} onAnonymousLogin={handleAnonymousLogin} isDark={isDark} toggleTheme={toggleTheme} />}
-          {view === 'simulated' && <SimulatedScreen userData={userData} isDark={isDark} setView={setView} updateProgress={updateProgress} />}
-          {view === 'dashboard' && <Dashboard userData={userData} isDark={isDark} toggleTheme={toggleTheme} setView={setView} badges={BADGES} />}
-          {view === 'subjects' && <SubjectsList subjects={subjectsWithIcons} userData={userData} isDark={isDark} toggleTheme={toggleTheme} setActiveSubjectId={setActiveSubjectId} setView={setView} />}
-          {view === 'quiz' && activeSubject && <QuizScreen activeSubject={activeSubject} quizStep={quizStep} isDark={isDark} toggleTheme={toggleTheme} setView={setView} answerFeedback={answerFeedback} handleAnswer={handleAnswer} />}
-          {view === 'ranking' && <RankingScreen globalLeaderboard={globalLeaderboard} userData={userData} isDark={isDark} toggleTheme={toggleTheme} />}
-          {view === 'profile' && <ProfileScreen userData={userData} isDark={isDark} toggleTheme={toggleTheme} handleLogout={handleLogout} handleUpdateProfile={handleUpdateProfile} handleUpdateBackground={handleUpdateBackground} globalLeaderboard={globalLeaderboard} subjects={subjectsWithIcons} badges={BADGES} />}
-          {view === 'geo-game' && <GeoGame setView={setView} isDark={isDark} userData={userData} updateProgress={updateProgress} unlockBadge={unlockBadge} />}
+          {view === 'login' && (
+            <LoginScreen
+              onGoogleLogin={handleGoogleLogin}
+              onAnonymousLogin={handleAnonymousLogin}
+              isDark={isDark}
+              toggleTheme={toggleTheme}
+            />
+          )}
+
+          {view === 'dashboard' && (
+            <Dashboard
+              userData={userData}
+              isDark={isDark}
+              toggleTheme={toggleTheme}
+              setView={setView}
+              badges={BADGES}
+            />
+          )}
+
+          {view === 'subjects' && (
+            <SubjectsList
+              subjects={subjectsWithIcons}
+              userData={userData}
+              isDark={isDark}
+              setActiveSubjectId={handleSelectSubject}
+              setView={setView}
+              toggleTheme={toggleTheme}
+            />
+          )}
+
+          {view === 'difficulty-selection' && activeSubject && (
+            <DifficultySelector
+              subject={activeSubject}
+              onStart={startFilteredQuiz}
+              onBack={() => setView('subjects')}
+              isDark={isDark}
+            />
+          )}
+
+          {view === 'quiz' && activeSubject && (
+            <QuizScreen
+              activeSubject={{ ...activeSubject, questions: filteredQuestions }}
+              quizStep={quizStep}
+              isDark={isDark}
+              toggleTheme={toggleTheme}
+              setView={setView}
+              answerFeedback={answerFeedback}
+              handleAnswer={handleAnswer}
+              quizFinished={quizFinished}
+              handleResetQuiz={handleResetQuiz}
+            />
+          )}
+
+          {view === 'ranking' && (
+            <RankingScreen
+              globalLeaderboard={globalLeaderboard}
+              userData={userData}
+              isDark={isDark}
+              toggleTheme={toggleTheme}
+            />
+          )}
+
+          {view === 'profile' && (
+            <ProfileScreen
+              userData={userData}
+              isDark={isDark}
+              toggleTheme={toggleTheme}
+              handleLogout={handleLogout}
+              handleUpdateProfile={handleUpdateProfile}
+              handleUpdateBackground={handleUpdateBackground}
+              globalLeaderboard={globalLeaderboard}
+              subjects={subjectsWithIcons}
+              badges={BADGES}
+            />
+          )}
+
+          {view === 'geo-game' && (
+            <GeoGame
+              setView={setView}
+              isDark={isDark}
+              userData={userData}
+              updateProgress={updateProgress}
+              unlockBadge={unlockBadge}
+            />
+          )}
         </AnimatePresence>
+
         {showSubjectDetails && selectedSubject && (
           <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-            <SubjectDetails subject={selectedSubject} isDark={isDark} onClose={() => { setShowSubjectDetails(false); setSelectedSubject(null); }} />
+            <SubjectDetails
+              subject={selectedSubject}
+              isDark={isDark}
+              onClose={() => { setShowSubjectDetails(false); setSelectedSubject(null); }}
+            />
           </div>
         )}
       </main>
+
       <AnimatePresence>
         {newBadge && <AchievementToast badge={newBadge} onDismiss={() => setNewBadge(null)} />}
       </AnimatePresence>
-      <style dangerouslySetInnerHTML={{ __html: `.no-scrollbar::-webkit-scrollbar { display: none; } .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; } @keyframes badge-glow { 0%, 100% { filter: drop-shadow(0 0 5px rgba(16, 185, 129, 0.3)); } 50% { filter: drop-shadow(0 0 15px rgba(16, 185, 129, 0.6)); } } .badge-glow { animation: badge-glow 2s ease-in-out infinite; }` }} />
+
+      <style dangerouslySetInnerHTML={{
+        __html: `
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        @keyframes badge-glow { 
+          0%, 100% { filter: drop-shadow(0 0 5px rgba(16, 185, 129, 0.3)); } 
+          50% { filter: drop-shadow(0 0 15px rgba(16, 185, 129, 0.6)); } 
+        }
+        .badge-glow { animation: badge-glow 2s ease-in-out infinite; }
+      `}} />
     </div>
   );
 }

@@ -11,11 +11,20 @@ export const SubjectsList = ({
   setView
 }) => {
   return (
-    <motion.div key="subjects" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
+    <motion.div 
+      key="subjects" 
+      initial={{ opacity: 0 }} 
+      animate={{ opacity: 1 }} 
+      className="space-y-6"
+    >
       <header className="mb-6 flex justify-between items-center">
         <div>
-          <h1 className={`text-2xl font-bold mb-1 ${isDark ? 'text-white' : 'text-slate-900'}`}>Matérias</h1>
-          <p className="text-slate-500 text-sm">Selecione um tópico para iniciar o desafio.</p>
+          <h1 className={`text-2xl font-bold mb-1 ${isDark ? 'text-white' : 'text-slate-900'}`}>
+            Matérias
+          </h1>
+          <p className="text-slate-500 text-sm">
+            Selecione um tópico para configurar sua rota.
+          </p>
         </div>
         <ThemeToggle isDark={isDark} toggle={toggleTheme} />
       </header>
@@ -28,11 +37,10 @@ export const SubjectsList = ({
             isCompleted={userData.completed?.includes(subject.id)}
             isDark={isDark}
             onClick={() => {
-              // Comportamento direto: Clicou, iniciou a batalha!
-              if (!userData.completed?.includes(subject.id)) {
-                setActiveSubjectId(subject.id);
-                setView('quiz');
-              }
+              // 1. Define o ID da matéria ativa
+              setActiveSubjectId(subject.id);
+              // 2. EM VEZ DE 'quiz', LEVA PARA A TELA DE FILTROS
+              setView('difficulty-selection');
             }}
           />
         ))}
