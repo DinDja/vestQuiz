@@ -39,6 +39,8 @@ import { SimulatedScreen } from './components/simulated/SimulatedScreen';
 import { SubjectDetails } from './components/subjects/SubjectDetails';
 import { GeoGame } from './components/geo-game/GeoGame';
 import { DifficultySelector } from './components/quiz/DifficultySelector';
+// Importação do Novo Jogo
+import { TerritoryManager } from './components/simulated/TerritoryManager';
 
 export default function App() {
   const [view, setView] = useState('login');
@@ -87,70 +89,70 @@ export default function App() {
   }, []);
 
 
-const calculateDaysActive = (createdAt) => {
-  try {
-    if (!createdAt) return 1;
-    
-    // Converte para objeto Date e valida
-    const start = new Date(createdAt);
-    if (isNaN(start.getTime())) return 1;
+  const calculateDaysActive = (createdAt) => {
+    try {
+      if (!createdAt) return 1;
+      
+      // Converte para objeto Date e valida
+      const start = new Date(createdAt);
+      if (isNaN(start.getTime())) return 1;
 
-    const today = new Date();
-    
-    // Normalização para comparar apenas calendários (meia-noite)
-    const d1 = Date.UTC(today.getFullYear(), today.getMonth(), today.getDate());
-    const d2 = Date.UTC(start.getFullYear(), start.getMonth(), start.getDate());
+      const today = new Date();
+      
+      // Normalização para comparar apenas calendários (meia-noite)
+      const d1 = Date.UTC(today.getFullYear(), today.getMonth(), today.getDate());
+      const d2 = Date.UTC(start.getFullYear(), start.getMonth(), start.getDate());
 
-    const msPerDay = 1000 * 60 * 60 * 24;
-    const diff = Math.floor((d1 - d2) / msPerDay);
-    
-    return diff + 1;
-  } catch (error) {
-    return 1;
-  }
-};
+      const msPerDay = 1000 * 60 * 60 * 24;
+      const diff = Math.floor((d1 - d2) / msPerDay);
+      
+      return diff + 1;
+    } catch (error) {
+      return 1;
+    }
+  };
 
-const syncUserData = async (firebaseUser) => {
-  const userDocRef = doc(db, 'users', firebaseUser.uid);
-  const userDocSnap = await getDoc(userDocRef);
-  const now = new Date().toISOString();
+  const syncUserData = async (firebaseUser) => {
+    const userDocRef = doc(db, 'users', firebaseUser.uid);
+    const userDocSnap = await getDoc(userDocRef);
+    const now = new Date().toISOString();
 
-  if (userDocSnap.exists()) {
-    const data = userDocSnap.data();
-    
-    // Garante que createdAt exista
-    const creationDate = data.createdAt || now;
-    const daysActive = calculateDaysActive(creationDate);
-    
-    const mergedData = { 
-      ...data, 
-      uid: firebaseUser.uid,
-      lastLogin: now,
-      streak: Number(daysActive) || 1, // Força tipo Number
-      createdAt: creationDate
-    };
-    
-    setUserData(mergedData);
-    await setDoc(userDocRef, mergedData, { merge: true });
-  } else {
-    const newUser = {
-      uid: firebaseUser.uid,
-      displayName: firebaseUser.displayName || 'Estudante',
-      email: firebaseUser.email || '',
-      photoURL: firebaseUser.photoURL || '',
-      createdAt: now,
-      lastLogin: now,
-      xp: 0,
-      points: 0,
-      completed: [],
-      badges: [],
-      correctQuestions: [],
-      streak: 1
-    };
-    await setDoc(userDocRef, newUser);
-    setUserData(newUser);
-  }
-};
+    if (userDocSnap.exists()) {
+      const data = userDocSnap.data();
+      
+      // Garante que createdAt exista
+      const creationDate = data.createdAt || now;
+      const daysActive = calculateDaysActive(creationDate);
+      
+      const mergedData = { 
+        ...data, 
+        uid: firebaseUser.uid,
+        lastLogin: now,
+        streak: Number(daysActive) || 1, // Força tipo Number
+        createdAt: creationDate
+      };
+      
+      setUserData(mergedData);
+      await setDoc(userDocRef, mergedData, { merge: true });
+    } else {
+      const newUser = {
+        uid: firebaseUser.uid,
+        displayName: firebaseUser.displayName || 'Estudante',
+        email: firebaseUser.email || '',
+        photoURL: firebaseUser.photoURL || '',
+        createdAt: now,
+        lastLogin: now,
+        xp: 0,
+        points: 0,
+        completed: [],
+        badges: [],
+        correctQuestions: [],
+        streak: 1
+      };
+      await setDoc(userDocRef, newUser);
+      setUserData(newUser);
+    }
+  };
 
   const handleSelectSubject = (id) => {
     setActiveSubjectId(id);
@@ -247,9 +249,13 @@ const syncUserData = async (firebaseUser) => {
   const updateProgress = async (newXp, subjectId) => {
     if (!auth.currentUser) return;
     const totalXp = (userData.xp || 0) + newXp;
-    const updatedCompleted = userData.completed.includes(subjectId)
-      ? userData.completed
-      : [...userData.completed, subjectId];
+    
+    // Verifica se subjectId é valido antes de adicionar aos completados
+    // Para o TerritoryManager, usamos um ID simbólico, mas talvez não queiramos adicionar na lista de 'completed' se não for uma matéria
+    let updatedCompleted = userData.completed;
+    if (subjectId && !userData.completed.includes(subjectId)) {
+        updatedCompleted = [...userData.completed, subjectId];
+    }
 
     try {
       const userDocRef = doc(db, 'users', auth.currentUser.uid);
@@ -397,6 +403,15 @@ const syncUserData = async (firebaseUser) => {
               userData={userData}
               updateProgress={updateProgress}
               unlockBadge={unlockBadge}
+            />
+          )}
+
+          {/* Integração do Territory Manager */}
+          {view === 'territory-manager' && (
+            <TerritoryManager 
+              setView={setView}
+              isDark={isDark}
+              updateProgress={updateProgress}
             />
           )}
         </AnimatePresence>

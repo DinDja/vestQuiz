@@ -32,13 +32,5 @@ export const BottomNavigation = ({ view, setView, isDark }) => (
             onClick={() => setView('profile')}
         />
 
-        <NavButton
-            id="simulated"
-            icon={FileText}
-            label="Simulados"
-            view={view}
-            onClick={() => setView('simulated')}
-        />
-
     </nav>
 );
