@@ -385,3 +385,85 @@ export const GEO_BADGES = [
   { id: 'geo-perfeccionista', name: "Zero Absoluto", desc: "Acertou um alvo com 0km de erro.", icon: '💎' },
   { id: 'geo-pioneiro', name: "Desbravador", desc: "Completou sua primeira rodada de 50 missões.", icon: '🚩' }
 ];
+
+// Badges específicos do jogo Gestor de Território
+export const TERRITORY_BADGES = [
+  {
+    id: 'territory-survive-10',
+    name: "Sobrevivente do Mandato",
+    desc: "Conseguiu manter o governo ativo por 10 semanas.",
+    icon: '🛡️',
+    reqTurns: 10
+  },
+  {
+    id: 'territory-survive-25',
+    name: "Consolidador Regional",
+    desc: "Manteve o equilíbrio do território por 25 semanas.",
+    icon: '🏛️',
+    reqTurns: 25
+  },
+  {
+    id: 'territory-survive-50',
+    name: "Governante Lendário",
+    desc: "Sobreviveu 50 semanas como gestor territorial.",
+    icon: '🏆',
+    reqTurns: 50
+  },
+  {
+    id: 'territory-balance-master',
+    name: "Equilíbrio Territorial",
+    desc: "Manteve Economia, Sociedade e Meio Ambiente entre 30% e 70% por 10 turnos.",
+    icon: '⚖️',
+    reqBalancedTurns: 10,
+    reqStatRange: { min: 30, max: 70 }
+  },
+  {
+    id: 'territory-environmentalist',
+    name: "Guardião Ambiental",
+    desc: "Aumentou o indicador ambiental em 25 pontos dentro de 5 turnos.",
+    icon: '🌱',
+    reqIncrease: { stat: 'environment', amount: 25, withinTurns: 5 }
+  },
+  {
+    id: 'territory-economic-boom',
+    name: "Motor Econômico",
+    desc: "Alcançou Economia > 90 por 3 turnos consecutivos.",
+    icon: '📈',
+    reqConsecutiveStat: { stat: 'economy', min: 90, turns: 3 }
+  },
+  {
+    id: 'territory-political-stable',
+    name: "Estabilidade Política",
+    desc: "Manteve Capital Político >= 80 por 20 turnos consecutivos.",
+    icon: '🟡',
+    reqConsecutiveStat: { stat: 'politicalCapital', min: 80, turns: 20 }
+  },
+  {
+    id: 'territory-comeback',
+    name: "Retorno Triunfal",
+    desc: "Recuperou um indicador de <10 para >=40 durante um mandato.",
+    icon: '💪',
+    reqComeback: { fromBelow: 10, toAtLeast: 40 }
+  },
+  {
+    id: 'territory-no-alerts-20',
+    name: "Governança Silenciosa",
+    desc: "Passou 20 turnos sem gerar alertas críticos.",
+    icon: '🤫',
+    reqNoAlerts: 20
+  },
+  {
+    id: 'territory-perfect-10',
+    name: "Mandato Perfeito",
+    desc: "Concluiu 10 turnos sem nenhum indicador chegar a <=10 ou >=90.",
+    icon: '💎',
+    reqPerfectRun: 10
+  },
+  {
+    id: 'territory-first-finish',
+    name: "Primeiro Comando",
+    desc: "Finalizou seu primeiro mandato (sobrevivendo 10 turnos ou alcançando condição de término).",
+    icon: '🎖️',
+    reqFirstFinish: true
+  }
+];

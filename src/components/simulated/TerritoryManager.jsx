@@ -14,16 +14,21 @@ import {
     checkGameOver,
     getGameOverMessage
 } from '../../constants/territoryScenarios';
+import { TERRITORY_BADGES } from '../../constants/badges';
+import { AchievementToast } from '../common/AchievementToast';
 
 export const TerritoryManager = ({ setView, isDark, updateProgress }) => {
     const [showBriefing, setShowBriefing] = useState(true);
     const [briefingStep, setBriefingStep] = useState(0);
     const [currentScenario, setCurrentScenario] = useState(null);
     const [stats, setStats] = useState({ ...INITIAL_STATS, politicalCapital: 100 });
+    const [statsHistory, setStatsHistory] = useState([{ ...INITIAL_STATS, politicalCapital: 100 }]);
     const [gameState, setGameState] = useState('playing');
     const [lastChoice, setLastChoice] = useState(null);
     const [turn, setTurn] = useState(1);
     const [history, setHistory] = useState([]);
+    const [earnedBadges, setEarnedBadges] = useState([]);
+    const [toastBadge, setToastBadge] = useState(null);
     const [activeAlert, setActiveAlert] = useState(null);
 
     useEffect(() => {
@@ -61,6 +66,89 @@ export const TerritoryManager = ({ setView, isDark, updateProgress }) => {
         return null;
     };
 
+    const computeAlertForStats = (s) => {
+        if (s.economy < 20) return true;
+        if (s.society < 20) return true;
+        if (s.environment < 20) return true;
+        if (s.politicalCapital < 20) return true;
+        if (s.economy > 90) return true;
+        if (s.society > 90) return true;
+        if (s.environment > 90) return true;
+        return false;
+    };
+
+    const evaluateTerritoryBadges = (historySnapshot, currentTurn, isGameOver) => {
+        const newly = [];
+        TERRITORY_BADGES.forEach(b => {
+            if (earnedBadges.includes(b.id)) return;
+
+            // reqTurns
+            if (b.reqTurns) {
+                if (historySnapshot.length >= b.reqTurns) newly.push(b.id);
+                return;
+            }
+
+            // reqBalancedTurns
+            if (b.reqBalancedTurns && b.reqStatRange) {
+                const last = historySnapshot.slice(-b.reqBalancedTurns);
+                if (last.length >= b.reqBalancedTurns && last.every(s => s.economy >= b.reqStatRange.min && s.economy <= b.reqStatRange.max && s.society >= b.reqStatRange.min && s.society <= b.reqStatRange.max && s.environment >= b.reqStatRange.min && s.environment <= b.reqStatRange.max)) {
+                    newly.push(b.id);
+                }
+                return;
+            }
+
+            // reqIncrease
+            if (b.reqIncrease) {
+                const window = historySnapshot.slice(-b.reqIncrease.withinTurns - 1);
+                if (window.length >= 2) {
+                    const start = window[0][b.reqIncrease.stat];
+                    const end = window[window.length - 1][b.reqIncrease.stat];
+                    if ((end - start) >= b.reqIncrease.amount) newly.push(b.id);
+                }
+                return;
+            }
+
+            // reqConsecutiveStat
+            if (b.reqConsecutiveStat) {
+                const last = historySnapshot.slice(-b.reqConsecutiveStat.turns);
+                if (last.length >= b.reqConsecutiveStat.turns && last.every(s => s[b.reqConsecutiveStat.stat] >= b.reqConsecutiveStat.min)) {
+                    newly.push(b.id);
+                }
+                return;
+            }
+
+            // reqComeback
+            if (b.reqComeback) {
+                const everBelow = historySnapshot.some(s => s.economy != null && (s.economy < b.reqComeback.fromBelow || s.society < b.reqComeback.fromBelow || s.environment < b.reqComeback.fromBelow || s.politicalCapital < b.reqComeback.fromBelow));
+                const laterAtLeast = historySnapshot.some(s => s.economy != null && (s.economy >= b.reqComeback.toAtLeast || s.society >= b.reqComeback.toAtLeast || s.environment >= b.reqComeback.toAtLeast || s.politicalCapital >= b.reqComeback.toAtLeast));
+                if (everBelow && laterAtLeast) newly.push(b.id);
+                return;
+            }
+
+            // reqNoAlerts
+            if (b.reqNoAlerts) {
+                const last = historySnapshot.slice(-b.reqNoAlerts);
+                if (last.length >= b.reqNoAlerts && last.every(s => !computeAlertForStats(s))) newly.push(b.id);
+                return;
+            }
+
+            // reqPerfectRun
+            if (b.reqPerfectRun) {
+                const last = historySnapshot.slice(-b.reqPerfectRun);
+                if (last.length >= b.reqPerfectRun && last.every(s => Object.values({ economy: s.economy, society: s.society, environment: s.environment }).every(v => v > 10 && v < 90))) newly.push(b.id);
+                return;
+            }
+
+            // reqFirstFinish
+            if (b.reqFirstFinish) {
+                if (isGameOver) newly.push(b.id);
+                return;
+            }
+        });
+
+        return [...new Set(newly)];
+    };
+
     const handleChoice = (option) => {
         const nextStats = updateStats(stats, option.impact);
         nextStats.politicalCapital = Math.max(0, stats.politicalCapital - 8);
@@ -80,6 +168,24 @@ export const TerritoryManager = ({ setView, isDark, updateProgress }) => {
     };
 
     const nextTurn = () => {
+        // finalize current stats into history
+        setStatsHistory(prev => {
+            const next = [...prev, { ...stats }];
+            // evaluate badges based on next history
+            const newBadges = evaluateTerritoryBadges(next, turn + 1, false);
+            if (newBadges.length) {
+                setEarnedBadges(e => {
+                    const merged = Array.from(new Set([...e, ...newBadges]));
+                    // show first new badge toast
+                    const first = TERRITORY_BADGES.find(b => merged.includes(b.id) && !e.includes(b.id));
+                    if (first) setToastBadge(first);
+                    return merged;
+                });
+                if (updateProgress) updateProgress(100, null);
+            }
+            return next;
+        });
+
         setCurrentScenario(getRandomScenario());
         setTurn(prev => prev + 1);
         setActiveAlert(null);
@@ -89,9 +195,12 @@ export const TerritoryManager = ({ setView, isDark, updateProgress }) => {
 
     const handleRestart = () => {
         setStats({ ...INITIAL_STATS, politicalCapital: 100 });
+        setStatsHistory([{ ...INITIAL_STATS, politicalCapital: 100 }]);
         setTurn(1);
         setHistory([]);
         setActiveAlert(null);
+        setEarnedBadges([]);
+        setToastBadge(null);
         setGameState('playing');
         setCurrentScenario(getRandomScenario());
     };
@@ -118,6 +227,8 @@ export const TerritoryManager = ({ setView, isDark, updateProgress }) => {
 
     return (
         <div className={`min-h-[100dvh] flex flex-col ${isDark ? 'bg-slate-950 text-slate-100' : 'bg-slate-50 text-slate-900'}`}>
+
+            {toastBadge && <AchievementToast badge={toastBadge} onDismiss={() => setToastBadge(null)} />}
 
             <header className="p-4 sticky top-0 z-50">
                 <div className={`p-4 rounded-3xl border flex justify-around items-center shadow-2xl backdrop-blur-xl ${isDark ? 'bg-slate-900/80 border-slate-800' : 'bg-white/80 border-slate-200'}`}>
