@@ -1,8 +1,8 @@
 import { motion } from 'framer-motion';
 import { X, Award, Lock, CheckCircle } from 'lucide-react';
 
-export const BadgeModal = ({ isOpen, onClose, badge, isUnlocked }) => {
-  if (!isOpen) return null;
+export const BadgeModal = ({ isOpen, onClose, badge, isUnlocked, isDark }) => {
+  if (!isOpen || !badge) return null;
 
   return (
     <motion.div
@@ -16,25 +16,35 @@ export const BadgeModal = ({ isOpen, onClose, badge, isUnlocked }) => {
         initial={{ scale: 0.9, y: 20 }}
         animate={{ scale: 1, y: 0 }}
         exit={{ scale: 0.9, y: 20 }}
-        className="relative w-full max-w-sm bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700 rounded-2xl shadow-2xl overflow-hidden"
+        className={`relative w-full max-w-sm rounded-2xl shadow-2xl overflow-hidden border ${
+          isDark
+            ? 'bg-gradient-to-br from-slate-900 to-slate-800 border-slate-700'
+            : 'bg-gradient-to-br from-white to-slate-50 border-slate-200'
+        }`}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
         <div className="p-6 text-center">
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors"
+            className={`absolute top-4 right-4 p-2 rounded-lg transition-colors ${
+              isDark ? 'text-slate-400 hover:text-white hover:bg-slate-800' : 'text-slate-400 hover:text-slate-700 hover:bg-slate-100'
+            }`}
           >
             <X size={20} />
           </button>
 
           <div className="mb-6">
             <div className={`w-24 h-24 mx-auto rounded-2xl flex items-center justify-center text-5xl mb-4 ${
-              isUnlocked 
-                ? 'bg-gradient-to-br from-emerald-500/20 to-emerald-600/10 border border-emerald-500/30' 
-                : 'bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700'
+              isUnlocked
+                ? isDark
+                  ? 'bg-gradient-to-br from-emerald-500/20 to-emerald-600/10 border border-emerald-500/30'
+                  : 'bg-gradient-to-br from-emerald-50 to-emerald-100 border border-emerald-200'
+                : isDark
+                  ? 'bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700'
+                  : 'bg-gradient-to-br from-slate-100 to-slate-200 border border-slate-300'
             }`}>
-              {badge.icon}
+              <span className={!isUnlocked ? 'grayscale opacity-50' : ''}>{badge.icon}</span>
             </div>
             
             <div className="flex items-center justify-center gap-2 mb-2">
@@ -45,8 +55,8 @@ export const BadgeModal = ({ isOpen, onClose, badge, isUnlocked }) => {
                 </>
               ) : (
                 <>
-                  <Lock className="text-slate-500" size={18} />
-                  <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Conquista Bloqueada</span>
+                  <Lock className={isDark ? 'text-slate-500' : 'text-slate-400'} size={18} />
+                  <span className={`text-xs font-bold uppercase tracking-wider ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>Conquista Bloqueada</span>
                 </>
               )}
             </div>
@@ -54,36 +64,54 @@ export const BadgeModal = ({ isOpen, onClose, badge, isUnlocked }) => {
 
           {/* Content */}
           <div className="space-y-4">
-            <h3 className={`text-xl font-bold ${isUnlocked ? 'text-white' : 'text-slate-400'}`}>
+            <h3 className={`text-xl font-bold ${
+              isUnlocked
+                ? isDark ? 'text-white' : 'text-slate-900'
+                : isDark ? 'text-slate-400' : 'text-slate-500'
+            }`}>
               {badge.name}
             </h3>
             
-            <div className="bg-slate-800/50 p-4 rounded-xl">
-              <p className="text-slate-300 text-sm leading-relaxed">
+            <div className={`p-4 rounded-xl ${isDark ? 'bg-slate-800/50' : 'bg-slate-100'}`}>
+              <p className={`text-sm leading-relaxed ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
                 {badge.desc}
               </p>
             </div>
 
             {/* Requirements */}
-            <div className="bg-slate-800/30 p-4 rounded-xl">
-              <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-2">
+            <div className={`p-4 rounded-xl ${isDark ? 'bg-slate-800/30' : 'bg-slate-50 border border-slate-200'}`}>
+              <h4 className={`text-xs font-bold uppercase tracking-wider mb-2 flex items-center gap-2 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
                 <Award size={12} /> Requisitos
               </h4>
               <ul className="space-y-1">
-                {badge.reqQuestions?.map((req, index) => (
-                  <li key={index} className="text-xs text-slate-400 flex items-center gap-2">
-                    <div className={`w-1.5 h-1.5 rounded-full ${isUnlocked ? 'bg-emerald-500' : 'bg-slate-600'}`} />
-                    Questão: {req}
-                  </li>
-                )) || (
-                  <li className="text-xs text-slate-400">Concluir atividades específicas</li>
+                {badge.reqQuestions && badge.reqQuestions.length > 0 ? (
+                  badge.reqQuestions.map((req, index) => (
+                    <li key={index} className={`text-xs flex items-center gap-2 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+                      <div className={`w-1.5 h-1.5 rounded-full ${isUnlocked ? 'bg-emerald-500' : isDark ? 'bg-slate-600' : 'bg-slate-300'}`} />
+                      Questão: {req}
+                    </li>
+                  ))
+                ) : (
+                  <li className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Concluir atividades específicas</li>
                 )}
               </ul>
             </div>
 
             {/* Status */}
-            <div className={`p-3 rounded-xl text-center ${isUnlocked ? 'bg-emerald-500/10 border border-emerald-500/20' : 'bg-slate-800/30 border border-slate-700'}`}>
-              <span className={`text-sm font-medium ${isUnlocked ? 'text-emerald-400' : 'text-slate-400'}`}>
+            <div className={`p-3 rounded-xl text-center ${
+              isUnlocked
+                ? isDark
+                  ? 'bg-emerald-500/10 border border-emerald-500/20'
+                  : 'bg-emerald-50 border border-emerald-200'
+                : isDark
+                  ? 'bg-slate-800/30 border border-slate-700'
+                  : 'bg-slate-100 border border-slate-200'
+            }`}>
+              <span className={`text-sm font-medium ${
+                isUnlocked
+                  ? 'text-emerald-400'
+                  : isDark ? 'text-slate-400' : 'text-slate-500'
+              }`}>
                 {isUnlocked 
                   ? '🎉 Você conquistou esta medalha!' 
                   : '🔒 Continue estudando para desbloquear'}
@@ -93,10 +121,14 @@ export const BadgeModal = ({ isOpen, onClose, badge, isUnlocked }) => {
         </div>
 
         {/* Footer */}
-        <div className="border-t border-slate-800 p-4">
+        <div className={`border-t p-4 ${isDark ? 'border-slate-800' : 'border-slate-200'}`}>
           <button
             onClick={onClose}
-            className="w-full py-3 bg-slate-800 hover:bg-slate-700 text-white rounded-xl font-medium transition-colors"
+            className={`w-full py-3 rounded-xl font-medium transition-colors ${
+              isDark
+                ? 'bg-slate-800 hover:bg-slate-700 text-white'
+                : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+            }`}
           >
             Fechar
           </button>

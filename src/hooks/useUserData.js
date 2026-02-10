@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { doc, getDoc, setDoc, updateDoc, collection } from 'firebase/firestore';
 import { auth, db } from '../firebase';
-import { BADGES } from '../constants/badges';
+import { BADGES, GEO_BADGES, TERRITORY_BADGES } from '../constants/badges';
+
+const ALL_BADGES = [...BADGES, ...GEO_BADGES, ...TERRITORY_BADGES];
 
 export const useUserData = () => {
   const [userData, setUserData] = useState({});
@@ -43,14 +45,16 @@ export const useUserData = () => {
     const currentBadges = [...(userData.badges || [])];
     const newBadgesList = [];
 
-    BADGES.forEach(badge => {
+    ALL_BADGES.forEach(badge => {
       if (!currentBadges.includes(badge.id)) {
-        const hasAllRequirements = badge.reqQuestions.every(reqId =>
-          currentCorrectQuestions.includes(reqId)
-        );
+        if (badge.reqQuestions && badge.reqQuestions.length > 0) {
+          const hasAllRequirements = badge.reqQuestions.every(reqId =>
+            currentCorrectQuestions.includes(reqId)
+          );
 
-        if (hasAllRequirements) {
-          newBadgesList.push(badge.id);
+          if (hasAllRequirements) {
+            newBadgesList.push(badge.id);
+          }
         }
       }
     });
@@ -71,7 +75,7 @@ export const useUserData = () => {
         });
       }
 
-      return BADGES.find(b => b.id === newBadgesList[0]);
+      return ALL_BADGES.find(b => b.id === newBadgesList[0]);
     }
     return null;
   };

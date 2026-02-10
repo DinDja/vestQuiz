@@ -22,6 +22,7 @@ import { StatsCards } from './StatsCards';
 import { AchievementCollection } from './AchievementCollection';
 import { GeoChallengeCard } from './GeoChallengeCard';
 import { getLevelData, LEVEL_CONFIG } from '../../constants/levels';
+import { PartyPopper } from 'lucide-react';
 
 export const Dashboard = ({
   userData,
@@ -64,7 +65,6 @@ export const Dashboard = ({
     >
       <AnimatePresence>
         {showIntro && (
-          // ... (Modal de Intro mantido igual ao anterior)
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -72,13 +72,129 @@ export const Dashboard = ({
             className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm"
             style={{zIndex: 99999}}
           >
-             {/* Conteúdo do Modal omitido para brevidade, manter o mesmo */}
-             <motion.div className={`max-w-2xl w-full max-h-[85vh] overflow-y-auto rounded-3xl shadow-2xl border ${isDark ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'} p-6 md:p-8`}>
-                <div className="flex justify-between items-start mb-6">
-                    <h2 className={`text-xl font-black uppercase tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>Proposta Pedagógica</h2>
-                    <button onClick={closeIntro}><X size={20} className={isDark ? 'text-white' : 'text-black'} /></button>
+             <motion.div 
+               initial={{ opacity: 0, scale: 0.9, y: 20 }}
+               animate={{ opacity: 1, scale: 1, y: 0 }}
+               exit={{ opacity: 0, scale: 0.9, y: 20 }}
+               transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+               className={`max-w-2xl w-full max-h-[85vh] overflow-y-auto rounded-3xl shadow-2xl border ${isDark ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'} p-6 md:p-8`}
+             >
+                {/* Header */}
+                <div className="flex justify-between items-start mb-5">
+                    <div className="flex items-center gap-3">
+                      <div className="h-10 w-10 rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center shadow-lg">
+                        <GraduationCap size={20} className="text-white" />
+                      </div>
+                      <div>
+                        <h2 className={`text-lg font-black uppercase tracking-tight leading-none ${isDark ? 'text-white' : 'text-slate-900'}`}>Bem-vindo ao VestQuiz</h2>
+                        <p className="text-[10px] font-bold uppercase tracking-widest text-indigo-500 mt-0.5">Sua jornada começa agora</p>
+                      </div>
+                    </div>
+                    <button onClick={closeIntro} className={`p-1.5 rounded-xl transition-colors ${isDark ? 'hover:bg-slate-800' : 'hover:bg-slate-100'}`}>
+                      <X size={18} className={isDark ? 'text-slate-400' : 'text-slate-500'} />
+                    </button>
                 </div>
-                <p className={isDark ? 'text-slate-300' : 'text-slate-600'}>O conteúdo da intro vai aqui...</p>
+
+                {/* Introdução */}
+                <div className={`rounded-2xl p-4 mb-5 ${isDark ? 'bg-slate-800/50 border border-slate-700/50' : 'bg-slate-50 border border-slate-200'}`}>
+                  <p className={`text-sm leading-relaxed ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
+                    O <strong className={isDark ? 'text-white' : 'text-slate-900'}>VestQuiz</strong> é uma plataforma de estudos gamificada, pensada especialmente para estudantes que se preparam para o <strong className={isDark ? 'text-white' : 'text-slate-900'}>vestibular e o ENEM</strong>. Todo o conteúdo é contextualizado na <strong className={isDark ? 'text-indigo-400' : 'text-indigo-600'}>realidade baiana</strong> — das ruas de Salvador à Chapada Diamantina, do semiárido ao Recôncavo.
+                  </p>
+                </div>
+
+                {/* O que você vai encontrar */}
+                <h3 className={`text-xs font-black uppercase tracking-widest mb-3 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+                  <Lightbulb size={12} className="inline mr-1.5 -mt-0.5" />
+                  O que você vai encontrar
+                </h3>
+
+                <div className="space-y-2.5 mb-5">
+                  {/* Quiz por Matérias */}
+                  <div className={`flex gap-3 items-start rounded-2xl p-3.5 ${isDark ? 'bg-violet-500/10 border border-violet-500/20' : 'bg-violet-50 border border-violet-200'}`}>
+                    <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-violet-500 to-indigo-600 flex items-center justify-center flex-shrink-0 shadow">
+                      <BrainCircuit size={16} className="text-white" />
+                    </div>
+                    <div>
+                      <p className={`text-sm font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>Quiz por Matérias</p>
+                      <p className={`text-xs leading-relaxed mt-0.5 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+                        7 disciplinas — Matemática, Geografia, História, Biologia, Linguagens, Sociologia e Filosofia — com centenas de questões organizadas por dificuldade e habilidade da BNCC.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Gestor do Território */}
+                  <div className={`flex gap-3 items-start rounded-2xl p-3.5 ${isDark ? 'bg-amber-500/10 border border-amber-500/20' : 'bg-amber-50 border border-amber-200'}`}>
+                    <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center flex-shrink-0 shadow">
+                      <Building2 size={16} className="text-white" />
+                    </div>
+                    <div>
+                      <p className={`text-sm font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>Gestor do Território</p>
+                      <p className={`text-xs leading-relaxed mt-0.5 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+                        Assuma o cargo de governador da Bahia e tome decisões estratégicas que impactam Economia, Sociedade e Meio Ambiente. Aprenda sobre gestão pública e sustentabilidade de forma prática.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* GeoCommand */}
+                  <div className={`flex gap-3 items-start rounded-2xl p-3.5 ${isDark ? 'bg-emerald-500/10 border border-emerald-500/20' : 'bg-emerald-50 border border-emerald-200'}`}>
+                    <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center flex-shrink-0 shadow">
+                      <Map size={16} className="text-white" />
+                    </div>
+                    <div>
+                      <p className={`text-sm font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>Geo-Command</p>
+                      <p className={`text-xs leading-relaxed mt-0.5 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+                        Localize capitais mundiais, pontos geográficos e cidades baianas em um mapa interativo. São mais de 270 alvos para testar sua precisão geográfica.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Gamificação */}
+                <h3 className={`text-xs font-black uppercase tracking-widest mb-3 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+                  <Trophy size={12} className="inline mr-1.5 -mt-0.5" />
+                  Sistema de Evolução
+                </h3>
+
+                <div className={`rounded-2xl p-4 mb-5 ${isDark ? 'bg-slate-800/50 border border-slate-700/50' : 'bg-slate-50 border border-slate-200'}`}>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="flex items-center gap-2">
+                      <Star size={14} className="text-yellow-500 flex-shrink-0" />
+                      <span className={`text-xs ${isDark ? 'text-slate-300' : 'text-slate-600'}`}><strong>20 níveis</strong> de evolução</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Target size={14} className="text-indigo-500 flex-shrink-0" />
+                      <span className={`text-xs ${isDark ? 'text-slate-300' : 'text-slate-600'}`}><strong>XP</strong> por acerto e conquista</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Trophy size={14} className="text-emerald-500 flex-shrink-0" />
+                      <span className={`text-xs ${isDark ? 'text-slate-300' : 'text-slate-600'}`}><strong>Medalhas</strong> temáticas</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Users size={14} className="text-violet-500 flex-shrink-0" />
+                      <span className={`text-xs ${isDark ? 'text-slate-300' : 'text-slate-600'}`}><strong>Ranking</strong> global</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Proposta Pedagógica */}
+                <h3 className={`text-xs font-black uppercase tracking-widest mb-3 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+                  <BookOpen size={12} className="inline mr-1.5 -mt-0.5" />
+                  Proposta Pedagógica
+                </h3>
+
+                <div className={`rounded-2xl p-4 mb-6 ${isDark ? 'bg-indigo-500/10 border border-indigo-500/20' : 'bg-indigo-50 border border-indigo-200'}`}>
+                  <p className={`text-xs leading-relaxed ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
+                    Nosso conteúdo segue as competências e habilidades da <strong className={isDark ? 'text-indigo-400' : 'text-indigo-700'}>BNCC</strong> e é organizado pela <strong className={isDark ? 'text-indigo-400' : 'text-indigo-700'}>Taxonomia de Bloom</strong> — do "Lembrar" ao "Criar". Cada questão traz explicação detalhada e está conectada à realidade do território baiano, tornando o aprendizado significativo e contextualizado. A gamificação estimula a constância nos estudos através de recompensas progressivas, enquanto os modos de jogo desenvolvem habilidades diferentes: pensamento crítico, localização espacial, tomada de decisão e análise interdisciplinar.
+                  </p>
+                </div>
+
+                {/* Botão de fechar */}
+                <button 
+                  onClick={closeIntro}
+                  className="w-full py-3.5 rounded-2xl font-black text-sm uppercase tracking-widest text-white bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 transition-all duration-300 shadow-lg shadow-indigo-500/20 active:scale-[0.98]"
+                >
+                  Começar Jornada
+                </button>
              </motion.div>
           </motion.div>
         )}
@@ -95,6 +211,13 @@ export const Dashboard = ({
         </div>
 
         <div className="flex items-center gap-3">
+          <button
+            onClick={() => setShowIntro(true)}
+            className={`w-8 h-8 rounded-full flex items-center justify-center transition-all active:scale-90 ${isDark ? 'bg-slate-800 hover:bg-slate-700 text-indigo-400' : 'bg-slate-200 hover:bg-slate-300 text-indigo-600'}`}
+            title="Sobre o VestQuiz"
+          >
+            <Info size={16} />
+          </button>
           <ThemeToggle isDark={isDark} toggle={toggleTheme} />
           <button
             onClick={() => setView('profile')}
@@ -165,6 +288,52 @@ export const Dashboard = ({
           </div>
         </div>
       </section>
+
+      {/* Eventos limitados — aparecem primeiro */}
+      {(() => {
+        const now = new Date();
+        const carnivalStart = new Date('2026-02-01');
+        const carnivalEnd = new Date('2026-03-01');
+        const isActive = now >= carnivalStart && now <= carnivalEnd;
+        const alreadyUnlocked = userData.badges?.includes('badge-carnaval');
+        if (!isActive && !alreadyUnlocked) return null;
+        return (
+          <div
+            onClick={() => setView('carnival-challenge')}
+            className={`group relative overflow-hidden rounded-3xl p-6 cursor-pointer transition-all duration-300 transform active:scale-95 border-b-4 border-black/20 ${
+              isDark
+                ? 'bg-gradient-to-br from-pink-600 via-purple-700 to-yellow-600 shadow-pink-900/30'
+                : 'bg-gradient-to-br from-pink-500 via-purple-600 to-yellow-500 shadow-pink-300'
+            } shadow-xl`}
+          >
+            {/* Confetes decorativos */}
+            <div className="absolute top-2 left-4 text-2xl opacity-20 rotate-12">🎊</div>
+            <div className="absolute bottom-2 right-12 text-xl opacity-20 -rotate-12">🎵</div>
+            <div className="relative z-10 flex items-center justify-between">
+              <div className="space-y-1.5">
+                <div className="flex items-center gap-2 text-white/80">
+                  <PartyPopper size={16} />
+                  <span className="text-[10px] font-black uppercase tracking-widest">
+                    {alreadyUnlocked ? '✅ Conquista Desbloqueada' : '⏳ Evento Limitado'}
+                  </span>
+                </div>
+                <div>
+                  <h3 className="text-xl font-black text-white uppercase tracking-tight leading-none">
+                    Desafio de Carnaval
+                  </h3>
+                  <p className="text-xs text-white/70 font-medium mt-1">
+                    {alreadyUnlocked ? 'Jogue novamente por diversão!' : 'Acerte 7+ questões e ganhe a medalha 🎭'}
+                  </p>
+                </div>
+              </div>
+              <div className="h-12 w-12 rounded-2xl bg-white/20 flex items-center justify-center backdrop-blur-sm group-hover:bg-white/30 transition-colors border border-white/10">
+                <ChevronRight className="text-white" size={24} />
+              </div>
+            </div>
+            <Flame className="absolute -right-2 -bottom-4 text-white/10 w-32 h-32 rotate-12 transition-transform duration-500 group-hover:rotate-0" />
+          </div>
+        );
+      })()}
 
       <StatsCards userData={userData} isDark={isDark} />
 
@@ -245,6 +414,7 @@ export const Dashboard = ({
         </div>
       </div>
 
+      {/* evento limitado (Carnaval) movido para cima */}
       <div className="space-y-3">
         <AchievementCollection
           badges={badges}

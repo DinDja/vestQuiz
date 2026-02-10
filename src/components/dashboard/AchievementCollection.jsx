@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { BadgeModal } from '../profile/BadgeModal';
 
@@ -16,6 +16,13 @@ export const AchievementCollection = ({ badges, userBadges, isDark, setView }) =
     setTimeout(() => setSelectedBadge(null), 300);
   };
 
+  const orderedBadges = useMemo(() => {
+    if (!badges) return [];
+    const unlocked = badges.filter(b => userBadges?.includes(b.id));
+    const locked = badges.filter(b => !userBadges?.includes(b.id));
+    return [...unlocked, ...locked];
+  }, [badges, userBadges]);
+
   return (
     <>
       <section>
@@ -26,7 +33,7 @@ export const AchievementCollection = ({ badges, userBadges, isDark, setView }) =
           </span>
         </div>
         <div className="grid grid-cols-3 gap-3">
-          {badges.slice(0, 3).map((badge) => {
+          {orderedBadges.slice(0, 3).map((badge) => {
             const isUnlocked = userBadges?.includes(badge.id);
             return (
               <motion.div

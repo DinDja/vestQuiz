@@ -302,10 +302,10 @@ export const BADGES = [
   {
     id: 'badge-carnaval',
     name: "Folioso Estudioso",
-    desc: "Participou do desafio especial de Carnaval.",
+    desc: "Acertou pelo menos 7 questões no Desafio Especial de Carnaval.",
     icon: '🎭',
     event: 'carnaval',
-    expires: '2024-03-10'
+    expires: '2026-03-01'
   },
 
   // BADGES DE MILESTONES

@@ -1,13 +1,15 @@
 import { motion } from 'framer-motion';
 import { X, Award, Star, TrendingUp, Target, CheckCircle } from 'lucide-react';
-import { BADGES } from '../../constants/badges';
+import { BADGES, GEO_BADGES, TERRITORY_BADGES } from '../../constants/badges';
+
+const ALL_BADGES = [...BADGES, ...GEO_BADGES, ...TERRITORY_BADGES];
 
 export const UserBadgesModal = ({ isOpen, onClose, user, isDark }) => {
   if (!isOpen || !user) return null;
 
   const userBadges = user.badges || [];
-  const unlockedBadges = BADGES.filter(badge => userBadges.includes(badge.id));
-  const totalBadges = BADGES.length;
+  const unlockedBadges = ALL_BADGES.filter(badge => userBadges.includes(badge.id));
+  const totalBadges = ALL_BADGES.length;
 
   // Calcular estatísticas
   const stats = [

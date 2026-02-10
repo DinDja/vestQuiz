@@ -7,6 +7,8 @@ export const INITIAL_USER_STATE = {
   lastLogin: '',
   points: 0,
   xp: 0,
+  weeklyXp: 0,
+  weeklyXpResetAt: '',
   completed: [],
   badges: [],
   correctQuestions: [],

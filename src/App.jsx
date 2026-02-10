@@ -22,8 +22,10 @@ import {
 
 import { auth, db } from './firebase';
 import { SUBJECTS } from './constants/subjects';
-import { BADGES } from './constants/badges';
+import { BADGES, GEO_BADGES, TERRITORY_BADGES } from './constants/badges';
 import { INITIAL_USER_STATE } from './constants/initialUserState';
+
+const ALL_BADGES = [...BADGES, ...GEO_BADGES, ...TERRITORY_BADGES];
 
 import { LoginScreen } from './components/auth/LoginScreen';
 import { Dashboard } from './components/dashboard/Dashboard';
@@ -41,6 +43,7 @@ import { GeoGame } from './components/geo-game/GeoGame';
 import { DifficultySelector } from './components/quiz/DifficultySelector';
 // Importação do Novo Jogo
 import { TerritoryManager } from './components/simulated/TerritoryManager';
+import { CarnivalChallenge } from './components/carnival/CarnivalChallenge';
 
 export default function App() {
   const [view, setView] = useState('login');
@@ -88,6 +91,13 @@ export default function App() {
     return () => unsubscribe();
   }, []);
 
+  // Verifica badges retroativamente ao carregar dados do usuário
+  useEffect(() => {
+    if (userData.uid && userData.correctQuestions?.length > 0) {
+      checkAndUnlockBadges(userData.correctQuestions, userData.xp || 0);
+    }
+  }, [userData.uid]);
+
 
   const calculateDaysActive = (createdAt) => {
     try {
@@ -112,10 +122,20 @@ export default function App() {
     }
   };
 
+  // Retorna a data da última segunda-feira à meia-noite (UTC)
+  const getWeekStart = () => {
+    const now = new Date();
+    const day = now.getUTCDay(); // 0=dom, 1=seg, ...
+    const diff = day === 0 ? 6 : day - 1; // dias desde segunda
+    const monday = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - diff));
+    return monday.toISOString();
+  };
+
   const syncUserData = async (firebaseUser) => {
     const userDocRef = doc(db, 'users', firebaseUser.uid);
     const userDocSnap = await getDoc(userDocRef);
     const now = new Date().toISOString();
+    const currentWeekStart = getWeekStart();
 
     if (userDocSnap.exists()) {
       const data = userDocSnap.data();
@@ -123,13 +143,19 @@ export default function App() {
       // Garante que createdAt exista
       const creationDate = data.createdAt || now;
       const daysActive = calculateDaysActive(creationDate);
+
+      // Reset semanal de XP: se a semana mudou, zera o weeklyXp
+      const storedWeekStart = data.weeklyXpResetAt || '';
+      const weeklyXp = storedWeekStart === currentWeekStart ? (data.weeklyXp || 0) : 0;
       
       const mergedData = { 
         ...data, 
         uid: firebaseUser.uid,
         lastLogin: now,
-        streak: Number(daysActive) || 1, // Força tipo Number
-        createdAt: creationDate
+        streak: Number(daysActive) || 1,
+        createdAt: creationDate,
+        weeklyXp,
+        weeklyXpResetAt: currentWeekStart
       };
       
       setUserData(mergedData);
@@ -143,6 +169,8 @@ export default function App() {
         createdAt: now,
         lastLogin: now,
         xp: 0,
+        weeklyXp: 0,
+        weeklyXpResetAt: currentWeekStart,
         points: 0,
         completed: [],
         badges: [],
@@ -179,7 +207,23 @@ export default function App() {
       return;
     }
 
-    setFilteredQuestions(questions);
+    // Embaralha as alternativas de cada questão para evitar padrões
+    const shuffledQuestions = questions.map(q => {
+      const answers = q.a.map((text, originalIdx) => ({ text, originalIdx }));
+      // Fisher-Yates shuffle
+      for (let i = answers.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [answers[i], answers[j]] = [answers[j], answers[i]];
+      }
+      const newCorrectIdx = answers.findIndex(a => a.originalIdx === q.correct);
+      return {
+        ...q,
+        a: answers.map(a => a.text),
+        correct: newCorrectIdx
+      };
+    });
+
+    setFilteredQuestions(shuffledQuestions);
     setQuizStep(0);
     setQuizFinished(false);
     setAnswerFeedback(null);
@@ -210,6 +254,107 @@ export default function App() {
     }
   };
 
+  // Verificação automática de badges baseada no estado atual do usuário
+  const checkAndUnlockBadges = async (correctQuestions, currentXp) => {
+    if (!auth.currentUser) return;
+    const userBadges = [...(userData.badges || [])];
+
+    // Mapeamento de prefixo de questão → disciplina (para badge multidisciplinar)
+    const disciplineMap = {
+      'mat': 'matematica',
+      'geo': 'geografia',
+      'hist': 'historia',
+      'bio': 'biologia',
+      'lin': 'linguagens',
+      'soc': 'sociologia',
+      'fil': 'filosofia'
+    };
+
+    // Conta questões por disciplina e dificuldade
+    const countByDiscipline = {};
+    const allQuestions = SUBJECTS.flatMap(s => s.questions);
+    const questionDifficultyMap = {};
+    allQuestions.forEach(q => {
+      questionDifficultyMap[q.id] = q.difficulty;
+    });
+
+    let mediumCount = 0;
+    let hardCount = 0;
+
+    correctQuestions.forEach(qId => {
+      // Conta por disciplina
+      const prefix = qId.split('-')[0];
+      const discipline = disciplineMap[prefix];
+      if (discipline) {
+        countByDiscipline[discipline] = (countByDiscipline[discipline] || 0) + 1;
+      }
+      // Conta por dificuldade
+      const diff = questionDifficultyMap[qId];
+      if (diff === 'medium') mediumCount++;
+      if (diff === 'hard') hardCount++;
+    });
+
+    for (const badge of BADGES) {
+      if (userBadges.includes(badge.id)) continue;
+
+      let shouldUnlock = false;
+
+      // 1. Badges baseados em reqQuestions (lista específica de questões)
+      if (badge.reqQuestions && badge.reqQuestions.length > 0) {
+        shouldUnlock = badge.reqQuestions.every(qId => correctQuestions.includes(qId));
+      }
+
+      // 2. Badges baseados em reqTotalCorrect (total de acertos)
+      if (!shouldUnlock && badge.reqTotalCorrect) {
+        shouldUnlock = correctQuestions.length >= badge.reqTotalCorrect;
+      }
+
+      // 3. Badges baseados em reqTotalXP
+      if (!shouldUnlock && badge.reqTotalXP) {
+        shouldUnlock = (currentXp || 0) >= badge.reqTotalXP;
+      }
+
+      // 4. Badges baseados em reqQuestionsCount + reqDifficulty
+      if (!shouldUnlock && badge.reqQuestionsCount && badge.reqDifficulty) {
+        if (badge.reqDifficulty === 'medium') {
+          shouldUnlock = mediumCount >= badge.reqQuestionsCount;
+        } else if (badge.reqDifficulty === 'hard') {
+          shouldUnlock = hardCount >= badge.reqQuestionsCount;
+        }
+      }
+
+      // 5. Badge multidisciplinar (reqDisciplines)
+      if (!shouldUnlock && badge.reqDisciplines) {
+        shouldUnlock = Object.entries(badge.reqDisciplines).every(
+          ([disc, minCount]) => (countByDiscipline[disc] || 0) >= minCount
+        );
+      }
+
+      // 6. Badge de dias consecutivos (reqConsecutiveDays)
+      if (!shouldUnlock && badge.reqConsecutiveDays) {
+        shouldUnlock = (userData.streak || 0) >= badge.reqConsecutiveDays;
+      }
+
+      // 7. Badge de ranking semanal (reqWeeklyRank)
+      if (!shouldUnlock && badge.reqWeeklyRank) {
+        // Calcula a posição do usuário no ranking semanal
+        const weeklyRanking = [...globalLeaderboard]
+          .filter(u => (u.weeklyXp || 0) > 0)
+          .sort((a, b) => (b.weeklyXp || 0) - (a.weeklyXp || 0));
+        const userWeeklyPos = weeklyRanking.findIndex(u => u.uid === userData.uid) + 1;
+        if (userWeeklyPos > 0 && userWeeklyPos <= badge.reqWeeklyRank) {
+          shouldUnlock = true;
+        }
+      }
+
+      if (shouldUnlock) {
+        await unlockBadge(badge.id);
+        // Atualiza a lista local para evitar re-desbloqueio no mesmo ciclo
+        userBadges.push(badge.id);
+      }
+    }
+  };
+
   const handleAnswer = async (idx) => {
     if (answerFeedback) return;
     const currentQuestion = filteredQuestions[quizStep];
@@ -223,6 +368,9 @@ export default function App() {
         const userDocRef = doc(db, 'users', auth.currentUser.uid);
         await updateDoc(userDocRef, { correctQuestions: updatedCorrectQuestions });
         setUserData(prev => ({ ...prev, correctQuestions: updatedCorrectQuestions }));
+
+        // Verifica se novos badges devem ser desbloqueados
+        checkAndUnlockBadges(updatedCorrectQuestions, userData.xp || 0);
       }
 
       setTimeout(() => {
@@ -241,6 +389,16 @@ export default function App() {
   };
 
   const handleResetQuiz = () => {
+    // Re-embaralha as alternativas ao reiniciar
+    setFilteredQuestions(prev => prev.map(q => {
+      const answers = q.a.map((text, originalIdx) => ({ text, originalIdx }));
+      for (let i = answers.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [answers[i], answers[j]] = [answers[j], answers[i]];
+      }
+      const newCorrectIdx = answers.findIndex(a => a.originalIdx === q.correct);
+      return { ...q, a: answers.map(a => a.text), correct: newCorrectIdx };
+    }));
     setQuizStep(0);
     setQuizFinished(false);
     setAnswerFeedback(null);
@@ -257,10 +415,15 @@ export default function App() {
         updatedCompleted = [...userData.completed, subjectId];
     }
 
+    const totalWeeklyXp = (userData.weeklyXp || 0) + newXp;
+
     try {
       const userDocRef = doc(db, 'users', auth.currentUser.uid);
-      await updateDoc(userDocRef, { xp: totalXp, completed: updatedCompleted });
-      setUserData(prev => ({ ...prev, xp: totalXp, completed: updatedCompleted }));
+      await updateDoc(userDocRef, { xp: totalXp, weeklyXp: totalWeeklyXp, completed: updatedCompleted });
+      setUserData(prev => ({ ...prev, xp: totalXp, weeklyXp: totalWeeklyXp, completed: updatedCompleted }));
+
+      // Verifica badges de XP após atualizar progresso
+      checkAndUnlockBadges(userData.correctQuestions || [], totalXp);
     } catch (e) {
       console.error("Erro ao atualizar progresso", e);
     }
@@ -335,7 +498,7 @@ export default function App() {
               isDark={isDark}
               toggleTheme={toggleTheme}
               setView={setView}
-              badges={BADGES}
+              badges={ALL_BADGES}
             />
           )}
 
@@ -392,7 +555,7 @@ export default function App() {
               handleUpdateBackground={handleUpdateBackground}
               globalLeaderboard={globalLeaderboard}
               subjects={subjectsWithIcons}
-              badges={BADGES}
+              badges={ALL_BADGES}
             />
           )}
 
@@ -412,6 +575,17 @@ export default function App() {
               setView={setView}
               isDark={isDark}
               updateProgress={updateProgress}
+            />
+          )}
+
+          {/* Desafio Especial de Carnaval */}
+          {view === 'carnival-challenge' && (
+            <CarnivalChallenge
+              setView={setView}
+              isDark={isDark}
+              userData={userData}
+              updateProgress={updateProgress}
+              unlockBadge={unlockBadge}
             />
           )}
         </AnimatePresence>

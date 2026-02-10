@@ -118,7 +118,16 @@ export const SimulatedScreen = ({
             });
         });
 
-        return [...allQuestions].sort(() => Math.random() - 0.5).slice(0, config.questionsCount);
+        // Embaralha ordem das questões e alternativas de cada uma
+        return [...allQuestions].sort(() => Math.random() - 0.5).slice(0, config.questionsCount).map(q => {
+            const answers = q.a.map((text, originalIdx) => ({ text, originalIdx }));
+            for (let i = answers.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [answers[i], answers[j]] = [answers[j], answers[i]];
+            }
+            const newCorrectIdx = answers.findIndex(a => a.originalIdx === q.correct);
+            return { ...q, a: answers.map(a => a.text), correct: newCorrectIdx };
+        });
     };
 
     const startSimulated = (config) => {

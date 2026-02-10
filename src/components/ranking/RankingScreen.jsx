@@ -36,6 +36,7 @@ export const RankingScreen = ({
 }) => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [isBadgesModalOpen, setIsBadgesModalOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState('global'); // 'global' | 'weekly'
 
   const openUserBadges = (user) => {
     setSelectedUser(user);
@@ -55,10 +56,17 @@ export const RankingScreen = ({
     !student.displayName.includes('Anonymous')
   );
 
-  // Ordenar por XP (já deve vir ordenado, mas garantindo)
+  // Ranking global por XP total
   const sortedLeaderboard = [...filteredLeaderboard].sort((a, b) => 
     (b.xp || 0) - (a.xp || 0)
   );
+
+  // Ranking semanal por weeklyXp
+  const weeklyLeaderboard = [...filteredLeaderboard]
+    .filter(student => (student.weeklyXp || 0) > 0)
+    .sort((a, b) => (b.weeklyXp || 0) - (a.weeklyXp || 0));
+
+  const currentLeaderboard = activeTab === 'global' ? sortedLeaderboard : weeklyLeaderboard;
 
   // Função para determinar o fundo do avatar
   const getAvatarBackgroundStyle = (student) => {
@@ -89,13 +97,41 @@ export const RankingScreen = ({
           <ThemeToggle isDark={isDark} toggle={toggleTheme} />
         </header>
 
-        {sortedLeaderboard.length === 0 ? (
+        {/* Abas Global / Semanal */}
+        <div className={`flex rounded-2xl p-1 ${isDark ? 'bg-slate-900 border border-slate-800' : 'bg-slate-100 border border-slate-200'}`}>
+          <button
+            onClick={() => setActiveTab('global')}
+            className={`flex-1 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${
+              activeTab === 'global'
+                ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/20'
+                : isDark ? 'text-slate-500 hover:text-slate-300' : 'text-slate-400 hover:text-slate-600'
+            }`}
+          >
+            Global
+          </button>
+          <button
+            onClick={() => setActiveTab('weekly')}
+            className={`flex-1 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${
+              activeTab === 'weekly'
+                ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/20'
+                : isDark ? 'text-slate-500 hover:text-slate-300' : 'text-slate-400 hover:text-slate-600'
+            }`}
+          >
+            Semanal
+          </button>
+        </div>
+
+        {currentLeaderboard.length === 0 ? (
           <div className={`rounded-xl border p-8 text-center ${isDark ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'}`}>
-            <p className="text-slate-500">Nenhum estudante no ranking ainda. Seja o primeiro!</p>
+            <p className="text-slate-500">
+              {activeTab === 'weekly'
+                ? 'Nenhum XP semanal registrado ainda. Estude para aparecer aqui!'
+                : 'Nenhum estudante no ranking ainda. Seja o primeiro!'}
+            </p>
           </div>
         ) : (
           <div className={`rounded-xl border divide-y overflow-hidden ${isDark ? 'bg-slate-900 border-slate-800 divide-slate-800' : 'bg-white border-slate-200 divide-slate-100 shadow-sm'}`}>
-            {sortedLeaderboard.map((student, idx) => {
+            {currentLeaderboard.map((student, idx) => {
               const isCurrentUser = student.uid === userData.uid;
               const initials = getInitials(student.displayName);
               const avatarColor = getNameColor(student.displayName);
@@ -166,7 +202,7 @@ export const RankingScreen = ({
                   </div>
                   <div className="text-right">
                     <div className={`text-sm font-black ${idx === 0 ? 'text-yellow-500' : isDark ? 'text-slate-200' : 'text-slate-700'}`}>
-                      {(student.xp || 0).toLocaleString()}
+                      {(activeTab === 'weekly' ? (student.weeklyXp || 0) : (student.xp || 0)).toLocaleString()}
                       <span className="text-[8px] ml-1 text-slate-500 font-bold">XP</span>
                     </div>
                     <div className="text-[9px] text-slate-500 mt-1 flex items-center gap-1 justify-end">
@@ -184,21 +220,28 @@ export const RankingScreen = ({
         <div className={`p-4 rounded-xl border ${isDark ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'}`}>
           <div className="grid grid-cols-3 gap-4 text-center">
             <div>
-              <div className="text-xs text-slate-500 mb-1">Total de Estudantes</div>
+              <div className="text-xs text-slate-500 mb-1">
+                {activeTab === 'weekly' ? 'Participantes' : 'Total de Estudantes'}
+              </div>
               <div className={`text-lg font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>
-                {sortedLeaderboard.length}
+                {currentLeaderboard.length}
               </div>
             </div>
             <div>
               <div className="text-xs text-slate-500 mb-1">Sua Posição</div>
               <div className={`text-lg font-bold ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`}>
-                #{sortedLeaderboard.findIndex(u => u.uid === userData.uid) + 1 || '--'}
+                {(() => {
+                  const pos = currentLeaderboard.findIndex(u => u.uid === userData.uid) + 1;
+                  return pos > 0 ? `#${pos}` : '--';
+                })()}
               </div>
             </div>
             <div>
-              <div className="text-xs text-slate-500 mb-1">XP Total</div>
+              <div className="text-xs text-slate-500 mb-1">
+                {activeTab === 'weekly' ? 'XP Semanal' : 'XP Total'}
+              </div>
               <div className={`text-lg font-bold ${isDark ? 'text-emerald-400' : 'text-emerald-600'}`}>
-                {sortedLeaderboard.reduce((sum, student) => sum + (student.xp || 0), 0).toLocaleString()}
+                {currentLeaderboard.reduce((sum, student) => sum + (activeTab === 'weekly' ? (student.weeklyXp || 0) : (student.xp || 0)), 0).toLocaleString()}
               </div>
             </div>
           </div>
