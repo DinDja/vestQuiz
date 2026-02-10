@@ -44,6 +44,7 @@ import { DifficultySelector } from './components/quiz/DifficultySelector';
 // Importação do Novo Jogo
 import { TerritoryManager } from './components/simulated/TerritoryManager';
 import { CarnivalChallenge } from './components/carnival/CarnivalChallenge';
+import { GroupGameScreen } from './components/group-game/GroupGameScreen';
 
 export default function App() {
   const [view, setView] = useState('login');
@@ -586,6 +587,16 @@ export default function App() {
               userData={userData}
               updateProgress={updateProgress}
               unlockBadge={unlockBadge}
+            />
+          )}
+
+          {/* Arena VestQuiz - Jogo em Grupo ao Vivo */}
+          {view === 'group-game' && (
+            <GroupGameScreen
+              setView={setView}
+              isDark={isDark}
+              userData={userData}
+              updateProgress={updateProgress}
             />
           )}
         </AnimatePresence>

@@ -15,7 +15,9 @@ import {
   Lightbulb,
   Users,
   BrainCircuit,
-  Building2 // Novo ícone para o Gestor
+  Building2,
+  Swords,
+  Wifi
 } from 'lucide-react';
 import { ThemeToggle } from '../common/ThemeToggle';
 import { StatsCards } from './StatsCards';
@@ -131,6 +133,19 @@ export const Dashboard = ({
                       <p className={`text-sm font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>Gestor do Território</p>
                       <p className={`text-xs leading-relaxed mt-0.5 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
                         Assuma o cargo de governador da Bahia e tome decisões estratégicas que impactam Economia, Sociedade e Meio Ambiente. Aprenda sobre gestão pública e sustentabilidade de forma prática.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Arena VestQuiz */}
+                  <div className={`flex gap-3 items-start rounded-2xl p-3.5 ${isDark ? 'bg-rose-500/10 border border-rose-500/20' : 'bg-rose-50 border border-rose-200'}`}>
+                    <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-rose-500 to-pink-600 flex items-center justify-center flex-shrink-0 shadow">
+                      <Swords size={16} className="text-white" />
+                    </div>
+                    <div>
+                      <p className={`text-sm font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>Arena VestQuiz</p>
+                      <p className={`text-xs leading-relaxed mt-0.5 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+                        Desafie seus amigos ao vivo! Crie uma sala, compartilhe o código e disputem quem responde mais rápido e corretamente. Pontuação por velocidade + acerto.
                       </p>
                     </div>
                   </div>
@@ -404,6 +419,43 @@ export const Dashboard = ({
 
         {/* Decoration */}
         <Users className="absolute -right-2 -bottom-4 text-white/10 w-32 h-32 rotate-12 transition-transform duration-500 group-hover:rotate-0" />
+      </div>
+
+      {/* CARD ARENA: Jogo em Grupo ao Vivo */}
+      <div 
+        onClick={() => setView('group-game')}
+        className={`group relative overflow-hidden rounded-3xl p-6 cursor-pointer transition-all duration-300 transform active:scale-95 border-b-4 border-black/20 ${
+          isDark 
+            ? 'bg-gradient-to-br from-rose-600 via-pink-600 to-fuchsia-700 shadow-rose-900/20' 
+            : 'bg-gradient-to-br from-rose-500 via-pink-500 to-fuchsia-600 shadow-rose-200'
+        } shadow-xl`}
+      >
+        <div className="relative z-10 flex items-center justify-between">
+          <div className="space-y-1.5">
+            <div className="flex items-center gap-2 text-white/80">
+              <Swords size={16} />
+              <span className="text-[10px] font-black uppercase tracking-widest">
+                Multiplayer ao Vivo
+              </span>
+              <div className="flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-white/20 backdrop-blur-sm">
+                <Wifi size={8} className="text-emerald-300 animate-pulse" />
+                <span className="text-[8px] font-bold text-emerald-300">LIVE</span>
+              </div>
+            </div>
+            <div>
+              <h3 className="text-xl font-black text-white uppercase tracking-tight leading-none">
+                Arena VestQuiz
+              </h3>
+              <p className="text-xs text-white/70 font-medium mt-1">
+                Desafie amigos em tempo real!
+              </p>
+            </div>
+          </div>
+          <div className="h-12 w-12 rounded-2xl bg-white/20 flex items-center justify-center backdrop-blur-sm group-hover:bg-white/30 transition-colors border border-white/10">
+               <ChevronRight className="text-white" size={24} />
+          </div>
+        </div>
+        <Swords className="absolute -right-2 -bottom-4 text-white/10 w-32 h-32 rotate-12 transition-transform duration-500 group-hover:rotate-0" />
       </div>
 
       {/* CARD 3: GEOGAME */}
