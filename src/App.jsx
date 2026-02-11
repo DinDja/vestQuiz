@@ -100,24 +100,37 @@ export default function App() {
   }, [userData.uid]);
 
 
+  // Aceita Firestore Timestamp, number (ms/seconds) ou ISO/string — retorna dias ativos (>=1)
   const calculateDaysActive = (createdAt) => {
     try {
       if (!createdAt) return 1;
-      
-      // Converte para objeto Date e valida
-      const start = new Date(createdAt);
-      if (isNaN(start.getTime())) return 1;
+
+      // Normaliza várias formas de createdAt para um objeto Date
+      let startDate = null;
+
+      // Firestore Timestamp (has toDate)
+      if (createdAt && typeof createdAt.toDate === 'function') {
+        startDate = createdAt.toDate();
+      } else if (createdAt && typeof createdAt.seconds === 'number') {
+        // Firestore-like plain object with seconds
+        startDate = new Date(createdAt.seconds * 1000);
+      } else if (typeof createdAt === 'number') {
+        // epoch ms (or seconds if clearly small)
+        startDate = createdAt > 1e12 ? new Date(createdAt) : new Date(createdAt * 1000);
+      } else {
+        // ISO string or other date-string
+        startDate = new Date(createdAt);
+      }
+
+      if (!startDate || isNaN(startDate.getTime())) return 1;
 
       const today = new Date();
-      
-      // Normalização para comparar apenas calendários (meia-noite)
+      // comparar por datas (meia-noite local)
       const d1 = Date.UTC(today.getFullYear(), today.getMonth(), today.getDate());
-      const d2 = Date.UTC(start.getFullYear(), start.getMonth(), start.getDate());
-
+      const d2 = Date.UTC(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
       const msPerDay = 1000 * 60 * 60 * 24;
       const diff = Math.floor((d1 - d2) / msPerDay);
-      
-      return diff + 1;
+      return Math.max(1, diff + 1);
     } catch (error) {
       return 1;
     }
@@ -140,25 +153,38 @@ export default function App() {
 
     if (userDocSnap.exists()) {
       const data = userDocSnap.data();
-      
-      // Garante que createdAt exista
-      const creationDate = data.createdAt || now;
-      const daysActive = calculateDaysActive(creationDate);
+
+      // Normaliza createdAt (suporta Firestore Timestamp, seconds-object, number ou string)
+      const creationRaw = data.createdAt || now;
+      let creationISO = now;
+      if (creationRaw && typeof creationRaw.toDate === 'function') {
+        creationISO = creationRaw.toDate().toISOString();
+      } else if (creationRaw && typeof creationRaw.seconds === 'number') {
+        creationISO = new Date(creationRaw.seconds * 1000).toISOString();
+      } else if (typeof creationRaw === 'number') {
+        creationISO = (creationRaw > 1e12 ? new Date(creationRaw) : new Date(creationRaw * 1000)).toISOString();
+      } else {
+        creationISO = String(creationRaw);
+      }
+
+      // calcular dias a partir do valor bruto — a função aceita Timestamp/number/string
+      const daysActive = calculateDaysActive(creationRaw);
 
       // Reset semanal de XP: se a semana mudou, zera o weeklyXp
       const storedWeekStart = data.weeklyXpResetAt || '';
       const weeklyXp = storedWeekStart === currentWeekStart ? (data.weeklyXp || 0) : 0;
-      
-      const mergedData = { 
-        ...data, 
+
+      const mergedData = {
+        ...data,
         uid: firebaseUser.uid,
         lastLogin: now,
         streak: Number(daysActive) || 1,
-        createdAt: creationDate,
+        // persistimos como ISO string para consistência entre reads/writes
+        createdAt: creationISO,
         weeklyXp,
         weeklyXpResetAt: currentWeekStart
       };
-      
+
       setUserData(mergedData);
       await setDoc(userDocRef, mergedData, { merge: true });
     } else {
