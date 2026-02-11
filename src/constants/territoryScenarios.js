@@ -1,9 +1,8 @@
-// src/data/territoryScenarios.js
 
 export const INITIAL_STATS = {
-  economy: 50,    // Capacidade de investimento
-  society: 50,    // Bem-estar da população
-  environment: 50 // Preservação ambiental
+  economy: 50,    
+  society: 50,    
+  environment: 50 
 };
 
 export const POWER_CARDS = [
@@ -312,7 +311,6 @@ export const CARD_RARITIES = {
   legendary: { label: 'Lendária', color: 'amber', glow: 'shadow-amber-500/40' }
 };
 
-// Retorna 3-4 cartas aleatórias para a loja (rotação a cada compra/turno)
 export const getShopCards = (turn) => {
   const pool = [...POWER_CARDS];
   // Cartas raras/épicas aparecem mais tarde
@@ -335,7 +333,6 @@ export const getShopCards = (turn) => {
   return shuffled.slice(0, count);
 };
 
-// Aplica efeito de uma carta comprada
 export const applyCardEffect = (card, currentStats, activeEffects) => {
   const newStats = { ...currentStats };
   let newEffects = [...activeEffects];
@@ -469,7 +466,6 @@ export const applyCardEffect = (card, currentStats, activeEffects) => {
   return { newStats, newEffects };
 };
 
-// Processa efeitos ativos no impacto de uma escolha
 export const applyActiveEffectsToImpact = (impact, activeEffects) => {
   let modifiedImpact = { ...impact };
   let capitalCostMultiplier = 1;
@@ -493,7 +489,6 @@ export const applyActiveEffectsToImpact = (impact, activeEffects) => {
   return { modifiedImpact, capitalCostMultiplier };
 };
 
-// Aplica escudos após atualizar stats
 export const applyShieldsToStats = (newStats, activeEffects) => {
   const shielded = { ...newStats };
 
@@ -506,14 +501,12 @@ export const applyShieldsToStats = (newStats, activeEffects) => {
   return shielded;
 };
 
-// Decrementa turnos dos efeitos ativos
 export const tickActiveEffects = (activeEffects) => {
   return activeEffects
     .map(eff => ({ ...eff, turnsLeft: eff.turnsLeft - 1 }))
     .filter(eff => eff.turnsLeft > 0);
 };
 
-// Constantes para limites dos indicadores
 export const STATS_LIMITS = {
   MIN: 0,
   MAX: 100
@@ -553,7 +546,6 @@ export const CATEGORIES = {
 };
 
 export const TERRITORY_SCENARIOS = [
-  // Cenários originais (1-6) mantidos
   {
     id: 1,
     title: "Crise Hídrica no Sertão",
@@ -573,13 +565,6 @@ export const TERRITORY_SCENARIOS = [
       }
     ]
   },
-  // ... cenários originais 2-6 mantidos ...
-
-  // ============================================
-  // SALVADOR E RMS (Recôncavo) - 150 Cenários
-  // ============================================
-  
-  // 7. Planejamento Urbano em Salvador
   {
     id: 7,
     title: "Favelização em Encostas",
@@ -600,7 +585,6 @@ export const TERRITORY_SCENARIOS = [
     ]
   },
 
-  // 8. Saneamento Básico
   {
     id: 8,
     title: "Esgoto no Rio Vermelho",
@@ -704,13 +688,7 @@ export const TERRITORY_SCENARIOS = [
       }
     ]
   },
-  // ... (continuação até 50 cenários para Salvador/RMS)
 
-  // ============================================
-  // SERTÃO - 100 Cenários
-  // ============================================
-  
-  // 51. Desertificação
   {
     id: 51,
     title: "Avanço do Deserto",
@@ -773,14 +751,7 @@ export const TERRITORY_SCENARIOS = [
     ]
   },
 
-  // Cenários 54-150: Continuação Sertão
-  // ... (100 cenários no total para Sertão)
 
-  // ============================================
-  // OESTE BAIANO - 100 Cenários
-  // ============================================
-  
-  // 151. Agricultura Irrigada
   {
     id: 151,
     title: "Uso do Rio Grande",
@@ -822,13 +793,6 @@ export const TERRITORY_SCENARIOS = [
     ]
   },
 
-  // ... (continuação até 250 cenários)
-
-  // ============================================
-  // SUL DA BAHIA - 100 Cenários
-  // ============================================
-  
-  // 251. Cacau Cabruca
   {
     id: 251,
     title: "Cacau sob Mata Atlântica",
@@ -849,7 +813,6 @@ export const TERRITORY_SCENARIOS = [
     ]
   },
 
-  // 252. Turismo em Ilhéus
   {
     id: 252,
     title: "Resort em Praia Deserta",
@@ -870,13 +833,6 @@ export const TERRITORY_SCENARIOS = [
     ]
   },
 
-  // ... (continuação até 350 cenários)
-
-  // ============================================
-  // VALE DO SÃO FRANCISCO - 100 Cenários
-  // ============================================
-  
-  // 351. Fruticultura Irrigada
   {
     id: 351,
     title: "Expansão da Uva no Vale",
@@ -897,13 +853,6 @@ export const TERRITORY_SCENARIOS = [
     ]
   },
 
-  // ... (continuação até 450 cenários)
-
-  // ============================================
-  // CHAPADA DIAMANTINA - 100 Cenários
-  // ============================================
-  
-  // 451. Turismo nas Cachoeiras
   {
     id: 451,
     title: "Sobrecarga na Fumaça",
@@ -924,13 +873,6 @@ export const TERRITORY_SCENARIOS = [
     ]
   },
 
-  // ... (continuação até 550 cenários)
-
-  // ============================================
-  // LITORAL NORTE - 100 Cenários
-  // ============================================
-  
-  // 551. Shrimp Farming
   {
     id: 551,
     title: "Carcinicultura em Manguezais",
@@ -951,13 +893,6 @@ export const TERRITORY_SCENARIOS = [
     ]
   },
 
-  // ... (continuação até 650 cenários)
-
-  // ============================================
-  // LITORAL SUL - 100 Cenários
-  // ============================================
-  
-  // 651. Porto Sul em Ilhéus
   {
     id: 651,
     title: "Megaprojeto Portuário",
@@ -978,13 +913,6 @@ export const TERRITORY_SCENARIOS = [
     ]
   },
 
-  // ... (continuação até 750 cenários)
-
-  // ============================================
-  // EXTREMO SUL - 50 Cenários
-  // ============================================
-  
-  // 751. Parque Nacional do Descobrimento
   {
     id: 751,
     title: "Turismo em Unidade de Conservação",
@@ -1005,13 +933,6 @@ export const TERRITORY_SCENARIOS = [
     ]
   },
 
-  // ... (continuação até 800 cenários)
-
-  // ============================================
-  // CENÁRIOS TRANSVERSAIS (50 cenários)
-  // ============================================
-  
-  // 801. Mudanças Climáticas
   {
     id: 801,
     title: "Plano de Adaptação Climática",
@@ -1032,7 +953,6 @@ export const TERRITORY_SCENARIOS = [
     ]
   },
 
-  // 802. Economia Circular
   {
     id: 802,
     title: "Gestão de Resíduos Sólidos",
@@ -1052,10 +972,6 @@ export const TERRITORY_SCENARIOS = [
       }
     ]
   },
-
-  // ... (continuação até 850 cenários)
-
-  // ÚLTIMO CENÁRIO
   {
     id: 850,
     title: "Legado da Gestão",
@@ -1082,7 +998,6 @@ export const TERRITORY_SCENARIOS = [
   }
 ];
 
-// Funções auxiliares
 export const getRandomScenario = () => {
   const randomIndex = Math.floor(Math.random() * TERRITORY_SCENARIOS.length);
   return TERRITORY_SCENARIOS[randomIndex];
@@ -1123,4 +1038,71 @@ export const getGameOverMessage = (stats) => {
   if (stats.society >= STATS_LIMITS.MAX) return "Utopia social! Recursos não sustentam programas.";
   if (stats.environment >= STATS_LIMITS.MAX) return "Preservacionismo radical! Desenvolvimento estagnado.";
   return "Fim de mandato alcançado!";
+};
+
+// --- DIFICULDADES (presets e helpers) ---
+export const DIFFICULTY_PRESETS = {
+  easy: {
+    label: 'Fácil',
+    description: 'Mais capital inicial, impactos amenizados, loja mais acessível.',
+    startingCapital: 140,
+    impactMultiplier: 0.7,        // reduz magnitude dos impactos
+    capitalCostMultiplier: 0.8,   // ações custam menos capital
+    shopCostMultiplier: 0.85,
+    randomEventChance: 0.6,       // menos eventos negativos
+    mandateLengthMultiplier: 0.9  // mandato ligeiramente mais curto (menos risco por turno)
+  },
+  medium: {
+    label: 'Médio',
+    description: 'Experiência padrão — equilíbrio entre risco e recompensa.',
+    startingCapital: 100,
+    impactMultiplier: 1.0,
+    capitalCostMultiplier: 1.0,
+    shopCostMultiplier: 1.0,
+    randomEventChance: 1.0,
+    mandateLengthMultiplier: 1.0
+  },
+  hard: {
+    label: 'Difícil',
+    description: 'Menos capital inicial, impactos mais severos e loja mais cara.',
+    startingCapital: 70,
+    impactMultiplier: 1.25,
+    capitalCostMultiplier: 1.25,
+    shopCostMultiplier: 1.2,
+    randomEventChance: 1.4,
+    mandateLengthMultiplier: 1.2
+  },
+  expert: {
+    label: 'Expert',
+    description: 'Desafio máximo: recursos escassos, eventos agressivos — só para veteranos.',
+    startingCapital: 50,
+    impactMultiplier: 1.5,
+    capitalCostMultiplier: 1.5,
+    shopCostMultiplier: 1.4,
+    randomEventChance: 1.8,
+    mandateLengthMultiplier: 1.3
+  }
+};
+
+export const getDifficultyModifiers = (difficulty = 'medium') => {
+  return DIFFICULTY_PRESETS[difficulty] || DIFFICULTY_PRESETS.medium;
+};
+
+// Escala um objeto "impact" ({ economy, society, environment }) segundo a dificuldade
+export const scaleImpactByDifficulty = (impact = {}, difficulty = 'medium') => {
+  const m = getDifficultyModifiers(difficulty).impactMultiplier || 1;
+  return {
+    economy: Math.round((impact.economy || 0) * m),
+    society: Math.round((impact.society || 0) * m),
+    environment: Math.round((impact.environment || 0) * m)
+  };
+};
+
+// Ajusta stats iniciais (ex.: capital político) conforme dificuldade
+export const applyDifficultyToInitialStats = (baseStats = {}, difficulty = 'medium') => {
+  const mods = getDifficultyModifiers(difficulty);
+  return {
+    ...baseStats,
+    politicalCapital: typeof baseStats.politicalCapital === 'number' ? Math.max(0, Math.round(mods.startingCapital)) : mods.startingCapital
+  };
 };

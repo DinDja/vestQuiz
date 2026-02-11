@@ -22,15 +22,104 @@ import {
     applyCardEffect,
     applyActiveEffectsToImpact,
     applyShieldsToStats,
-    tickActiveEffects
+    tickActiveEffects,
+    // difficulty helpers
+    getDifficultyModifiers,
+    scaleImpactByDifficulty,
+    applyDifficultyToInitialStats
 } from '../../constants/territoryScenarios';
 import { TERRITORY_BADGES } from '../../constants/badges';
 import { AchievementToast } from '../common/AchievementToast';
 import MapRoad from './MapRoad';
 
+// ── Governadores da Bahia ─────────────────────────────────────────────
+const GOVERNORS = [
+    {
+        id: 'wagner',
+        name: 'Jaques Wagner',
+        subtitle: 'Governador 2007–2014',
+        image: '/img/Wagner.png',
+        color: 'from-red-600 to-red-800',
+        accent: 'red',
+        description: 'Articulador político nato. Seu governo priorizou a inclusão social, programas de combate à pobreza e a preservação ambiental, com forte governabilidade na Assembleia.',
+        lore: '"O diálogo é a maior ferramenta de um gestor."',
+        statBonuses: { economy: 0, society: 5, environment: 10, politicalCapital: 20 },
+        passive: { type: 'capitalPerTurn', value: 3, label: '+3 Capital Político por turno' },
+        strengths: ['Articulação Política', 'Meio Ambiente', 'Inclusão Social'],
+        weaknesses: ['Crescimento Econômico Lento'],
+        stats: {
+            economia: 55,
+            social: 70,
+            ambiental: 75,
+            politica: 90,
+        },
+        historicalFacts: [
+            'Criou o programa Bolsa Família Estadual',
+            'Expandiu áreas de preservação ambiental',
+            'Alta aprovação popular durante todo o mandato',
+            'Fortaleceu o diálogo com movimentos sociais'
+        ]
+    },
+    {
+        id: 'rui',
+        name: 'Rui Costa',
+        subtitle: 'Governador 2015–2022',
+        image: '/img/RUI.png',
+        color: 'from-blue-600 to-blue-900',
+        accent: 'blue',
+        description: 'Gestor pragmático focado em infraestrutura e desenvolvimento econômico. Investiu pesado em metrô, rodovias e atração de empresas, mesmo enfrentando crises nacionais.',
+        lore: '"Obra entregue é compromisso cumprido."',
+        statBonuses: { economy: 15, society: 0, environment: -5, politicalCapital: 5 },
+        passive: { type: 'economyPerTurn', value: 2, label: '+2 Economia por turno' },
+        strengths: ['Infraestrutura', 'Desenvolvimento Econômico', 'Segurança Pública'],
+        weaknesses: ['Impacto Ambiental', 'Tensão Social em Obras'],
+        stats: {
+            economia: 85,
+            social: 60,
+            ambiental: 40,
+            politica: 70,
+        },
+        historicalFacts: [
+            'Entregou o Metrô de Salvador',
+            'Duplicou rodovias estaduais estratégicas',
+            'Atraiu polo automotivo (BYD/JAC)',
+            'Investiu em segurança com bases comunitárias'
+        ]
+    },
+    {
+        id: 'jero',
+        name: 'Jerônimo Rodrigues',
+        subtitle: 'Governador 2023–presente',
+        image: '/img/Jero.png',
+        color: 'from-amber-500 to-orange-700',
+        accent: 'amber',
+        description: 'Ex-Secretário de Educação, trouxe foco total na educação e programas sociais. Seu governo prioriza juventude, saúde preventiva e inclusão digital.',
+        lore: '"Educação transforma territórios."',
+        statBonuses: { economy: -5, society: 15, environment: 5, politicalCapital: 0 },
+        passive: { type: 'societyPerTurn', value: 2, label: '+2 Sociedade por turno' },
+        strengths: ['Educação', 'Programas Sociais', 'Saúde'],
+        weaknesses: ['Economia em Ajuste', 'Capital Político Moderado'],
+        stats: {
+            economia: 50,
+            social: 85,
+            ambiental: 65,
+            politica: 60,
+        },
+        historicalFacts: [
+            'Ampliou escolas em tempo integral',
+            'Programa Primeiro Emprego para jovens',
+            'Investimento recorde em saúde básica',
+            'Inclusão digital nas escolas públicas'
+        ]
+    }
+];
+
 export const TerritoryManager = ({ setView, isDark, updateProgress }) => {
     const [showBriefing, setShowBriefing] = useState(true);
     const [briefingStep, setBriefingStep] = useState(0);
+    const [showGovernorSelect, setShowGovernorSelect] = useState(false);
+    const [selectedGovernor, setSelectedGovernor] = useState(null);
+    const [previewGovernor, setPreviewGovernor] = useState(null);
     const [currentScenario, setCurrentScenario] = useState(null);
     const [stats, setStats] = useState({ ...INITIAL_STATS, politicalCapital: 100 });
     const [statsHistory, setStatsHistory] = useState([{ ...INITIAL_STATS, politicalCapital: 100 }]);
@@ -54,12 +143,16 @@ export const TerritoryManager = ({ setView, isDark, updateProgress }) => {
     const [cardAnimation, setCardAnimation] = useState(null); // { card, type: 'buy'|'use' }
     const [wildcardResult, setWildcardResult] = useState(null);
     const [showInventory, setShowInventory] = useState(false);
-    const MANDATE_TURNS = 10; // roadmap length (configurável)
     const [timelineEvents, setTimelineEvents] = useState({});
 
     // Mobile-friendly header: compact mode for very small screens + manual expand
     const [compactHeader, setCompactHeader] = useState(false);
     const [showFullHeader, setShowFullHeader] = useState(false);
+
+    // dificuldade do jogo (persistida no localStorage)
+    const [difficulty, setDifficulty] = useState(() => {
+        try { return localStorage.getItem('territory:difficulty') || 'medium'; } catch (e) { return 'medium'; }
+    });
 
     useEffect(() => {
         if (typeof window !== 'undefined' && window.matchMedia) {
@@ -74,9 +167,16 @@ export const TerritoryManager = ({ setView, isDark, updateProgress }) => {
     }, []);
 
     useEffect(() => {
+        // aplicar dificuldade ao iniciar: cenário aleatório + stats iniciais ajustadas
+        const diff = getDifficultyModifiers(difficulty);
         setCurrentScenario(getRandomScenario());
         setShopCards(getShopCards(1));
-    }, []);
+        setStats(prev => applyDifficultyToInitialStats({ ...INITIAL_STATS, politicalCapital: prev.politicalCapital ?? diff.startingCapital }, difficulty));
+    }, [difficulty]);
+
+    // derived from difficulty
+    const diffMods = getDifficultyModifiers(difficulty);
+    const MANDATE_TURNS = Math.max(6, Math.round(10 * (diffMods.mandateLengthMultiplier || 1)));
 
     // Timeline helper: append small event objects per turn
     const addTimelineEvent = (turnNum, ev) => {
@@ -206,11 +306,14 @@ export const TerritoryManager = ({ setView, isDark, updateProgress }) => {
     };
 
     const handleChoice = (option) => {
+        // aplicar escala de dificuldade ao impacto antes dos efeitos ativos
+        const scaled = scaleImpactByDifficulty(option.impact || {}, difficulty);
         // Aplicar efeitos ativos (multiplicadores, desconto de capital)
-        const { modifiedImpact, capitalCostMultiplier } = applyActiveEffectsToImpact(option.impact, activeEffects);
+        const { modifiedImpact, capitalCostMultiplier } = applyActiveEffectsToImpact(scaled, activeEffects);
 
         const nextStats = updateStats(stats, modifiedImpact);
-        const capitalCost = Math.round(8 * capitalCostMultiplier);
+        const diffModsLocal = getDifficultyModifiers(difficulty);
+        const capitalCost = Math.round(8 * capitalCostMultiplier * (diffModsLocal.capitalCostMultiplier || 1));
         nextStats.politicalCapital = Math.max(0, stats.politicalCapital - capitalCost);
 
         // Aplicar escudos
@@ -297,6 +400,8 @@ export const TerritoryManager = ({ setView, isDark, updateProgress }) => {
                 });
             }
         });
+        // Aplicar passiva do governador selecionado
+        statsAfterPassives = applyGovernorPassive(statsAfterPassives);
         if (JSON.stringify(statsAfterPassives) !== JSON.stringify(stats)) {
             setStats(statsAfterPassives);
         }
@@ -321,8 +426,11 @@ export const TerritoryManager = ({ setView, isDark, updateProgress }) => {
     const handleBuyCard = (card) => {
         console.debug && console.debug('[Shop] buy attempt', card.id, { cost: card.cost, specialCost: card.specialCost });
 
+        const diffLocal = getDifficultyModifiers(difficulty);
+        const effectiveCost = Math.max(0, Math.round((card.cost || 0) * (diffLocal.shopCostMultiplier || 1)));
+
         // affordability checks (political capital)
-        if (card.cost > 0 && stats.politicalCapital < card.cost) {
+        if (effectiveCost > 0 && stats.politicalCapital < effectiveCost) {
             setActiveAlert({ type: 'warning', msg: 'Capital insuficiente para comprar esta carta.' });
             setTimeout(() => setActiveAlert(null), 1400);
             return;
@@ -346,7 +454,7 @@ export const TerritoryManager = ({ setView, isDark, updateProgress }) => {
             const { newStats, newEffects } = applyCardEffect(card, stats, activeEffects) || {};
 
             // apply political cost if present
-            if (card.cost && card.cost > 0) newStats.politicalCapital = Math.max(0, (newStats.politicalCapital ?? stats.politicalCapital) - card.cost);
+            if (effectiveCost && effectiveCost > 0) newStats.politicalCapital = Math.max(0, (newStats.politicalCapital ?? stats.politicalCapital) - effectiveCost);
             if (card.specialCost) Object.entries(card.specialCost).forEach(([k, v]) => { if (typeof newStats[k] === 'number') newStats[k] = Math.max(STATS_LIMITS.MIN, (newStats[k] || 0) - v); });
 
             setStats(newStats);
@@ -369,7 +477,7 @@ export const TerritoryManager = ({ setView, isDark, updateProgress }) => {
 
             // Deduct political cost (if any) and special costs
             const statsAfter = { ...stats };
-            if (card.cost && card.cost > 0) statsAfter.politicalCapital = Math.max(0, stats.politicalCapital - card.cost);
+            if (effectiveCost && effectiveCost > 0) statsAfter.politicalCapital = Math.max(0, stats.politicalCapital - effectiveCost);
             if (card.specialCost) Object.entries(card.specialCost).forEach(([k, v]) => { if (typeof statsAfter[k] === 'number') statsAfter[k] = Math.max(STATS_LIMITS.MIN, (statsAfter[k] || 0) - v); });
 
             setStats(statsAfter);
@@ -510,6 +618,30 @@ export const TerritoryManager = ({ setView, isDark, updateProgress }) => {
         setCardAnimation(null);
         setShowShop(false);
         setShowInventory(false);
+        // Voltar para seleção de governador
+        setSelectedGovernor(null);
+        setPreviewGovernor(null);
+        setShowGovernorSelect(true);
+    };
+
+    // Aplicar efeito passivo do governador a cada turno
+    const applyGovernorPassive = (currentStats) => {
+        if (!selectedGovernor) return currentStats;
+        const s = { ...currentStats };
+        switch (selectedGovernor.passive.type) {
+            case 'capitalPerTurn':
+                s.politicalCapital = Math.min(150, (s.politicalCapital || 0) + selectedGovernor.passive.value);
+                break;
+            case 'economyPerTurn':
+                s.economy = Math.min(95, (s.economy || 0) + selectedGovernor.passive.value);
+                break;
+            case 'societyPerTurn':
+                s.society = Math.min(95, (s.society || 0) + selectedGovernor.passive.value);
+                break;
+            default:
+                break;
+        }
+        return s;
     };
 
     // Partículas flutuantes no background
@@ -655,7 +787,12 @@ export const TerritoryManager = ({ setView, isDark, updateProgress }) => {
                                 <ChevronRight className="-rotate-180" size={16} />
                             </button>
 
-                            <div className="flex-1 text-center">
+                            <div className="flex-1 text-center flex items-center justify-center gap-2">
+                                {selectedGovernor && (
+                                    <div className="w-6 h-6 rounded-full overflow-hidden border border-white/20 flex-shrink-0">
+                                        <img src={selectedGovernor.image} alt="" className="w-full h-full object-cover" />
+                                    </div>
+                                )}
                                 <div className="text-sm font-extrabold">Semana {turn}</div>
                             </div>
 
@@ -682,6 +819,11 @@ export const TerritoryManager = ({ setView, isDark, updateProgress }) => {
                                     className="mt-2 sm:w-auto flex items-center gap-2 px-4 py-3 rounded-2xl bg-gradient-to-tr from-slate-700/20 to-transparent hover:scale-[0.98] active:scale-95 transition-transform focus:outline-none focus:ring-2 focus:ring-indigo-400 justify-center sm:justify-start"
                                 >
                                     <ChevronRight className="-rotate-180 text-slate-300" size={16} />
+                                    {selectedGovernor && (
+                                        <div className="w-7 h-7 rounded-full overflow-hidden border border-white/20 flex-shrink-0 -mr-1">
+                                            <img src={selectedGovernor.image} alt="" className="w-full h-full object-cover" />
+                                        </div>
+                                    )}
                                     <div className="ml-0.5 text-sm font-extrabold tracking-tight text-slate-300">Semana {turn}</div>
                                 </button>
 
@@ -1235,7 +1377,7 @@ export const TerritoryManager = ({ setView, isDark, updateProgress }) => {
                             </div>
 
                             <motion.button
-                                onClick={() => briefingStep < tutorialSteps.length - 1 ? setBriefingStep(s => s + 1) : setShowBriefing(false)}
+                                onClick={() => briefingStep < tutorialSteps.length - 1 ? setBriefingStep(s => s + 1) : (() => { setShowBriefing(false); setShowGovernorSelect(true); })()}
                                 className="w-full py-5 bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-black rounded-2xl flex items-center justify-center gap-3 uppercase tracking-widest text-xs shadow-lg relative overflow-hidden"
                                 whileHover={{ scale: 1.02 }}
                                 whileTap={{ scale: 0.98 }}
@@ -1252,6 +1394,225 @@ export const TerritoryManager = ({ setView, isDark, updateProgress }) => {
                                 </span>
                                 <ArrowRight size={18} className="relative z-10" />
                             </motion.button>
+                        </motion.div>
+                    ) : showGovernorSelect ? (
+                        /* ═══════════ TELA DE SELEÇÃO DE GOVERNADOR ═══════════ */
+                        <motion.div
+                            key="governor-select"
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 1.1 }}
+                            className="space-y-5"
+                        >
+                            {/* Título */}
+                            <div className="text-center">
+                                <motion.h2
+                                    initial={{ opacity: 0, y: -20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    className="text-2xl font-black uppercase tracking-tight bg-gradient-to-r from-amber-400 via-red-500 to-blue-600 bg-clip-text text-transparent"
+                                >
+                                    Escolha seu Governador
+                                </motion.h2>
+                                <motion.p
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    transition={{ delay: 0.2 }}
+                                    className={`text-xs mt-2 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}
+                                >
+                                    Cada líder tem atributos únicos baseados em seu governo real
+                                </motion.p>
+                            </div>
+
+                            {/* Cards dos governadores */}
+                            <div className="grid gap-4">
+                                {GOVERNORS.map((gov, idx) => {
+                                    const isPreview = previewGovernor?.id === gov.id;
+                                    return (
+                                        <motion.div
+                                            key={gov.id}
+                                            initial={{ opacity: 0, x: idx % 2 === 0 ? -40 : 40 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            transition={{ delay: idx * 0.15 }}
+                                            onClick={() => setPreviewGovernor(isPreview ? null : gov)}
+                                            className={`relative overflow-hidden rounded-[2rem] border cursor-pointer transition-all duration-300 ${
+                                                isPreview
+                                                    ? isDark
+                                                        ? 'border-white/30 shadow-2xl scale-[1.01]'
+                                                        : 'border-slate-400 shadow-2xl scale-[1.01]'
+                                                    : isDark
+                                                        ? 'border-slate-800 hover:border-slate-600'
+                                                        : 'border-slate-200 hover:border-slate-300'
+                                            } ${isDark ? 'bg-slate-900' : 'bg-white'}`}
+                                        >
+                                            {/* Banner gradiente */}
+                                            <div className={`relative bg-gradient-to-r ${gov.color} p-4 flex items-center gap-4`}>
+                                                <motion.div
+                                                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent"
+                                                    animate={{ x: ['-100%', '200%'] }}
+                                                    transition={{ duration: 4, repeat: Infinity, repeatDelay: 2 }}
+                                                />
+                                                {/* Avatar */}
+                                                <div className="relative z-10 w-16 h-16 rounded-full overflow-hidden border-2 border-white/40 shadow-xl bg-black/20 flex-shrink-0">
+                                                    <img
+                                                        src={gov.image}
+                                                        alt={gov.name}
+                                                        className="w-full h-full object-cover"
+                                                    />
+                                                </div>
+                                                <div className="relative z-10 flex-1 min-w-0">
+                                                    <h3 className="text-white font-black text-lg leading-tight truncate">{gov.name}</h3>
+                                                    <p className="text-white/70 text-xs font-medium">{gov.subtitle}</p>
+                                                    <p className="text-white/50 text-[10px] italic mt-1 truncate">{gov.lore}</p>
+                                                </div>
+                                            </div>
+
+                                            {/* Conteúdo */}
+                                            <div className="p-4 space-y-3">
+                                                {/* Barras de stats */}
+                                                <div className="grid grid-cols-2 gap-2">
+                                                    {[
+                                                        { key: 'economia', label: 'Economia', icon: <TrendingUp size={12} />, color: 'bg-blue-500' },
+                                                        { key: 'social', label: 'Social', icon: <Users size={12} />, color: 'bg-rose-500' },
+                                                        { key: 'ambiental', label: 'Ambiente', icon: <Leaf size={12} />, color: 'bg-emerald-500' },
+                                                        { key: 'politica', label: 'Política', icon: <Zap size={12} />, color: 'bg-amber-500' },
+                                                    ].map(stat => (
+                                                        <div key={stat.key} className="space-y-1">
+                                                            <div className="flex items-center gap-1">
+                                                                {stat.icon}
+                                                                <span className={`text-[10px] font-bold uppercase ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>{stat.label}</span>
+                                                                <span className={`text-[10px] font-bold ml-auto ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>{gov.stats[stat.key]}</span>
+                                                            </div>
+                                                            <div className={`h-1.5 rounded-full overflow-hidden ${isDark ? 'bg-slate-800' : 'bg-slate-100'}`}>
+                                                                <motion.div
+                                                                    initial={{ width: 0 }}
+                                                                    animate={{ width: `${gov.stats[stat.key]}%` }}
+                                                                    transition={{ delay: idx * 0.15 + 0.3, duration: 0.8, ease: 'easeOut' }}
+                                                                    className={`h-full rounded-full ${stat.color}`}
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </div>
+
+                                                {/* Tags de pontos fortes */}
+                                                <div className="flex flex-wrap gap-1">
+                                                    {gov.strengths.map(s => (
+                                                        <span key={s} className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                                                            isDark ? 'bg-emerald-900/40 text-emerald-400' : 'bg-emerald-50 text-emerald-700'
+                                                        }`}>
+                                                            + {s}
+                                                        </span>
+                                                    ))}
+                                                    {gov.weaknesses.map(w => (
+                                                        <span key={w} className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                                                            isDark ? 'bg-red-900/40 text-red-400' : 'bg-red-50 text-red-700'
+                                                        }`}>
+                                                            − {w}
+                                                        </span>
+                                                    ))}
+                                                </div>
+
+                                                {/* Passiva */}
+                                                <div className={`flex items-center gap-2 text-xs px-3 py-2 rounded-xl ${
+                                                    isDark ? 'bg-violet-900/30 text-violet-300' : 'bg-violet-50 text-violet-700'
+                                                }`}>
+                                                    <Sparkles size={14} />
+                                                    <span className="font-bold">Passiva:</span>
+                                                    <span>{gov.passive.label}</span>
+                                                </div>
+
+                                                {/* Expandir detalhes se em preview */}
+                                                <AnimatePresence>
+                                                    {isPreview && (
+                                                        <motion.div
+                                                            initial={{ height: 0, opacity: 0 }}
+                                                            animate={{ height: 'auto', opacity: 1 }}
+                                                            exit={{ height: 0, opacity: 0 }}
+                                                            transition={{ duration: 0.3 }}
+                                                            className="overflow-hidden space-y-3"
+                                                        >
+                                                            {/* Descrição */}
+                                                            <p className={`text-xs leading-relaxed ${
+                                                                isDark ? 'text-slate-300' : 'text-slate-600'
+                                                            }`}>
+                                                                {gov.description}
+                                                            </p>
+
+                                                            {/* Fatos históricos */}
+                                                            <div className="space-y-1">
+                                                                <span className={`text-[10px] font-black uppercase tracking-wider ${
+                                                                    isDark ? 'text-slate-500' : 'text-slate-400'
+                                                                }`}>Feitos do Governo</span>
+                                                                {gov.historicalFacts.map((fact, i) => (
+                                                                    <div key={i} className={`flex items-start gap-2 text-xs ${
+                                                                        isDark ? 'text-slate-400' : 'text-slate-500'
+                                                                    }`}>
+                                                                        <CheckCircle2 size={12} className="text-emerald-500 mt-0.5 flex-shrink-0" />
+                                                                        <span>{fact}</span>
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+
+                                                            {/* Bônus iniciais */}
+                                                            <div className={`p-3 rounded-xl space-y-1 ${
+                                                                isDark ? 'bg-slate-800/50' : 'bg-slate-50'
+                                                            }`}>
+                                                                <span className={`text-[10px] font-black uppercase tracking-wider ${
+                                                                    isDark ? 'text-slate-500' : 'text-slate-400'
+                                                                }`}>Bônus Iniciais</span>
+                                                                <div className="flex flex-wrap gap-2">
+                                                                    {Object.entries(gov.statBonuses).map(([key, val]) => {
+                                                                        if (val === 0) return null;
+                                                                        const labels = { economy: 'Economia', society: 'Sociedade', environment: 'Ambiente', politicalCapital: 'Cap. Político' };
+                                                                        const colors = val > 0
+                                                                            ? isDark ? 'text-emerald-400' : 'text-emerald-600'
+                                                                            : isDark ? 'text-red-400' : 'text-red-600';
+                                                                        return (
+                                                                            <span key={key} className={`text-xs font-bold ${colors}`}>
+                                                                                {labels[key]}: {val > 0 ? '+' : ''}{val}
+                                                                            </span>
+                                                                        );
+                                                                    })}
+                                                                </div>
+                                                            </div>
+
+                                                            {/* Botão selecionar */}
+                                                            <motion.button
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();
+                                                                    // Aplicar bônus do governador aos stats iniciais
+                                                                    const baseStats = { ...INITIAL_STATS, politicalCapital: 100 };
+                                                                    const boosted = {
+                                                                        economy: Math.max(5, Math.min(95, baseStats.economy + gov.statBonuses.economy)),
+                                                                        society: Math.max(5, Math.min(95, baseStats.society + gov.statBonuses.society)),
+                                                                        environment: Math.max(5, Math.min(95, baseStats.environment + gov.statBonuses.environment)),
+                                                                        politicalCapital: Math.max(5, Math.min(150, baseStats.politicalCapital + gov.statBonuses.politicalCapital)),
+                                                                    };
+                                                                    setStats(boosted);
+                                                                    setStatsHistory([{ ...boosted }]);
+                                                                    setSelectedGovernor(gov);
+                                                                    setShowGovernorSelect(false);
+                                                                }}
+                                                                className={`w-full py-4 bg-gradient-to-r ${gov.color} text-white font-black rounded-2xl flex items-center justify-center gap-3 uppercase tracking-widest text-xs shadow-lg relative overflow-hidden`}
+                                                                whileHover={{ scale: 1.02 }}
+                                                                whileTap={{ scale: 0.98 }}
+                                                            >
+                                                                <motion.div
+                                                                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
+                                                                    animate={{ x: ['-100%', '200%'] }}
+                                                                    transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}
+                                                                />
+                                                                <Shield size={16} className="relative z-10" />
+                                                                <span className="relative z-10">Governar como {gov.name.split(' ')[0]}</span>
+                                                            </motion.button>
+                                                        </motion.div>
+                                                    )}
+                                                </AnimatePresence>
+                                            </div>
+                                        </motion.div>
+                                    );
+                                })}
+                            </div>
                         </motion.div>
                     ) : (
                         <>
