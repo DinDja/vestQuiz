@@ -1,10 +1,10 @@
 export const BADGES = [
-  // BADGES POR DISCIPLINA
   {
     id: 'badge-matematica-iniciante',
     name: "Calculista do Recôncavo",
     desc: "Acertou 10 questões básicas de matemática aplicada à realidade baiana.",
     icon: '🧮',
+    rarity: 'common',
     reqQuestions: ['mat-q1', 'mat-001', 'mat-002', 'mat-005', 'mat-007', 'mat-015', 'mat-017', 'mat-018', 'mat-022', 'mat-034']
   },
   {
@@ -12,6 +12,7 @@ export const BADGES = [
     name: "Mestre dos Cálculos Sertanejos",
     desc: "Resolveu 5 problemas complexos de modelagem matemática do semiárido.",
     icon: '🏜️',
+    rarity: 'uncommon',
     reqQuestions: ['mat-006', 'mat-013', 'mat-023', 'mat-032', 'mat-047']
   },
   {
@@ -19,6 +20,7 @@ export const BADGES = [
     name: "Explorador da Costa Baiana",
     desc: "Identificou os principais biomas e características geográficas da Bahia.",
     icon: '🏝️',
+    rarity: 'common',
     reqQuestions: ['geo-q1', 'geo-001', 'geo-005', 'geo-016', 'geo-026', 'geo-046', 'geo-070']
   },
   {
@@ -26,6 +28,7 @@ export const BADGES = [
     name: "Geógrafo da Chapada",
     desc: "Analisou processos geológicos complexos e dinâmicas territoriais avançadas.",
     icon: '⛰️',
+    rarity: 'uncommon',
     reqQuestions: ['geo-q2', 'geo-009', 'geo-020', 'geo-032', 'geo-040', 'geo-058', 'geo-065']
   },
   {
@@ -33,6 +36,7 @@ export const BADGES = [
     name: "Guardião da Memória Baiana",
     desc: "Conhece os principais eventos e personagens históricos da Bahia.",
     icon: '📜',
+    rarity: 'common',
     reqQuestions: ['hist-q1', 'hist-001', 'hist-004', 'hist-006', 'hist-013', 'hist-020', 'hist-026', 'hist-032']
   },
   {
@@ -40,6 +44,7 @@ export const BADGES = [
     name: "Historiador da Resistência",
     desc: "Compreendeu movimentos sociais complexos e processos históricos de transformação.",
     icon: '⚔️',
+    rarity: 'uncommon',
     reqQuestions: ['hist-003', 'hist-008', 'hist-011', 'hist-015', 'hist-021', 'hist-027', 'hist-033', 'hist-045']
   },
   {
@@ -47,6 +52,7 @@ export const BADGES = [
     name: "Observador da Vida Sertaneja",
     desc: "Identificou adaptações básicas da fauna e flora do semiárido baiano.",
     icon: '🌵',
+    rarity: 'common',
     reqQuestions: ['bio-q1', 'bio-001', 'bio-002', 'bio-006', 'bio-016', 'bio-029', 'bio-035']
   },
   {
@@ -54,6 +60,7 @@ export const BADGES = [
     name: "Biólogo da Mata Atlântica",
     desc: "Analisou processos celulares complexos e ecossistemas específicos da Bahia.",
     icon: '🌿',
+    rarity: 'uncommon',
     reqQuestions: ['bio-004', 'bio-009', 'bio-011', 'bio-019', 'bio-027', 'bio-030', 'bio-043', 'bio-050']
   },
   {
@@ -61,6 +68,7 @@ export const BADGES = [
     name: "Contador de Causos Baianos",
     desc: "Reconhece expressões típicas e autores fundamentais da literatura baiana.",
     icon: '📖',
+    rarity: 'common',
     reqQuestions: ['lin-q1', 'lin-001', 'lin-005', 'lin-010', 'lin-013', 'lin-017', 'lin-025', 'lin-033', 'lin-038']
   },
   {
@@ -68,6 +76,7 @@ export const BADGES = [
     name: "Crítico Literário do Recôncavo",
     desc: "Analisou obras complexas e fenômenos linguísticos sofisticados do português baiano.",
     icon: '✒️',
+    rarity: 'uncommon',
     reqQuestions: ['lin-004', 'lin-014', 'lin-019', 'lin-022', 'lin-028', 'lin-034', 'lin-040', 'lin-044', 'lin-048']
   },
   {
@@ -75,6 +84,7 @@ export const BADGES = [
     name: "Analista Social de Salvador",
     desc: "Compreendeu conceitos básicos de estrutura social e desigualdade na Bahia.",
     icon: '🏙️',
+    rarity: 'common',
     reqQuestions: ['soc-001', 'soc-005', 'soc-011', 'soc-016', 'soc-025', 'soc-031', 'soc-036', 'soc-042']
   },
   {
@@ -82,6 +92,7 @@ export const BADGES = [
     name: "Sociólogo das Periferias",
     desc: "Analisou teorias complexas sobre raça, classe e poder na sociedade baiana.",
     icon: '⚖️',
+    rarity: 'uncommon',
     reqQuestions: ['soc-002', 'soc-008', 'soc-014', 'soc-022', 'soc-030', 'soc-035', 'soc-044', 'soc-050']
   },
   {
@@ -89,6 +100,7 @@ export const BADGES = [
     name: "Pensador do Sertão",
     desc: "Refletiu sobre questões éticas e existenciais básicas do contexto baiano.",
     icon: '🤔',
+    rarity: 'common',
     reqQuestions: ['fil-001', 'fil-003', 'fil-008', 'fil-013', 'fil-019', 'fil-023', 'fil-027', 'fil-031']
   },
   {
@@ -96,6 +108,7 @@ export const BADGES = [
     name: "Filósofo da Diáspora Africana",
     desc: "Debateu problemas filosóficos complexos sobre identidade, poder e conhecimento.",
     icon: '🎭',
+    rarity: 'uncommon',
     reqQuestions: ['fil-002', 'fil-007', 'fil-010', 'fil-017', 'fil-024', 'fil-032', 'fil-038', 'fil-044']
   },
 
@@ -105,6 +118,7 @@ export const BADGES = [
     name: "Iniciado em Teologia",
     desc: "Acertou 10 questões básicas do módulo de Teologia Cristã.",
     icon: '✝️',
+    rarity: 'common',
     reqQuestions: ['teo-001','teo-002','teo-003','teo-004','teo-005','teo-006','teo-007','teo-008','teo-009','teo-010']
   },
   {
@@ -112,6 +126,7 @@ export const BADGES = [
     name: "Teólogo em Formação",
     desc: "Respondeu perguntas avançadas sobre cristologia, concílios e soteriologia.",
     icon: '📜',
+    rarity: 'uncommon',
     reqQuestions: ['teo-012','teo-026','teo-031','teo-033','teo-038','teo-043','teo-046','teo-050']
   },
   {
@@ -119,6 +134,7 @@ export const BADGES = [
     name: "Mestre da Teologia",
     desc: "Concluiu 30 questões (nível médio/avançado) do módulo de Teologia Cristã.",
     icon: '👑',
+    rarity: 'rare',
     reqQuestions: [
       'teo-001','teo-002','teo-003','teo-004','teo-005','teo-006','teo-007','teo-008','teo-009','teo-010',
       'teo-011','teo-012','teo-013','teo-014','teo-015','teo-016','teo-017','teo-018','teo-019','teo-020',
@@ -132,6 +148,7 @@ export const BADGES = [
     name: "Iniciado na Religião Iorubá",
     desc: "Acertou 10 questões introdutórias sobre cosmovisão e práticas iorubás.",
     icon: '🪘',
+    rarity: 'common',
     reqQuestions: ['yor-001','yor-002','yor-003','yor-004','yor-005','yor-006','yor-007','yor-008','yor-009','yor-010']
   },
   {
@@ -139,6 +156,7 @@ export const BADGES = [
     name: "Guardião do Axé",
     desc: "Compreendeu rituais, Odu e práticas iniciáticas do sistema iorubá.",
     icon: '🕯️',
+    rarity: 'uncommon',
     reqQuestions: ['yor-022','yor-026','yor-032','yor-036','yor-038','yor-041','yor-044','yor-050']
   },
   {
@@ -146,6 +164,7 @@ export const BADGES = [
     name: "Mestre do Terreiro",
     desc: "Concluiu 30 questões sobre religiões de matriz iorubá e diáspora.",
     icon: '👑',
+    rarity: 'rare',
     reqQuestions: [
       'yor-001','yor-002','yor-003','yor-004','yor-005','yor-006','yor-007','yor-008','yor-009','yor-010',
       'yor-011','yor-012','yor-013','yor-014','yor-015','yor-016','yor-017','yor-018','yor-019','yor-020',
@@ -159,6 +178,7 @@ export const BADGES = [
     name: "Herdeiro da Diáspora",
     desc: "Dominou conhecimentos sobre cultura, religião e história afro-baiana.",
     icon: '🪘',
+    rarity: 'uncommon',
     reqQuestions: ['hist-002', 'hist-007', 'hist-015', 'lin-009', 'lin-023', 'soc-005', 'fil-002', 'fil-023']
   },
   {
@@ -166,6 +186,7 @@ export const BADGES = [
     name: "Guardião dos Biomas Baianos",
     desc: "Compreendeu ecossistemas, preservação e questões ambientais do estado.",
     icon: '🌳',
+    rarity: 'uncommon',
     reqQuestions: ['geo-q1', 'geo-004', 'bio-002', 'bio-005', 'bio-026', 'soc-024', 'fil-012', 'fil-042']
   },
   {
@@ -173,6 +194,7 @@ export const BADGES = [
     name: "Defensor dos Direitos Sociais",
     desc: "Analisou problemas sociais, desigualdades e movimentos de transformação.",
     icon: '✊',
+    rarity: 'uncommon',
     reqQuestions: ['hist-008', 'hist-045', 'soc-013', 'soc-029', 'soc-035', 'fil-003', 'fil-025', 'fil-041']
   },
   {
@@ -180,6 +202,7 @@ export const BADGES = [
     name: "Economista do Dendezeiro",
     desc: "Entendeu ciclos econômicos, desenvolvimento e desafios produtivos da Bahia.",
     icon: '💰',
+    rarity: 'uncommon',
     reqQuestions: ['geo-q2', 'geo-008', 'geo-021', 'soc-006', 'soc-020', 'fil-016', 'fil-020', 'mat-009']
   },
 
@@ -189,6 +212,7 @@ export const BADGES = [
     name: "Analista do Território",
     desc: "Demonstrou habilidade em analisar dados e situações complexas.",
     icon: '🔍',
+    rarity: 'uncommon',
     reqQuestions: ['mat-006', 'geo-q2', 'hist-003', 'soc-002', 'fil-010', 'bio-011', 'lin-022', 'soc-044']
   },
   {
@@ -196,6 +220,7 @@ export const BADGES = [
     name: "Aplicador do Conhecimento",
     desc: "Aplicou conceitos teóricos a situações reais do contexto baiano.",
     icon: '🛠️',
+    rarity: 'uncommon',
     reqQuestions: ['mat-002', 'geo-007', 'bio-002', 'lin-010', 'soc-005', 'fil-004', 'mat-033', 'bio-024']
   },
   {
@@ -203,6 +228,7 @@ export const BADGES = [
     name: "Avaliador Crítico",
     desc: "Avaliou criticamente informações, teorias e políticas.",
     icon: '⭐',
+    rarity: 'uncommon',
     reqQuestions: ['geo-004', 'hist-008', 'soc-008', 'fil-007', 'bio-004', 'lin-028', 'soc-032', 'fil-017']
   },
   {
@@ -210,6 +236,7 @@ export const BADGES = [
     name: "Criador de Soluções",
     desc: "Propos soluções criativas para problemas regionais.",
     icon: '💡',
+    rarity: 'uncommon',
     reqQuestions: ['mat-039', 'geo-012', 'soc-014', 'fil-018', 'bio-035', 'lin-040', 'soc-042', 'fil-050']
   },
 
@@ -219,6 +246,7 @@ export const BADGES = [
     name: "Conhecedor da Primeira Capital",
     desc: "Dominou conhecimentos sobre Salvador e região metropolitana.",
     icon: '⛪',
+    rarity: 'common',
     reqQuestions: ['mat-q1', 'geo-003', 'hist-013', 'soc-007', 'soc-017', 'fil-017', 'lin-002', 'soc-043']
   },
   {
@@ -226,6 +254,7 @@ export const BADGES = [
     name: "Sertanejo Iluminado",
     desc: "Compreendeu profundamente a realidade do semiárido baiano.",
     icon: '🌵',
+    rarity: 'common',
     reqQuestions: ['geo-q1', 'geo-009', 'hist-005', 'bio-001', 'soc-027', 'fil-006', 'lin-012', 'soc-047']
   },
   {
@@ -233,6 +262,7 @@ export const BADGES = [
     name: "Explorador da Chapada Diamantina",
     desc: "Conhece a geologia, ecologia e cultura da região da Chapada.",
     icon: '🏞️',
+    rarity: 'common',
     reqQuestions: ['mat-q2', 'geo-001', 'bio-011', 'geo-040', 'geo-060', 'bio-027', 'geo-076', 'soc-044']
   },
   {
@@ -240,6 +270,7 @@ export const BADGES = [
     name: "Navegador do Litoral Baiano",
     desc: "Dominou conhecimentos sobre o litoral, recifes e cultura costeira.",
     icon: '🐚',
+    rarity: 'common',
     reqQuestions: ['geo-026', 'geo-046', 'bio-008', 'bio-044', 'soc-024', 'fil-013', 'lin-016', 'bio-048']
   },
 
@@ -249,6 +280,7 @@ export const BADGES = [
     name: "Aprendiz do DCRB",
     desc: "Completou todas as questões iniciais das 7 disciplinas.",
     icon: '🎓',
+    rarity: 'uncommon',
     reqQuestions: [
       'mat-q1', 'mat-001', 'mat-002',
       'geo-q1', 'geo-001', 'geo-005',
@@ -264,6 +296,7 @@ export const BADGES = [
     name: "Estudante Dedicado",
     desc: "Acertou 50 questões de nível médio em todas as disciplinas.",
     icon: '📚',
+    rarity: 'rare',
     reqQuestionsCount: 50,
     reqDifficulty: 'medium'
   },
@@ -272,6 +305,7 @@ export const BADGES = [
     name: "Mestre do Conhecimento Baiano",
     desc: "Resolveu 30 questões difíceis de todas as áreas do conhecimento.",
     icon: '👑',
+    rarity: 'epic',
     reqQuestionsCount: 30,
     reqDifficulty: 'hard'
   },
@@ -280,6 +314,7 @@ export const BADGES = [
     name: "Perfeccionista Acadêmico",
     desc: "Acertou 100 questões consecutivas sem erros.",
     icon: '💎',
+    rarity: 'epic',
     reqStreak: 100
   },
   {
@@ -287,6 +322,7 @@ export const BADGES = [
     name: "Polímata Baiano",
     desc: "Acertou pelo menos 10 questões em cada uma das 7 disciplinas.",
     icon: '🌟',
+    rarity: 'rare',
     reqDisciplines: {
       matematica: 10,
       geografia: 10,
@@ -302,6 +338,7 @@ export const BADGES = [
     name: "Rapidez Mental",
     desc: "Respondeu 50 questões em menos de 30 segundos cada.",
     icon: '⚡',
+    rarity: 'uncommon',
     reqSpeed: {
       count: 50,
       maxTime: 30 // segundos
@@ -312,6 +349,7 @@ export const BADGES = [
     name: "Estudante Consistente",
     desc: "Estudou por 30 dias consecutivos no aplicativo.",
     icon: '📅',
+    rarity: 'uncommon',
     reqConsecutiveDays: 30
   },
   {
@@ -319,6 +357,7 @@ export const BADGES = [
     name: "Explorador do Conhecimento",
     desc: "Visualizou todas as explicações das questões respondidas.",
     icon: '🧭',
+    rarity: 'common',
     reqExplanations: 'all'
   },
   {
@@ -326,6 +365,7 @@ export const BADGES = [
     name: "Colaborador do Saber",
     desc: "Compartilhou 20 questões nas redes sociais.",
     icon: '🤝',
+    rarity: 'common',
     reqShares: 20
   },
   {
@@ -333,6 +373,7 @@ export const BADGES = [
     name: "Vencedor do Desafio Semanal",
     desc: "Ficou entre os 10 melhores no ranking semanal.",
     icon: '🏆',
+    rarity: 'uncommon',
     reqWeeklyRank: 10
   },
 
@@ -342,6 +383,7 @@ export const BADGES = [
     name: "Herói do 2 de Julho",
     desc: "Conquistado durante as comemorações da Independência da Bahia.",
     icon: '🎖️',
+    rarity: 'rare',
     event: 'independencia-bahia',
     expires: '2024-07-10'
   },
@@ -350,6 +392,7 @@ export const BADGES = [
     name: "Forrózeiro Acadêmico",
     desc: "Atividade especial durante as festas juninas.",
     icon: '🎵',
+    rarity: 'rare',
     event: 'sao-joao',
     expires: '2024-07-01'
   },
@@ -358,6 +401,7 @@ export const BADGES = [
     name: "Folioso Estudioso",
     desc: "Acertou pelo menos 7 questões no Desafio Especial de Carnaval.",
     icon: '🎭',
+    rarity: 'rare',
     event: 'carnaval',
     expires: '2026-03-01'
   },
@@ -368,6 +412,7 @@ export const BADGES = [
     name: "Centenário do Saber",
     desc: "Acumulou 100 acertos totais.",
     icon: '💯',
+    rarity: 'common',
     reqTotalCorrect: 100
   },
   {
@@ -375,6 +420,7 @@ export const BADGES = [
     name: "Quinhentista Ilustrado",
     desc: "Acumulou 500 acertos totais.",
     icon: '📊',
+    rarity: 'uncommon',
     reqTotalCorrect: 500
   },
   {
@@ -382,6 +428,7 @@ export const BADGES = [
     name: "Milênio do Conhecimento",
     desc: "Acumulou 1000 acertos totais.",
     icon: '🏛️',
+    rarity: 'rare',
     reqTotalCorrect: 1000
   },
   {
@@ -389,6 +436,7 @@ export const BADGES = [
     name: "Destaque Acadêmico",
     desc: "Alcançou 10.000 pontos de experiência.",
     icon: '⭐',
+    rarity: 'rare',
     reqTotalXP: 10000
   },
   {
@@ -396,6 +444,7 @@ export const BADGES = [
     name: "Lenda do DCRB",
     desc: "Alcançou 50.000 pontos de experiência.",
     icon: '✨',
+    rarity: 'legendary',
     reqTotalXP: 50000
   },
 

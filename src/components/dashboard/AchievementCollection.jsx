@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { BadgeModal } from '../profile/BadgeModal';
+import { getBadgeClasses } from '../../utils/badgeStyles';
 
 export const AchievementCollection = ({ badges, userBadges, isDark, setView }) => {
   const [selectedBadge, setSelectedBadge] = useState(null);
@@ -43,9 +44,7 @@ export const AchievementCollection = ({ badges, userBadges, isDark, setView }) =
                 onClick={() => handleBadgeClick(badge)}
                 className={`aspect-square rounded-xl border flex flex-col items-center justify-center gap-2 p-2 text-center transition-all cursor-pointer ${
                   isUnlocked
-                    ? isDark 
-                      ? 'bg-slate-800 border-slate-700 text-indigo-400 hover:bg-slate-700' 
-                      : 'bg-white border-slate-200 text-indigo-600 shadow-sm hover:shadow-md'
+                    ? getBadgeClasses(badge.rarity || 'common', { isDark, variant: 'card' }).container
                     : isDark 
                       ? 'bg-slate-900/50 border-slate-800 text-slate-700 opacity-40 grayscale hover:opacity-60' 
                       : 'bg-slate-100 border-slate-200 text-slate-300 grayscale hover:bg-slate-200'

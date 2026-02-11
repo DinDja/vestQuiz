@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { X, Award, Star, TrendingUp, Target, CheckCircle } from 'lucide-react';
 import { BADGES, GEO_BADGES, TERRITORY_BADGES } from '../../constants/badges';
+import { getBadgeClasses } from '../../utils/badgeStyles';
 
 const ALL_BADGES = [...BADGES, ...GEO_BADGES, ...TERRITORY_BADGES];
 
@@ -200,19 +201,17 @@ export const UserBadgesModal = ({ isOpen, onClose, user, isDark }) => {
               </div>
             ) : (
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 max-h-64 overflow-y-auto pr-2">
-                {unlockedBadges.map((badge) => (
-                  <motion.div
-                    key={badge.id}
-                    whileHover={{ scale: 1.02 }}
-                    className={`p-3 rounded-xl border flex flex-col items-center justify-center gap-2 text-center min-h-[100px] ${
-                      isDark 
-                        ? 'bg-slate-800/70 border-indigo-500/30 hover:border-indigo-500/50' 
-                        : 'bg-white border-indigo-200 hover:border-indigo-300 shadow-sm'
-                    }`}
-                  >
-                    <div className="text-2xl mb-1 flex-shrink-0">{badge.icon}</div>
-                    <div className="flex-1 min-w-0 w-full">
-                      <h4 className={`text-xs font-bold mb-1 truncate ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`}>
+                {unlockedBadges.map((badge) => {
+                  const rarityStyles = getBadgeClasses(badge.rarity || 'common', { isDark, variant: 'card' });
+                  return (
+                    <motion.div
+                      key={badge.id}
+                      whileHover={{ scale: 1.02 }}
+                      className={`${rarityStyles.container} p-3 rounded-xl border flex flex-col items-center justify-center gap-2 text-center min-h-[100px]`}
+                    >
+                      <div className={`${rarityStyles.icon} text-2xl`}>{badge.icon}</div>
+                      <div className="flex-1 min-w-0 w-full">
+                      <h4 className={`text-xs font-bold mb-1 truncate ${rarityStyles.accent}`}>
                         {badge.name}
                       </h4>
                       <p className={`text-[10px] ${isDark ? 'text-slate-400' : 'text-slate-600'} line-clamp-2 break-words`}>
@@ -220,7 +219,8 @@ export const UserBadgesModal = ({ isOpen, onClose, user, isDark }) => {
                       </p>
                     </div>
                   </motion.div>
-                ))}
+                  );
+                })}
               </div>
             )}
           </div>

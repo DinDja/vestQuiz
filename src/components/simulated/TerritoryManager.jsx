@@ -2135,19 +2135,20 @@ export const TerritoryManager = ({ setView, isDark, updateProgress }) => {
                                                 <div className="flex flex-wrap gap-2 justify-center">
                                                     {earnedBadges.slice(0, 6).map((badgeId, i) => {
                                                         const badge = TERRITORY_BADGES.find(b => b.id === badgeId);
+                                                        const styles = getBadgeClasses(badge?.rarity || 'common', { isDark, variant: 'circle' });
                                                         return (
                                                             <motion.div
                                                                 key={badgeId}
                                                                 initial={{ scale: 0, rotate: -180 }}
                                                                 animate={{ scale: 1, rotate: 0 }}
                                                                 transition={{ delay: 0.6 + i * 0.1 }}
-                                                                className="w-8 h-8 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-white text-xs font-bold shadow-lg"
+                                                                className={styles.container}
                                                                 title={badge?.name}
                                                             >
                                                                 {badge?.icon || '🏆'}
                                                             </motion.div>
                                                         );
-                                                    })}
+                                                    })} 
                                                     {earnedBadges.length > 6 && (
                                                         <div className="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-white text-xs font-bold">
                                                             +{earnedBadges.length - 6}

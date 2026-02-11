@@ -186,13 +186,6 @@ export const useGroupGame = (userData) => {
     };
   }, [phase, roomData?.currentQuestion]);
 
-  // ── Auto-submit quando o timer zerar ──
-  useEffect(() => {
-    if (timer === 0 && phase === 'playing' && myAnswer === null && roomData) {
-      handleSubmitAnswer(-1); // -1 = não respondeu
-    }
-  }, [timer, phase, myAnswer, roomData, handleSubmitAnswer]);
-
   // ═══════════════════════════════════════════════════════════════════
   // AÇÕES
   // ═══════════════════════════════════════════════════════════════════
@@ -379,6 +372,13 @@ export const useGroupGame = (userData) => {
       submittingRef.current = false;
     }
   };
+
+  // ── Auto-submit quando o timer zerar (moved below declaration of handleSubmitAnswer to avoid TDZ) ──
+  useEffect(() => {
+    if (timer === 0 && phase === 'playing' && myAnswer === null && roomData) {
+      handleSubmitAnswer(-1); // -1 = não respondeu
+    }
+  }, [timer, phase, myAnswer, roomData, handleSubmitAnswer]);
 
   const advanceQuestion = async () => {
     if (!roomCode || !roomData) return;

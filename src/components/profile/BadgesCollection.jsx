@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 import { Award, ChevronLeft, ChevronRight, Filter, CheckCircle2, Lock, Search, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { BadgeModal } from './BadgeModal';
+import { getBadgeClasses } from '../../utils/badgeStyles';
 
 // ─── Mapeamento de categorias ────────────────────────────────────────────────
 const BADGE_CATEGORIES = [
@@ -290,9 +291,7 @@ export const BadgesCollection = ({ badges, userBadges, isDark }) => {
                       onClick={() => handleBadgeClick(badge)}
                       className={`relative aspect-square rounded-2xl border flex flex-col items-center justify-center gap-1 p-1.5 text-center transition-all cursor-pointer ${
                         isUnlocked
-                          ? isDark
-                            ? 'bg-slate-800 border-indigo-500/40 text-indigo-400 hover:bg-slate-700'
-                            : 'bg-indigo-50 border-indigo-200 text-indigo-600 hover:bg-indigo-100'
+                          ? getBadgeClasses(badge.rarity || 'common', { isDark, variant: 'card' }).container
                           : isDark
                             ? 'bg-slate-950 border-slate-800 text-slate-700 opacity-40 hover:opacity-60'
                             : 'bg-slate-100 border-slate-200 text-slate-400 hover:bg-slate-200'
@@ -309,7 +308,7 @@ export const BadgesCollection = ({ badges, userBadges, isDark }) => {
                       )}
                       {isUnlocked && (
                         <div className="absolute top-1 right-1">
-                          <div className="w-4 h-4 rounded-full bg-emerald-500 flex items-center justify-center">
+                          <div className={getBadgeClasses(badge.rarity || 'common', { isDark, variant: 'card' }).icon.replace('mb-1 flex-shrink-0','w-4 h-4 rounded-full flex items-center justify-center') + ' bg-none'}>
                             <CheckCircle2 size={8} className="text-white" />
                           </div>
                         </div>

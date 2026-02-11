@@ -382,9 +382,6 @@ export const GroupGameLobby = ({
             {roomCode}
           </div>
           <button
-            type="button"
-            aria-label={copied ? 'Código copiado' : 'Copiar código da sala'}
-            title={copied ? 'Código copiado' : 'Copiar código'}
             onClick={handleCopy}
             className={`p-2.5 rounded-xl transition-all active:scale-90 ${
               copied
@@ -397,10 +394,12 @@ export const GroupGameLobby = ({
             {copied ? <Check size={20} /> : <Copy size={20} />}
           </button>
         </div>
-        <p role="status" aria-live="polite" aria-atomic="true" className={`text-xs ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>
-          {copied ? 'Código copiado!' : 'Use este código para convidar amigos'}
+        <p className={`text-xs ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>
+          {copied ? '✅ Código copiado!' : 'Seus amigos precisam desse código para entrar'}
         </p>
       </div>
+
+      {/* Configurações */}
       <div className={`rounded-2xl p-4 grid grid-cols-3 gap-3 ${
         isDark ? 'bg-slate-900/50 border border-slate-800' : 'bg-slate-50 border border-slate-200'
       }`}>

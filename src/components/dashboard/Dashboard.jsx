@@ -452,6 +452,7 @@ export const Dashboard = ({
               </p>
             </div>
           </div>
+
           <div className="h-12 w-12 rounded-2xl bg-white/20 flex items-center justify-center backdrop-blur-sm group-hover:bg-white/30 transition-colors border border-white/10">
                <ChevronRight className="text-white" size={24} />
           </div>
