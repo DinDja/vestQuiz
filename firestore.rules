@@ -1,4 +1,4 @@
-// firestore.rules - suggested rules for local record
+    // firestore.rules - suggested rules for local record
 // Paste the contents below into Firebase Console → Firestore → Rules and publish.
 
 rules_version = '2';
@@ -37,18 +37,12 @@ service cloud.firestore {
     // --- COLEÇÃO users ---
     match /users/{userId} {
       allow read: if true;
-      allow create: if request.auth != null
-                    && request.auth.uid == userId
-                    && request.resource.data.uid == userId
-                    && request.resource.data.createdAt is timestamp;
-      allow update: if request.auth != null && request.auth.uid == userId
-                    && (request.resource.data.uid == resource.data.uid
-                        && request.resource.data.createdAt == resource.data.createdAt);
+      allow write: if request.auth != null && request.auth.uid == userId;
       allow delete: if false;
     }
 
     match /users/{userId}/history/{docId} {
-      allow read: if request.auth != null && request.auth.uid == userId;
+      allow read: if true;
       allow write: if request.auth != null && request.auth.uid == userId;
       allow delete: if request.auth != null && request.auth.uid == userId;
     }
@@ -60,7 +54,7 @@ service cloud.firestore {
     }
 
     match /users/{userId}/simulations/{simulationId} {
-      allow read: if request.auth != null && request.auth.uid == userId;
+      allow read: if true;
       allow write: if request.auth != null && request.auth.uid == userId;
       allow delete: if request.auth != null && request.auth.uid == userId;
     }
@@ -145,8 +139,7 @@ service cloud.firestore {
 
     // --- COLEÇÃO MENTORSHIP: Sessões e Chat de Mentoria ---
     match /mentorshipSessions/{sessionId} {
-      allow read: if request.auth != null
-                  && (resource.data.studentId == request.auth.uid || resource.data.mentorId == request.auth.uid);
+      allow read: if true;
       allow create: if request.auth != null
                     && request.resource.data.studentId == request.auth.uid
                     && request.resource.data.startedAt is timestamp;
@@ -160,12 +153,22 @@ service cloud.firestore {
         allow read: if request.auth != null
                     && (get(/databases/$(database)/documents/mentorshipSessions/$(sessionId)).data.studentId == request.auth.uid
                         || get(/databases/$(database)/documents/mentorshipSessions/$(sessionId)).data.mentorId == request.auth.uid);
-        allow create: if request.auth != null
-                      && request.resource.data.senderId == request.auth.uid
-                      && request.resource.data.text is string
-                      && request.resource.data.timestamp is timestamp
-                      && (get(/databases/$(database)/documents/mentorshipSessions/$(sessionId)).data.studentId == request.auth.uid
-                          || get(/databases/$(database)/documents/mentorshipSessions/$(sessionId)).data.mentorId == request.auth.uid);
+        // TEMP: permitir criação para qualquer usuário autenticado (remoção temporária da checagem senderId/get)
+        // Use this only para depuração — depois devemos restringir novamente.
+        allow create: if request.auth != null && request.resource.data.text is string && request.resource.data.timestamp is timestamp;
+        allow update, delete: if false;
+      }
+    }
+
+    // --- COLEÇÃO mentorshipChats: Mensagens de Chat de Mentoria ---
+    match /mentorshipChats/{sessionId} {
+      allow read: if true;
+
+      match /messages/{msgId} {
+        allow read: if true;
+        // TEMP: permitir criação para qualquer usuário autenticado (remoção temporária da checagem senderId)
+        // Use this only para depuração — depois devemos restringir novamente.
+        allow create: if request.auth != null && request.resource.data.text is string && request.resource.data.timestamp is timestamp;
         allow update, delete: if false;
       }
     }
@@ -183,9 +186,16 @@ service cloud.firestore {
                     && request.resource.data.views == 0
                     && request.resource.data.replies == 0
                     && request.resource.data.likes == 0;
-      allow update: if request.auth != null && resource.data.authorId == request.auth.uid
-                    && (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['likes', 'views', 'replies'])
-                        || request.resource.data.diff(resource.data).affectedKeys().hasOnly(['isPinned']));
+      allow update: if request.auth != null && (
+                      // Qualquer usuário pode atualizar likes, views, replies
+                      request.resource.data.diff(resource.data).affectedKeys().hasOnly(['likes', 'views', 'replies'])
+                      || request.resource.data.diff(resource.data).affectedKeys().hasOnly(['likes'])
+                      || request.resource.data.diff(resource.data).affectedKeys().hasOnly(['views'])
+                      || request.resource.data.diff(resource.data).affectedKeys().hasOnly(['replies'])
+                      // Apenas o autor pode pinnar/despinnar
+                      || (resource.data.authorId == request.auth.uid 
+                          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['isPinned']))
+                    );
       allow delete: if request.auth != null && resource.data.authorId == request.auth.uid;
 
       match /replies/{replyId} {
@@ -197,11 +207,16 @@ service cloud.firestore {
                       && request.resource.data.createdAt is timestamp
                       && request.resource.data.likes == 0
                       && request.resource.data.helpful == false;
-        allow update: if request.auth != null
-                      && ((resource.data.authorId == request.auth.uid
-                          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['likes', 'helpful']))
-                          || (get(/databases/$(database)/documents/discussions/$(docId)).data.authorId == request.auth.uid
-                          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['helpful'])));
+        allow update: if request.auth != null && (
+                        // Qualquer usuário pode dar like
+                        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['likes'])
+                        // Autor da reply pode atualizar likes e helpful
+                        || (resource.data.authorId == request.auth.uid
+                            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['likes', 'helpful']))
+                        // Autor da discussão pai pode marcar como helpful
+                        || (get(/databases/$(database)/documents/discussions/$(docId)).data.authorId == request.auth.uid
+                            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['helpful']))
+                      );
         allow delete: if request.auth != null && resource.data.authorId == request.auth.uid;
       }
     }

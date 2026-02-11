@@ -151,7 +151,7 @@ export const DiscussionForum = ({
       initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -15 }}
-      className={`fixed inset-0 ${bgColor} overflow-hidden`}
+      className={`fixed inset-0 ${bgColor}`}
     >
       {/* Header */}
       <div className={`flex items-center justify-between p-4 border-b ${borderColor}`}>
@@ -180,7 +180,7 @@ export const DiscussionForum = ({
         </motion.button>
       </div>
 
-      <div className="flex-1 overflow-hidden flex">
+      <div className="flex-1 flex">
         {/* Lista de Discussões */}
         <div className={`w-full md:w-96 overflow-y-auto border-r ${borderColor} ${selectedDiscussion ? 'hidden md:flex md:flex-col' : 'flex flex-col'}`}>
           {/* Busca e Filtros */}
@@ -270,7 +270,7 @@ export const DiscussionForum = ({
 
         {/* Detalhe da Discussão */}
         {selectedDiscussion && (
-          <div className={`flex-1 flex flex-col ${selectedDiscussion ? 'flex' : 'hidden'}`}>
+          <div className={`flex flex-col ${selectedDiscussion ? 'flex' : 'hidden'}`}>
             {/* Header */}
             <div className={`p-4 border-b ${borderColor} flex-shrink-0`}>
               <div className="flex items-center justify-between mb-2">
@@ -306,11 +306,11 @@ export const DiscussionForum = ({
 
             {/* Conteúdo Original */}
             <div className={`p-4 border-b ${borderColor}`}>
-              <p className={textColor}>{selectedDiscussion.description}</p>
+              <p className={`${textColor} whitespace-pre-wrap break-words`}>{selectedDiscussion.description}</p>
             </div>
 
             {/* Respostas */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+            <div className="overflow-y-auto p-4 space-y-4" style={{maxHeight: "350px"}}>
               {replies.length === 0 ? (
                 <div className={`text-center py-8 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
                   <p className="text-sm">Nenhuma resposta ainda. Seja o primeiro!</p>
@@ -327,7 +327,7 @@ export const DiscussionForum = ({
                       </span>
                       {reply.helpful && <span className="text-xs bg-green-600/20 text-green-400 px-2 py-1 rounded">✓ Útil</span>}
                     </div>
-                    <p className={`text-sm ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
+                    <p className={`text-sm ${isDark ? 'text-gray-300' : 'text-gray-700'} whitespace-pre-wrap break-words`}>
                       {reply.text}
                     </p>
                     <div className={`flex justify-between items-center mt-2 text-xs ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>
@@ -350,8 +350,9 @@ export const DiscussionForum = ({
                 value={replyText}
                 onChange={(e) => setReplyText(e.target.value)}
                 placeholder="Escreva sua resposta..."
-                rows="3"
-                className={`w-full px-4 py-2 rounded-lg border ${borderColor} ${cardBg} ${textColor} placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none`}
+                rows={3}
+                style={{ minHeight: 48, maxHeight: 'none', resize: 'vertical', overflow: 'auto' }}
+                className={`w-full px-4 py-2 rounded-lg border ${borderColor} ${cardBg} ${textColor} placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500`}
               />
               <motion.button
                 onClick={handleReply}
