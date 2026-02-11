@@ -95,6 +95,7 @@ export const useGroupGame = (userData) => {
   const timerRef = useRef(null);
   const countdownRef = useRef(null);
   const lastQuestionRef = useRef(-1);
+  const submittingRef = useRef(false);
 
   // ── Limpa listeners ao desmontar ──
   useEffect(() => {
@@ -118,26 +119,22 @@ export const useGroupGame = (userData) => {
         setRoomCode(null);
         return;
       }
+
       const data = { id: snap.id, ...snap.data() };
       setRoomData(data);
 
-      // Detecta mudanças de estado
-      if (data.status === 'countdown' && phase !== 'countdown' && phase !== 'playing' && phase !== 'results') {
-        setPhase('countdown');
-      }
-      if (data.status === 'playing' && phase !== 'playing' && phase !== 'results') {
-        setPhase('playing');
-      }
-      if (data.status === 'finished') {
-        setPhase('results');
-      }
+      // normalize server status -> local phase
+      if (data.status === 'waiting') setPhase('lobby');
+      else if (data.status === 'countdown') setPhase('countdown');
+      else if (data.status === 'playing') setPhase('playing');
+      else if (data.status === 'finished') setPhase('results');
     }, (err) => {
       console.error('Erro listener da sala:', err);
       setError('Erro de conexão com a sala.');
     });
 
     unsubRef.current = unsub;
-  }, [phase]);
+  }, []);
 
   // ── Timer do countdown (3, 2, 1, JÁ!) ──
   useEffect(() => {
@@ -194,7 +191,7 @@ export const useGroupGame = (userData) => {
     if (timer === 0 && phase === 'playing' && myAnswer === null && roomData) {
       handleSubmitAnswer(-1); // -1 = não respondeu
     }
-  }, [timer]);
+  }, [timer, phase, myAnswer, roomData, handleSubmitAnswer]);
 
   // ═══════════════════════════════════════════════════════════════════
   // AÇÕES
@@ -262,9 +259,6 @@ export const useGroupGame = (userData) => {
     if (!auth.currentUser) return;
     setError(null);
 
-    // debug: ensure auth available
-    console.log('joinRoom called with code=', code, 'uid=', auth.currentUser?.uid);
-
     const upperCode = code.toUpperCase().trim();
     const roomRef = doc(db, 'rooms', upperCode);
 
@@ -276,7 +270,6 @@ export const useGroupGame = (userData) => {
       }
 
       const data = snap.data();
-      console.log('joinRoom: room snapshot data=', data);
       if (data.status !== 'waiting') {
         setError('Esta sala já está em jogo ou encerrada.');
         return;
@@ -300,8 +293,6 @@ export const useGroupGame = (userData) => {
         xp: userData.xp || 0,
         level: Math.min(Math.floor((userData.xp || 0) / 2000) + 1, 20)
       };
-
-      console.log('joinRoom: updating with players.' + uid, playerPayload);
 
       await updateDoc(roomRef, {
         [`players.${uid}`]: playerPayload
@@ -366,6 +357,10 @@ export const useGroupGame = (userData) => {
       points
     };
 
+    // guard against double-submit/race
+    if (submittingRef.current) return;
+    submittingRef.current = true;
+
     setMyAnswer(answerRecord);
 
     try {
@@ -380,6 +375,8 @@ export const useGroupGame = (userData) => {
       });
     } catch (e) {
       console.error('Erro enviando resposta:', e);
+    } finally {
+      submittingRef.current = false;
     }
   };
 

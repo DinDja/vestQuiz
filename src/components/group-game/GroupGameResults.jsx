@@ -1,5 +1,5 @@
 // src/components/group-game/GroupGameResults.jsx
-import React, { useMemo } from 'react';
+import React, { useMemo, useRef } from 'react';
 import { motion } from 'framer-motion';
 import {
   Trophy,
@@ -67,42 +67,44 @@ export const GroupGameResults = ({
   }, [myPosition, myStats.correct]);
 
   // ── Award multiplayer badges (run once per results screen)
+  const awardedRef = useRef(false);
   React.useEffect(() => {
+    if (awardedRef.current) return;
     if (!roomData || !sortedPlayers || !uid || !unlockBadge) return;
-    // guard to avoid duplicate awarding on re-renders
-    let awarded = false;
-    try {
-      const playersMap = roomData.players || {};
-      const me = playersMap[uid] || sortedPlayers.find(p => p.uid === uid);
-      if (!me) return;
+    awardedRef.current = true;
 
-      const answers = me.answers || [];
-      const questionCount = roomData.questions?.length || 0;
+    (async () => {
+      try {
+        const playersMap = roomData.players || {};
+        const me = playersMap[uid] || sortedPlayers.find(p => p.uid === uid);
+        if (!me) return;
 
-      const answeredAll = answers.length === questionCount;
-      const allCorrect = answeredAll && answers.every(a => a.correct);
-      const hasFast = answers.some(a => a.correct && (a.timeSpent || 0) <= 3);
-      const stayedConnected = me.isConnected !== false && answers.length > 0;
-      const isHost = roomData.hostId === uid;
-      const won = sortedPlayers[0]?.uid === uid;
+        const answers = me.answers || [];
+        const questionCount = roomData.questions?.length || 0;
 
-      // comeback detection: rank before last question
-      const beforeLastScores = Object.values(playersMap).map(p => {
-        const s = (p.answers || []).filter(a => (a.questionIndex || 0) < (questionCount - 1)).reduce((sum, x) => sum + (x.points || 0), 0);
-        return { uid: p.uid, scoreBefore: s };
-      }).sort((a, b) => b.scoreBefore - a.scoreBefore);
-      const rankBefore = beforeLastScores.findIndex(x => x.uid === uid) + 1;
-      const wasBehindBeforeLast = rankBefore >= 3;
+        const answeredAll = answers.length === questionCount;
+        const allCorrect = answeredAll && answers.every(a => a.correct);
+        const hasFast = answers.some(a => a.correct && (a.timeSpent || 0) <= 3);
+        const stayedConnected = me.isConnected !== false && answers.length > 0;
+        const isHost = roomData.hostId === uid;
+        const won = sortedPlayers[0]?.uid === uid;
 
-      // MVP heuristic
-      const myAvg = answers.length > 0 ? (me.score || 0) / answers.length : 0;
-      const othersAvg = Object.values(playersMap).map(p => {
-        const cnt = (p.answers || []).length || 1;
-        return ((p.score || 0) / cnt) || 0;
-      });
-      const topAvg = Math.max(...othersAvg, myAvg);
+        // comeback detection: rank before last question
+        const beforeLastScores = Object.values(playersMap).map(p => {
+          const s = (p.answers || []).filter(a => (a.questionIndex || 0) < (questionCount - 1)).reduce((sum, x) => sum + (x.points || 0), 0);
+          return { uid: p.uid, scoreBefore: s };
+        }).sort((a, b) => b.scoreBefore - a.scoreBefore);
+        const rankBefore = beforeLastScores.findIndex(x => x.uid === uid) + 1;
+        const wasBehindBeforeLast = rankBefore >= 3;
 
-      (async () => {
+        // MVP heuristic
+        const myAvg = answers.length > 0 ? (me.score || 0) / answers.length : 0;
+        const othersAvg = Object.values(playersMap).map(p => {
+          const cnt = (p.answers || []).length || 1;
+          return ((p.score || 0) / cnt) || 0;
+        });
+        const topAvg = Math.max(...othersAvg, myAvg);
+
         if (isHost) await unlockBadge('multi-host');
         if (won) {
           await unlockBadge('multi-first-win');
@@ -113,17 +115,11 @@ export const GroupGameResults = ({
         if (stayedConnected && answeredAll) await unlockBadge('multi-reliable');
         if (wasBehindBeforeLast && won) await unlockBadge('multi-comeback');
         if (myAvg > 0 && myAvg === topAvg && myAvg >= 600) await unlockBadge('multi-mvp');
-      })();
-
-      awarded = true;
-    } catch (err) {
-      // swallow errors silently (no blocking UX)
-      console.error('Erro ao avaliar conquistas multiplayer:', err);
-    }
-    return () => {
-      if (awarded) awarded = true;
-    };
-  }, [roomData, sortedPlayers, uid, unlockBadge]);
+      } catch (err) {
+        if (process.env.NODE_ENV === 'development') console.error('Erro ao avaliar conquistas multiplayer:', err);
+      }
+    })();
+  }, [roomData?.id, sortedPlayers.length, uid, unlockBadge]);
 
   // Podium (top 3)
   const podium = sortedPlayers.slice(0, 3);

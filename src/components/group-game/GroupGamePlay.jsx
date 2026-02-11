@@ -198,12 +198,14 @@ export const GroupGamePlay = ({
 
           return (
             <motion.button
+              type="button"
               key={idx}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.05 }}
               onClick={() => !isDisabled && onSubmitAnswer(idx)}
               disabled={isDisabled}
+              aria-disabled={isDisabled}
               className={`w-full text-left p-4 rounded-xl border text-sm font-medium transition-all duration-300 flex items-center justify-between ${
                 status === 'correct'
                   ? 'bg-emerald-500/10 border-emerald-500 text-emerald-500'
