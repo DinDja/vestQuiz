@@ -672,5 +672,107 @@ export const TERRITORY_BADGES = [
     desc: "Finalizou seu primeiro mandato (sobrevivendo 10 turnos ou alcançando condição de término).",
     icon: '🎖️',
     reqFirstFinish: true
+  },
+
+  // ── Novas conquistas (governador-centric / gameplay) ─────────────────
+  {
+    id: 'territory-wagner-guardian',
+    name: "Guardião Wagner",
+    desc: "Aumentou o indicador ambiental em 30 pontos dentro de 8 turnos.",
+    icon: '🌿',
+    reqIncrease: { stat: 'environment', amount: 30, withinTurns: 8 },
+    rarity: 'rare',
+    points: 140
+  },
+  {
+    id: 'territory-rui-builder',
+    name: "Construtor Rui",
+    desc: "Elevou a Economia em 35 pontos dentro de 8 turnos.",
+    icon: '🏗️',
+    reqIncrease: { stat: 'economy', amount: 35, withinTurns: 8 },
+    rarity: 'rare',
+    points: 140
+  },
+  {
+    id: 'territory-jero-reformer',
+    name: "Reforma Jero",
+    desc: "Aumentou o índice Social em 35 pontos dentro de 8 turnos.",
+    icon: '🎓',
+    reqIncrease: { stat: 'society', amount: 35, withinTurns: 8 },
+    rarity: 'rare',
+    points: 140
+  },
+  {
+    id: 'territory-political-iron',
+    name: "Forte Mandato",
+    desc: "Manteve Capital Político ≥ 90 por 15 turnos consecutivos.",
+    icon: '🛡️',
+    reqConsecutiveStat: { stat: 'politicalCapital', min: 90, turns: 15 },
+    rarity: 'epic',
+    points: 200
+  },
+  {
+    id: 'territory-balanced-guardian',
+    name: "Governo Equânime",
+    desc: "Todos os indicadores ≥ 70 por 3 turnos consecutivos.",
+    icon: '🤝',
+    reqBalancedTurns: 3,
+    reqStatRange: { min: 70, max: 100 },
+    rarity: 'epic',
+    points: 220
+  },
+  {
+    id: 'territory-second-chance',
+    name: "Operação Segunda Chance",
+    desc: "Recuperou o jogo após atingir 0 (ou quase) em algum indicador.",
+    icon: '🔄',
+    reqComeback: { fromBelow: 0, toAtLeast: 20 },
+    rarity: 'rare',
+    points: 130
+  },
+  {
+    id: 'territory-sustainable-growth',
+    name: "Crescimento Sustentável",
+    desc: "Aumentou o indicador ambiental em 40 pontos dentro de 12 turnos.",
+    icon: '🌳',
+    reqIncrease: { stat: 'environment', amount: 40, withinTurns: 12 },
+    rarity: 'rare',
+    points: 160
+  },
+  {
+    id: 'territory-anti-alert-marathon',
+    name: "Trégua Prolongada",
+    desc: "Passou 40 turnos sem gerar alertas críticos.",
+    icon: '🔕',
+    reqNoAlerts: 40,
+    rarity: 'epic',
+    points: 200
+  },
+  {
+    id: 'territory-eco-revival',
+    name: "Ressurgimento Econômico",
+    desc: "Recuperou a Economia de <15 para ≥60 durante o mandato.",
+    icon: '💹',
+    reqComeback: { fromBelow: 15, toAtLeast: 60 },
+    rarity: 'rare',
+    points: 150
+  },
+  {
+    id: 'territory-mandate-legend',
+    name: "Mandato Épico",
+    desc: "Sobreviveu 75 semanas como gestor territorial.",
+    icon: '👑',
+    reqTurns: 75,
+    rarity: 'legendary',
+    points: 400
+  },
+  {
+    id: 'territory-fast-starter',
+    name: "Arranque Econômico",
+    desc: "Atingiu +20 Economia nos primeiros 5 turnos.",
+    icon: '⚡',
+    reqIncrease: { stat: 'economy', amount: 20, withinTurns: 5 },
+    rarity: 'common',
+    points: 80
   }
 ];

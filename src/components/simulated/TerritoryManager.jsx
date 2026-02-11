@@ -54,10 +54,10 @@ const GOVERNORS = [
             politica: 90,
         },
         historicalFacts: [
-            'Criou o programa Bolsa Família Estadual',
-            'Expandiu áreas de preservação ambiental',
-            'Alta aprovação popular durante todo o mandato',
-            'Fortaleceu o diálogo com movimentos sociais'
+            'Lançou o Pacto pela Vida (2011), política estadual de segurança pública',
+            'Lançou o Vida Melhor (2011), articulado ao Brasil Sem Miséria',
+            'Entregou o primeiro trecho do Metrô de Salvador (11/06/2014)',
+            'Consolidou Territórios de Identidade como base de planejamento estadual'
         ]
     },
     {
@@ -80,10 +80,10 @@ const GOVERNORS = [
             politica: 70,
         },
         historicalFacts: [
-            'Entregou o Metrô de Salvador',
-            'Duplicou rodovias estaduais estratégicas',
-            'Atraiu polo automotivo (BYD/JAC)',
-            'Investiu em segurança com bases comunitárias'
+            'Ampliou o Sistema Metroviário, incluindo a entrega da Estação Aeroporto (2018)',
+            'Executou obras e integrações viárias associadas ao metrô Salvador–Lauro (viadutos/complexos)',
+            'Atuou em agenda de infraestrutura e atração industrial (com casos não concluídos, como JAC na Bahia)',
+            'A implantação industrial da BYD em Camaçari é marco de 2023 (governo seguinte), com Rui presente como ministro'
         ]
     },
     {
@@ -106,10 +106,10 @@ const GOVERNORS = [
             politica: 60,
         },
         historicalFacts: [
-            'Ampliou escolas em tempo integral',
-            'Programa Primeiro Emprego para jovens',
-            'Investimento recorde em saúde básica',
-            'Inclusão digital nas escolas públicas'
+            'Acelerou a expansão de escolas em tempo integral (marca de 100 escolas entregues em 2026)',
+            'Reforçou/ampliou o Projeto Primeiro Emprego (PPE), existente desde 2015',
+            'Promoveu inclusão digital com Caravana Digital e entregas de Chromebooks em escolas da rede',
+            'Expandiu conectividade com iniciativas como o Conecta Bahia'
         ]
     }
 ];
@@ -184,7 +184,7 @@ export const TerritoryManager = ({ setView, isDark, updateProgress }) => {
             const existing = prev[turnNum] ? [...prev[turnNum]] : [];
             return { ...prev, [turnNum]: [{ id: Math.random().toString(36).slice(2), ...ev }, ...existing] };
         });
-    }; 
+    };
 
     const tutorialSteps = [
         {
@@ -1000,12 +1000,12 @@ export const TerritoryManager = ({ setView, isDark, updateProgress }) => {
                                 exit={{ scale: 0, y: -200, opacity: 0 }}
                                 transition={{ type: "spring", damping: 15 }}
                                 className={`p-8 rounded-3xl border-2 text-center max-w-xs relative overflow-hidden ${cardAnimation.type === 'auto-use'
-                                        ? 'bg-gradient-to-br from-red-900/90 to-red-800/90 border-red-500/50'
-                                        : `bg-gradient-to-br ${cardAnimation.card.rarity === 'legendary' ? 'from-amber-900/90 to-amber-800/90 border-amber-500/50' :
-                                            cardAnimation.card.rarity === 'epic' ? 'from-purple-900/90 to-purple-800/90 border-purple-500/50' :
-                                                cardAnimation.card.rarity === 'rare' ? 'from-blue-900/90 to-blue-800/90 border-blue-500/50' :
-                                                    'from-slate-800/90 to-slate-700/90 border-slate-500/50'
-                                        }`
+                                    ? 'bg-gradient-to-br from-red-900/90 to-red-800/90 border-red-500/50'
+                                    : `bg-gradient-to-br ${cardAnimation.card.rarity === 'legendary' ? 'from-amber-900/90 to-amber-800/90 border-amber-500/50' :
+                                        cardAnimation.card.rarity === 'epic' ? 'from-purple-900/90 to-purple-800/90 border-purple-500/50' :
+                                            cardAnimation.card.rarity === 'rare' ? 'from-blue-900/90 to-blue-800/90 border-blue-500/50' :
+                                                'from-slate-800/90 to-slate-700/90 border-slate-500/50'
+                                    }`
                                     }`}
                             >
                                 {/* Partículas de fundo */}
@@ -1013,8 +1013,8 @@ export const TerritoryManager = ({ setView, isDark, updateProgress }) => {
                                     <motion.div
                                         key={i}
                                         className={`absolute w-1 h-1 rounded-full ${cardAnimation.card.rarity === 'legendary' ? 'bg-amber-400' :
-                                                cardAnimation.card.rarity === 'epic' ? 'bg-purple-400' :
-                                                    'bg-blue-400'
+                                            cardAnimation.card.rarity === 'epic' ? 'bg-purple-400' :
+                                                'bg-blue-400'
                                             }`}
                                         initial={{ top: '50%', left: '50%', opacity: 0 }}
                                         animate={{
@@ -1046,8 +1046,8 @@ export const TerritoryManager = ({ setView, isDark, updateProgress }) => {
                                 </p>
 
                                 <div className={`text-xs font-black uppercase px-4 py-2 rounded-full ${cardAnimation.type === 'buy' ? 'bg-emerald-500/20 text-emerald-400' :
-                                        cardAnimation.type === 'use' ? 'bg-violet-500/20 text-violet-400' :
-                                            'bg-red-500/20 text-red-400'
+                                    cardAnimation.type === 'use' ? 'bg-violet-500/20 text-violet-400' :
+                                        'bg-red-500/20 text-red-400'
                                     }`}>
                                     {cardAnimation.type === 'buy' ? 'Carta Adquirida!' :
                                         cardAnimation.type === 'use' ? 'Carta Utilizada!' :
@@ -1066,8 +1066,8 @@ export const TerritoryManager = ({ setView, isDark, updateProgress }) => {
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -50 }}
                             className={`fixed bottom-32 left-1/2 -translate-x-1/2 z-[80] px-6 py-3 rounded-2xl font-black text-sm shadow-xl ${wildcardResult === 'lucky' ? 'bg-emerald-500 text-white' :
-                                    wildcardResult === 'unlucky' ? 'bg-red-500 text-white' :
-                                        'bg-amber-500 text-white'
+                                wildcardResult === 'unlucky' ? 'bg-red-500 text-white' :
+                                    'bg-amber-500 text-white'
                                 }`}
                         >
                             {wildcardResult === 'lucky' ? '🍀 Sorte Grande! +20 em tudo!' :
@@ -1138,10 +1138,10 @@ export const TerritoryManager = ({ setView, isDark, updateProgress }) => {
                                                         onClick={() => canAfford && handleBuyCard(card)}
                                                         disabled={!canAfford}
                                                         className={`w-full p-4 rounded-2xl border text-left transition-all relative overflow-hidden group ${canAfford
-                                                                ? isDark
-                                                                    ? `bg-slate-800/60 border-${rarity.color}-500/30 hover:border-${rarity.color}-500 hover:bg-slate-800`
-                                                                    : `bg-slate-50 border-${rarity.color}-500/30 hover:border-${rarity.color}-500 hover:bg-white`
-                                                                : 'opacity-50 cursor-not-allowed bg-slate-800/20 border-slate-700/20'
+                                                            ? isDark
+                                                                ? `bg-slate-800/60 border-${rarity.color}-500/30 hover:border-${rarity.color}-500 hover:bg-slate-800`
+                                                                : `bg-slate-50 border-${rarity.color}-500/30 hover:border-${rarity.color}-500 hover:bg-white`
+                                                            : 'opacity-50 cursor-not-allowed bg-slate-800/20 border-slate-700/20'
                                                             } ${rarity.glow && canAfford ? `shadow-lg ${rarity.glow}` : ''}`}
                                                         whileHover={canAfford ? { scale: 1.02 } : {}}
                                                         whileTap={canAfford ? { scale: 0.98 } : {}}
@@ -1169,9 +1169,9 @@ export const TerritoryManager = ({ setView, isDark, updateProgress }) => {
                                                                 <div className="flex items-center gap-2 mb-1">
                                                                     <span className="text-sm font-black truncate">{card.name}</span>
                                                                     <span className={`text-[8px] font-bold uppercase px-2 py-0.5 rounded-full flex-shrink-0 ${card.rarity === 'legendary' ? 'bg-amber-500/20 text-amber-500' :
-                                                                            card.rarity === 'epic' ? 'bg-purple-500/20 text-purple-500' :
-                                                                                card.rarity === 'rare' ? 'bg-blue-500/20 text-blue-500' :
-                                                                                    'bg-slate-500/20 text-slate-500'
+                                                                        card.rarity === 'epic' ? 'bg-purple-500/20 text-purple-500' :
+                                                                            card.rarity === 'rare' ? 'bg-blue-500/20 text-blue-500' :
+                                                                                'bg-slate-500/20 text-slate-500'
                                                                         }`}>
                                                                         {rarity.label}
                                                                     </span>
@@ -1363,10 +1363,10 @@ export const TerritoryManager = ({ setView, isDark, updateProgress }) => {
                                     <motion.div
                                         key={i}
                                         className={`h-2 rounded-full transition-all ${i === briefingStep
-                                                ? 'w-8 bg-gradient-to-r from-indigo-500 to-violet-500'
-                                                : i < briefingStep
-                                                    ? 'w-2 bg-indigo-500/50'
-                                                    : 'w-2 bg-slate-700'
+                                            ? 'w-8 bg-gradient-to-r from-indigo-500 to-violet-500'
+                                            : i < briefingStep
+                                                ? 'w-2 bg-indigo-500/50'
+                                                : 'w-2 bg-slate-700'
                                             }`}
                                         animate={i === briefingStep ? {
                                             scale: [1, 1.2, 1]
@@ -1434,15 +1434,14 @@ export const TerritoryManager = ({ setView, isDark, updateProgress }) => {
                                             animate={{ opacity: 1, x: 0 }}
                                             transition={{ delay: idx * 0.15 }}
                                             onClick={() => setPreviewGovernor(isPreview ? null : gov)}
-                                            className={`relative overflow-hidden rounded-[2rem] border cursor-pointer transition-all duration-300 ${
-                                                isPreview
-                                                    ? isDark
-                                                        ? 'border-white/30 shadow-2xl scale-[1.01]'
-                                                        : 'border-slate-400 shadow-2xl scale-[1.01]'
-                                                    : isDark
-                                                        ? 'border-slate-800 hover:border-slate-600'
-                                                        : 'border-slate-200 hover:border-slate-300'
-                                            } ${isDark ? 'bg-slate-900' : 'bg-white'}`}
+                                            className={`relative overflow-hidden rounded-[2rem] border cursor-pointer transition-all duration-300 ${isPreview
+                                                ? isDark
+                                                    ? 'border-white/30 shadow-2xl scale-[1.01]'
+                                                    : 'border-slate-400 shadow-2xl scale-[1.01]'
+                                                : isDark
+                                                    ? 'border-slate-800 hover:border-slate-600'
+                                                    : 'border-slate-200 hover:border-slate-300'
+                                                } ${isDark ? 'bg-slate-900' : 'bg-white'}`}
                                         >
                                             {/* Banner gradiente */}
                                             <div className={`relative bg-gradient-to-r ${gov.color} p-4 flex items-center gap-4`}>
@@ -1497,25 +1496,22 @@ export const TerritoryManager = ({ setView, isDark, updateProgress }) => {
                                                 {/* Tags de pontos fortes */}
                                                 <div className="flex flex-wrap gap-1">
                                                     {gov.strengths.map(s => (
-                                                        <span key={s} className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
-                                                            isDark ? 'bg-emerald-900/40 text-emerald-400' : 'bg-emerald-50 text-emerald-700'
-                                                        }`}>
+                                                        <span key={s} className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${isDark ? 'bg-emerald-900/40 text-emerald-400' : 'bg-emerald-50 text-emerald-700'
+                                                            }`}>
                                                             + {s}
                                                         </span>
                                                     ))}
                                                     {gov.weaknesses.map(w => (
-                                                        <span key={w} className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
-                                                            isDark ? 'bg-red-900/40 text-red-400' : 'bg-red-50 text-red-700'
-                                                        }`}>
+                                                        <span key={w} className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${isDark ? 'bg-red-900/40 text-red-400' : 'bg-red-50 text-red-700'
+                                                            }`}>
                                                             − {w}
                                                         </span>
                                                     ))}
                                                 </div>
 
                                                 {/* Passiva */}
-                                                <div className={`flex items-center gap-2 text-xs px-3 py-2 rounded-xl ${
-                                                    isDark ? 'bg-violet-900/30 text-violet-300' : 'bg-violet-50 text-violet-700'
-                                                }`}>
+                                                <div className={`flex items-center gap-2 text-xs px-3 py-2 rounded-xl ${isDark ? 'bg-violet-900/30 text-violet-300' : 'bg-violet-50 text-violet-700'
+                                                    }`}>
                                                     <Sparkles size={14} />
                                                     <span className="font-bold">Passiva:</span>
                                                     <span>{gov.passive.label}</span>
@@ -1532,21 +1528,18 @@ export const TerritoryManager = ({ setView, isDark, updateProgress }) => {
                                                             className="overflow-hidden space-y-3"
                                                         >
                                                             {/* Descrição */}
-                                                            <p className={`text-xs leading-relaxed ${
-                                                                isDark ? 'text-slate-300' : 'text-slate-600'
-                                                            }`}>
+                                                            <p className={`text-xs leading-relaxed ${isDark ? 'text-slate-300' : 'text-slate-600'
+                                                                }`}>
                                                                 {gov.description}
                                                             </p>
 
                                                             {/* Fatos históricos */}
                                                             <div className="space-y-1">
-                                                                <span className={`text-[10px] font-black uppercase tracking-wider ${
-                                                                    isDark ? 'text-slate-500' : 'text-slate-400'
-                                                                }`}>Feitos do Governo</span>
+                                                                <span className={`text-[10px] font-black uppercase tracking-wider ${isDark ? 'text-slate-500' : 'text-slate-400'
+                                                                    }`}>Feitos do Governo</span>
                                                                 {gov.historicalFacts.map((fact, i) => (
-                                                                    <div key={i} className={`flex items-start gap-2 text-xs ${
-                                                                        isDark ? 'text-slate-400' : 'text-slate-500'
-                                                                    }`}>
+                                                                    <div key={i} className={`flex items-start gap-2 text-xs ${isDark ? 'text-slate-400' : 'text-slate-500'
+                                                                        }`}>
                                                                         <CheckCircle2 size={12} className="text-emerald-500 mt-0.5 flex-shrink-0" />
                                                                         <span>{fact}</span>
                                                                     </div>
@@ -1554,12 +1547,10 @@ export const TerritoryManager = ({ setView, isDark, updateProgress }) => {
                                                             </div>
 
                                                             {/* Bônus iniciais */}
-                                                            <div className={`p-3 rounded-xl space-y-1 ${
-                                                                isDark ? 'bg-slate-800/50' : 'bg-slate-50'
-                                                            }`}>
-                                                                <span className={`text-[10px] font-black uppercase tracking-wider ${
-                                                                    isDark ? 'text-slate-500' : 'text-slate-400'
-                                                                }`}>Bônus Iniciais</span>
+                                                            <div className={`p-3 rounded-xl space-y-1 ${isDark ? 'bg-slate-800/50' : 'bg-slate-50'
+                                                                }`}>
+                                                                <span className={`text-[10px] font-black uppercase tracking-wider ${isDark ? 'text-slate-500' : 'text-slate-400'
+                                                                    }`}>Bônus Iniciais</span>
                                                                 <div className="flex flex-wrap gap-2">
                                                                     {Object.entries(gov.statBonuses).map(([key, val]) => {
                                                                         if (val === 0) return null;
@@ -1789,7 +1780,7 @@ export const TerritoryManager = ({ setView, isDark, updateProgress }) => {
                                             )}
                                         </div>
 
-                                  
+
 
                                         {/* Recentemente usadas */}
                                         <div className="mt-3 text-xs font-black uppercase text-slate-400 px-2">Usadas</div>
@@ -1856,8 +1847,8 @@ export const TerritoryManager = ({ setView, isDark, updateProgress }) => {
                                             initial={{ x: -20, opacity: 0 }}
                                             animate={{ x: 0, opacity: 1 }}
                                             className={`p-5 rounded-2xl flex items-center gap-3 border-l-4 shadow-lg backdrop-blur-xl relative overflow-hidden ${activeAlert.type === 'danger'
-                                                    ? 'bg-red-500/20 border-red-500 text-red-500'
-                                                    : 'bg-amber-500/20 border-amber-500 text-amber-500'
+                                                ? 'bg-red-500/20 border-red-500 text-red-500'
+                                                : 'bg-amber-500/20 border-amber-500 text-amber-500'
                                                 }`}
                                         >
                                             {/* Efeito de pulso de fundo */}
@@ -1973,8 +1964,8 @@ export const TerritoryManager = ({ setView, isDark, updateProgress }) => {
                                                         <div
                                                             key={key}
                                                             className={`p-3 rounded-xl ${value > 0
-                                                                    ? `bg-${colors[key]}-500/10 border border-${colors[key]}-500/30`
-                                                                    : 'bg-red-500/10 border border-red-500/30'
+                                                                ? `bg-${colors[key]}-500/10 border border-${colors[key]}-500/30`
+                                                                : 'bg-red-500/10 border border-red-500/30'
                                                                 }`}
                                                         >
                                                             <div className={`text-xs font-bold mb-1 ${value > 0 ? `text-${colors[key]}-500` : 'text-red-500'
@@ -2183,26 +2174,31 @@ export const TerritoryManager = ({ setView, isDark, updateProgress }) => {
                 </AnimatePresence>
             </main>
 
-            {/* Floating shop FAB — fixed and guaranteed on top (high z-index) */}
-            {/* Persistent map-road (bottom) */}
-            <MapRoad totalTurns={MANDATE_TURNS} currentTurn={turn} timelineEvents={timelineEvents} statsHistory={statsHistory} isDark={isDark} />
+            {/* MapRoad + loja: somente quando o jogo começou (briefing & seleção ocultos) */}
+            {!showBriefing && !showGovernorSelect && (
+                <>
+                    {/* Persistent map-road (bottom) */}
+                    <MapRoad totalTurns={MANDATE_TURNS} currentTurn={turn} timelineEvents={timelineEvents} statsHistory={statsHistory} isDark={isDark} />
 
-            <motion.button
-                onClick={() => { setShowShop(s => !s); setShowInventory(false); setShowFullHeader(false); }}
-                aria-label="Abrir loja"
-                aria-expanded={showShop}
-                title="Loja de Cartas"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                whileTap={{ scale: 0.96 }}
-                style={{ right: '1rem', bottom: showShop ? 'calc(env(safe-area-inset-bottom, 12px) + 190px)' : 'calc(env(safe-area-inset-bottom, 12px) + 117px)', zIndex: 9999, pointerEvents: 'auto' }}
-                className="fixed w-16 h-16 rounded-full bg-violet-600 text-white shadow-2xl flex items-center justify-center ring-1 ring-inset ring-black/10 focus:outline-none focus:ring-2 focus:ring-violet-300 transition-all duration-200"
-            >
-                <div className="relative pointer-events-none">
-                    <ShoppingBag size={20} />
-                    <span className="absolute -top-2 -right-2 inline-flex items-center justify-center text-[11px] font-bold px-2 py-0.5 rounded-full bg-white text-violet-600 border border-white/20 pointer-events-auto">{shopCards.length}/{shopSlots}</span>
-                </div>
-            </motion.button>
+                    {/* Floating shop FAB — fixed and guaranteed on top (high z-index) */}
+                    <motion.button
+                        onClick={() => { setShowShop(s => !s); setShowInventory(false); setShowFullHeader(false); }}
+                        aria-label="Abrir loja"
+                        aria-expanded={showShop}
+                        title="Loja de Cartas"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        whileTap={{ scale: 0.96 }}
+                        style={{ right: '1rem', bottom: showShop ? 'calc(env(safe-area-inset-bottom, 12px) + 190px)' : 'calc(env(safe-area-inset-bottom, 12px) + 117px)', zIndex: 9999, pointerEvents: 'auto' }}
+                        className="fixed w-16 h-16 rounded-full bg-violet-600 text-white shadow-2xl flex items-center justify-center ring-1 ring-inset ring-black/10 focus:outline-none focus:ring-2 focus:ring-violet-300 transition-all duration-200"
+                    >
+                        <div className="relative pointer-events-none">
+                            <ShoppingBag size={20} />
+                            <span className="absolute -top-2 -right-2 inline-flex items-center justify-center text-[11px] font-bold px-2 py-0.5 rounded-full bg-white text-violet-600 border border-white/20 pointer-events-auto">{shopCards.length}/{shopSlots}</span>
+                        </div>
+                    </motion.button>
+                </>
+            )}
 
         </div>
     );

@@ -1040,7 +1040,6 @@ export const getGameOverMessage = (stats) => {
   return "Fim de mandato alcançado!";
 };
 
-// --- DIFICULDADES (presets e helpers) ---
 export const DIFFICULTY_PRESETS = {
   easy: {
     label: 'Fácil',
@@ -1088,7 +1087,6 @@ export const getDifficultyModifiers = (difficulty = 'medium') => {
   return DIFFICULTY_PRESETS[difficulty] || DIFFICULTY_PRESETS.medium;
 };
 
-// Escala um objeto "impact" ({ economy, society, environment }) segundo a dificuldade
 export const scaleImpactByDifficulty = (impact = {}, difficulty = 'medium') => {
   const m = getDifficultyModifiers(difficulty).impactMultiplier || 1;
   return {
@@ -1098,7 +1096,6 @@ export const scaleImpactByDifficulty = (impact = {}, difficulty = 'medium') => {
   };
 };
 
-// Ajusta stats iniciais (ex.: capital político) conforme dificuldade
 export const applyDifficultyToInitialStats = (baseStats = {}, difficulty = 'medium') => {
   const mods = getDifficultyModifiers(difficulty);
   return {
