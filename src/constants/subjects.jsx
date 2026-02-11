@@ -3638,6 +3638,520 @@ export const SUBJECTS = [
         videoPlaylist: 'https://www.youtube.com/playlist?list=PLTPg64KdGgYhHjvQvQvQvQvQvQvQvQvQv'
     },
     {
+        id: 'cultura-baiana',
+        title: 'Cultura Popular Baiana',
+        description: 'Práticas, saberes e expressões populares da Bahia: festas, culinária, música, religiosidade e ofícios tradicionais.',
+        iconName: 'Music',
+        category: 'Cultura',
+        learningObjective: 'Reconhecer, valorar e analisar práticas da cultura popular baiana em seus contextos histórico‑sociais.',
+        xp: 600,
+        questions: [
+            {
+                id: 'cb-001',
+                q: 'Qual prato é tradicionalmente vendido pelas baianas nas ruas de Salvador e tem origem africana?',
+                a: ['Feijoada', 'Acarajé', 'Churrasco', 'Cuscuz paulista'],
+                correct: 1,
+                difficulty: 'easy',
+                bloomLevel: 'Conhecer',
+                skillCode: 'DCRB-CUL-01',
+                explanation: 'O acarajé, feito de feijão-fradinho e frito no óleo-de-dendê, tem origem iorubá e é símbolo da culinária de rua baiana.'
+            },
+            {
+                id: 'cb-002',
+                q: 'Qual ingrediente dá cor e sabor característicos a pratos como o vatapá e o caruru?',
+                a: ['Açafrão', 'Azeite-de-dendê', 'Leite de coco', 'Pimenta-do-reino'],
+                correct: 1,
+                difficulty: 'easy',
+                bloomLevel: 'Conhecer',
+                skillCode: 'DCRB-CUL-02',
+                explanation: 'O azeite-de-dendê (óleo de palma) é fundamental na culinária afro-baiana, conferindo cor e sabor marcantes.'
+            },
+            {
+                id: 'cb-003',
+                q: 'Quem é amplamente considerado um dos maiores compositores ligados à cultura musical baiana, conhecido por canções sobre o mar e o litoral?',
+                a: ['Dorival Caymmi', 'Tom Jobim', 'Chico Buarque', 'Pixinguinha'],
+                correct: 0,
+                difficulty: 'easy',
+                bloomLevel: 'Conhecer',
+                skillCode: 'DCRB-CUL-03',
+                explanation: 'Dorival Caymmi construiu um repertório que celebra pescadores, praias e modos de vida do litoral baiano.'
+            },
+            {
+                id: 'cb-004',
+                q: 'O que é o samba de roda do Recôncavo Baiano, reconhecido pela UNESCO como patrimônio imaterial?',
+                a: ['Uma dança de salão moderna', 'Uma manifestação comunitária de música, canto e roda de dança', 'Um gênero literário', 'Um tipo de artesanato'],
+                correct: 1,
+                difficulty: 'easy',
+                bloomLevel: 'Compreender',
+                skillCode: 'DCRB-CUL-04',
+                explanation: 'O samba de roda reúne canto, percussão e dança em círculos comunitários; foi inscrito pela UNESCO como patrimônio imaterial.'
+            },
+            {
+                id: 'cb-005',
+                q: 'Qual instrumento de percussão é central em rodas de samba e em cerimônias de candomblé?',
+                a: ['Atabaque', 'Piano', 'Violino', 'Flauta'],
+                correct: 0,
+                difficulty: 'easy',
+                bloomLevel: 'Conhecer',
+                skillCode: 'DCRB-CUL-05',
+                explanation: 'O atabaque é um tambor de origem africana usado tanto em manifestações religiosas quanto em vários estilos musicais baianos.'
+            },
+            {
+                id: 'cb-006',
+                q: 'Qual festa popular baiana combina elementos católicos e afro-brasileiros com grande participação pública em Salvador?',
+                a: ['Festa do Divino', 'Lavagem do Bonfim', 'Festa das Flores', 'Festa de Reis'],
+                correct: 1,
+                difficulty: 'easy',
+                bloomLevel: 'Compreender',
+                skillCode: 'DCRB-CUL-06',
+                explanation: 'A Lavagem do Bonfim mistura devoção católica e rituais afro-brasileiros, atraindo grande participação popular em Salvador.'
+            },
+            {
+                id: 'cb-007',
+                q: 'O que representam as fitas do Senhor do Bonfim que as pessoas amarram nos pulsos?',
+                a: ['Pedidos e promessas de fé', 'Símbolo de status econômico', 'Documento de identidade', 'Mapa turístico'],
+                correct: 0,
+                difficulty: 'easy',
+                bloomLevel: 'Compreender',
+                skillCode: 'DCRB-CUL-07',
+                explanation: 'As fitas são amarradas como pedidos ou graças; ao serem cortadas, acredita-se que o desejo será atendido.'
+            },
+            {
+                id: 'cb-008',
+                q: 'Qual bloco-afro nascido em Salvador é conhecido por promover orgulho negro e inovação rítmica no Carnaval?',
+                a: ['Olodum', 'Mangueira', 'Portela', 'Galo da Madrugada'],
+                correct: 0,
+                difficulty: 'easy',
+                bloomLevel: 'Conhecer',
+                skillCode: 'DCRB-CUL-08',
+                explanation: 'O Olodum, criado em Salvador, combina ativismo cultural com forte identidade rítmica e visual no Carnaval.'
+            },
+            {
+                id: 'cb-009',
+                q: 'Qual termo descreve o gênero musical que mistura ritmos afro-brasileiros, reggae e samba e foi central no Carnaval baiano?',
+                a: ['Samba-reggae', 'Bossa nova', 'Frevo', 'Xote'],
+                correct: 0,
+                difficulty: 'easy',
+                bloomLevel: 'Conhecer',
+                skillCode: 'DCRB-CUL-09',
+                explanation: 'O samba-reggae surgiu em Salvador na interseção entre samba e reggae, promovendo novos arranjos rítmicos no Carnaval.'
+            },
+            {
+                id: 'cb-010',
+                q: 'Quem é Iemanjá na cosmologia afro-brasileira frequentemente celebrada na Bahia?',
+                a: ['Orixá das águas e do mar', 'Deus cristão', 'Herói histórico', 'Espécie de planta'],
+                correct: 0,
+                difficulty: 'easy',
+                bloomLevel: 'Conhecer',
+                skillCode: 'DCRB-CUL-10',
+                explanation: 'Iemanjá é uma orixá das águas, muito cultuada em festas e oferendas costeiras na Bahia e em outras regiões.'
+            },
+            {
+                id: 'cb-011',
+                q: 'No candomblé, como são chamados os locais religiosos onde ocorrem cultos e festas?',
+                a: ['Templos católicos', 'Terreiros', 'Salões de baile', 'Museus'],
+                correct: 1,
+                difficulty: 'easy',
+                bloomLevel: 'Conhecer',
+                skillCode: 'DCRB-CUL-11',
+                explanation: 'Os terreiros são espaços sagrados do candomblé onde se realizam cerimônias, cânticos e danças ritualísticas.'
+            },
+            {
+                id: 'cb-012',
+                q: 'Qual é o papel do(a) ialorixá (ou mãe de santo) em muitas comunidades afro-brasileiras?',
+                a: ['Liderança religiosa e manutenção de rituais', 'Prefeito municipal', 'Agricultor', 'Músico profissional'],
+                correct: 0,
+                difficulty: 'medium',
+                bloomLevel: 'Compreender',
+                skillCode: 'DCRB-CUL-12',
+                explanation: 'A ialorixá é autoridade religiosa que conduz cerimônias, transmite saberes e orienta a comunidade no candomblé.'
+            },
+            {
+                id: 'cb-013',
+                q: 'O que significa o sincretismo religioso presente em muitas festas baianas?',
+                a: ['Mistura de elementos religiosos africanos e católicos', 'Separação total entre crenças', 'Adoção apenas de rituais europeus', 'Abolição de festas populares'],
+                correct: 0,
+                difficulty: 'medium',
+                bloomLevel: 'Analisar',
+                skillCode: 'DCRB-CUL-13',
+                explanation: 'O sincretismo resultou em práticas que mesclam santos católicos e orixás africanos como estratégia de resistência cultural.'
+            },
+            {
+                id: 'cb-014',
+                q: 'Qual cerimônia baiana é conhecida por usar roupas brancas, oferendas e cantos em iorubá?',
+                a: ['Festa junina', 'Candomblé', 'Carnaval de trios elétricos', 'Festa do Divino'],
+                correct: 1,
+                difficulty: 'medium',
+                bloomLevel: 'Conhecer',
+                skillCode: 'DCRB-CUL-14',
+                explanation: 'O candomblé utiliza cantigas em iorubá, roupas cerimoniais e oferendas em rituais que celebram orixás.'
+            },
+            {
+                id: 'cb-015',
+                q: 'Qual cidade do Recôncavo baiano é historicamente associada a festas afro-brasileiras e quilombolas?',
+                a: ['Cachoeira', 'Feira de Santana', 'Vitória da Conquista', 'Ilhéus'],
+                correct: 0,
+                difficulty: 'medium',
+                bloomLevel: 'Conhecer',
+                skillCode: 'DCRB-CUL-15',
+                explanation: 'Cachoeira, no Recôncavo, é um polo histórico de manifestações culturais afro-brasileiras e resistência quilombola.'
+            },
+            {
+                id: 'cb-016',
+                q: 'O que é o axé, no contexto cultural baiano?',
+                a: ['Força espiritual ligada à bênção e energia', 'Um tipo de comida', 'Instrumento musical', 'Traje tradicional'],
+                correct: 0,
+                difficulty: 'medium',
+                bloomLevel: 'Compreender',
+                skillCode: 'DCRB-CUL-16',
+                explanation: 'Axé é uma noção de energia e poder espiritual presente em cultos afro-brasileiros e na música popular baiana.'
+            },
+            {
+                id: 'cb-017',
+                q: 'Qual escritor baiano é conhecido por retratar a vida popular da Bahia em romances como "Gabriela, Cravo e Canela"?',
+                a: ['Jorge Amado', 'Machado de Assis', 'Guimarães Rosa', 'Graciliano Ramos'],
+                correct: 0,
+                difficulty: 'easy',
+                bloomLevel: 'Conhecer',
+                skillCode: 'DCRB-CUL-17',
+                explanation: 'Jorge Amado descreveu o cotidiano, as festas e os conflitos sociais da Bahia, tornando-se referência literária.'
+            },
+            {
+                id: 'cb-018',
+                q: 'Qual dança de origem africana foi incorporada às celebrações populares e às rodas culturais na Bahia?',
+                a: ['Samba de roda', 'Polca', 'Waltz', 'Tango'],
+                correct: 0,
+                difficulty: 'easy',
+                bloomLevel: 'Conhecer',
+                skillCode: 'DCRB-CUL-18',
+                explanation: 'O samba de roda, com canto e roda coletiva, tem raízes africanas e forte presença no Recôncavo e na cultura baiana.'
+            },
+            {
+                id: 'cb-019',
+                q: 'Qual festa rural (com quadrilhas e comidas típicas) é muito celebrada no interior da Bahia durante junho?',
+                a: ['Festa Junina / São João', 'Carnaval de rua', 'Festa do Divino', 'Festival de cinema'],
+                correct: 0,
+                difficulty: 'easy',
+                bloomLevel: 'Conhecer',
+                skillCode: 'DCRB-CUL-19',
+                explanation: 'As festas juninas (São João) reúnem quadrilhas, comidas típicas e celebrações católicas adaptadas à cultura local.'
+            },
+            {
+                id: 'cb-020',
+                q: 'O que caracteriza a indumentária tradicional da baiana de acarajé?',
+                a: ['Roupas brancas, turbante e colares de contas', 'Ternos escuros', 'Uniforme escolar', 'Traje indígena'],
+                correct: 0,
+                difficulty: 'easy',
+                bloomLevel: 'Conhecer',
+                skillCode: 'DCRB-CUL-20',
+                explanation: 'A baiana de acarajé usa saia rodada, lenço na cabeça e colares que remetem a tradições afro-brasileiras.'
+            },
+            {
+                id: 'cb-021',
+                q: 'Qual prato baiano é feito com pão, camarão e um creme temperado, frequentemente servido em festivais?',
+                a: ['Vatapá', 'Feijoada', 'Moqueca capixaba', 'Arroz carreteiro'],
+                correct: 0,
+                difficulty: 'medium',
+                bloomLevel: 'Conhecer',
+                skillCode: 'DCRB-CUL-21',
+                explanation: 'O vatapá é um creme à base de pão, camarão, dendê e temperos, presente na culinária baiana e em festas.'
+            },
+            {
+                id: 'cb-022',
+                q: 'O que é o caruru na culinária baiana?',
+                a: ['Guarnição à base de quiabo e camarão', 'Um tipo de dança', 'Instrumento musical', 'Vestimenta cerimonial'],
+                correct: 0,
+                difficulty: 'medium',
+                bloomLevel: 'Conhecer',
+                skillCode: 'DCRB-CUL-22',
+                explanation: 'O caruru é um prato feito com quiabo, castanhas, camarão e dendê, comum em oferendas e refeições festivas.'
+            },
+            {
+                id: 'cb-023',
+                q: 'Qual é a origem cultural do acarajé?',
+                a: ['Tradição iorubá na diáspora africana', 'Culinária portuguesa', 'Influência japonesa', 'Herança indígena exclusiva'],
+                correct: 0,
+                difficulty: 'medium',
+                bloomLevel: 'Analisar',
+                skillCode: 'DCRB-CUL-23',
+                explanation: 'O acarajé deriva de práticas alimentares iorubás trazidas ao Brasil por povos africanos escravizados.'
+            },
+            {
+                id: 'cb-024',
+                q: 'Qual elemento econômico-cultural é associado às baianas vendedoras de acarajé?',
+                a: ['Economia popular e autonomia feminina', 'Monopólio industrial', 'Exportação em massa', 'Setor público'],
+                correct: 0,
+                difficulty: 'medium',
+                bloomLevel: 'Compreender',
+                skillCode: 'DCRB-CUL-24',
+                explanation: 'As baianas representam empreendedorismo popular e papéis de liderança econômica entre mulheres em espaços urbanos.'
+            },
+            {
+                id: 'cb-025',
+                q: 'Qual movimento musical baiano é associado a bandas como Timbalada e pesquisa rítmica de percussão?',
+                a: ['Axé e percussão popular', 'Bossa nova', 'Forró pé-de-serra', 'Choro'],
+                correct: 0,
+                difficulty: 'medium',
+                bloomLevel: 'Conhecer',
+                skillCode: 'DCRB-CUL-25',
+                explanation: 'Bandas como Timbalada inovaram ao validar percussão e ritmos afro-brasileiros no cenário pop baiano.'
+            },
+            {
+                id: 'cb-026',
+                q: 'Qual artista baiano foi líder importante na Tropicália e também crítico social?',
+                a: ['Caetano Veloso', 'Roberto Carlos', 'Belchior', 'Luiz Gonzaga'],
+                correct: 0,
+                difficulty: 'easy',
+                bloomLevel: 'Conhecer',
+                skillCode: 'DCRB-CUL-26',
+                explanation: 'Caetano Veloso, natural de Santo Amaro (BA), foi central na Tropicália e na divulgação internacional da música brasileira.'
+            },
+            {
+                id: 'cb-027',
+                q: 'Qual expressão musical reúne percussão de origem africana com elementos de reggae e samba em Salvador?',
+                a: ['Samba-reggae', 'Xote', 'Maracatu', 'Forró-eletrônico'],
+                correct: 0,
+                difficulty: 'medium',
+                bloomLevel: 'Conhecer',
+                skillCode: 'DCRB-CUL-27',
+                explanation: 'O samba-reggae é uma fusão rítmica que emergiu em Salvador e se relaciona a blocos-afro e movimentos culturais.'
+            },
+            {
+                id: 'cb-028',
+                q: 'Qual movimento cultural de Salvador valorizou estética negra e protagonismo nos anos 1970/80?',
+                a: ['Ilê Aiyê e o movimento de afirmação negra', 'Tropicália', 'Movimento modernista paulista', 'Bossa nova'],
+                correct: 0,
+                difficulty: 'medium',
+                bloomLevel: 'Compreender',
+                skillCode: 'DCRB-CUL-28',
+                explanation: 'Ilê Aiyê foi um bloco-afro que promoveu orgulho racial e políticas culturais centradas na população negra.'
+            },
+            {
+                id: 'cb-029',
+                q: 'Qual cantora baiana é conhecida por unir axé, samba e repertório popular e por grande presença no Carnaval?',
+                a: ['Ivete Sangalo', 'Marisa Monte', 'Adriana Calcanhotto', 'Anitta'],
+                correct: 0,
+                difficulty: 'easy',
+                bloomLevel: 'Conhecer',
+                skillCode: 'DCRB-CUL-29',
+                explanation: 'Ivete Sangalo, de Juazeiro (BA), tornou-se um ícone do axé e presença marcante nas festas populares.'
+            },
+            {
+                id: 'cb-030',
+                q: 'O que é um "trio elétrico" no contexto do Carnaval baiano?',
+                a: ['Caminhão-palco com música ao vivo que percorre as ruas', 'Banda de sopro estacionária', 'Ritual religioso', 'Prato típico'],
+                correct: 0,
+                difficulty: 'easy',
+                bloomLevel: 'Conhecer',
+                skillCode: 'DCRB-CUL-30',
+                explanation: 'O trio elétrico é um caminhão com palco onde artistas e público se deslocam pelas ruas durante o Carnaval.'
+            },
+            {
+                id: 'cb-031',
+                q: 'Qual ritmo/manifestação é frequentemente associada ao estado do Carnaval de Salvador e ao uso intensivo de percussão?',
+                a: ['Samba de roda e samba-reggae', 'Baião', 'Xaxado', 'Fado'],
+                correct: 0,
+                difficulty: 'medium',
+                bloomLevel: 'Aplicar',
+                skillCode: 'DCRB-CUL-31',
+                explanation: 'Samba de roda e samba-reggae são manifestações que enfatizam percussão e participação coletiva no Carnaval baiano.'
+            },
+            {
+                id: 'cb-032',
+                q: 'Qual bloco/agrupamento é conhecido por incorporar elementos de percussão afro-brasileira e política cultural em Salvador?',
+                a: ['Olodum', 'Bonde do Tietê', 'G.R.E.S. Beija-Flor', 'Bloco do Urso'],
+                correct: 0,
+                difficulty: 'medium',
+                bloomLevel: 'Compreender',
+                skillCode: 'DCRB-CUL-32',
+                explanation: 'Olodum misturou ativismo cultural com ritmo e estética negra, influenciando música e política cultural.'
+            },
+            {
+                id: 'cb-033',
+                q: 'O que distingue o maracatu (originalmente pernambucano) das manifestações baianas como o samba de roda?',
+                a: ['Maracatu tem coro e cortejo com origem em cortejo de coroação; não é originário da Bahia', 'É idêntico ao samba de roda', 'É uma dança indígena', 'É uma festa religiosa católica'],
+                correct: 0,
+                difficulty: 'hard',
+                bloomLevel: 'Analisar',
+                skillCode: 'DCRB-CUL-33',
+                explanation: 'Maracatu tem raízes em Pernambuco e difere em estrutura rítmica e cerimonial do samba de roda baiano.'
+            },
+            {
+                id: 'cb-034',
+                q: 'Qual é a função social dos blocos-afro no contexto urbano de Salvador?',
+                a: ['Afirmação identitária e valorização da cultura negra', 'Divulgação de moda importada', 'Apoio exclusivo a elites econômicas', 'Competição esportiva'],
+                correct: 0,
+                difficulty: 'medium',
+                bloomLevel: 'Avaliar',
+                skillCode: 'DCRB-CUL-34',
+                explanation: 'Blocos-afro promovem autoestima coletiva, memória histórica e oportunidades culturais para populações negras.'
+            },
+            {
+                id: 'cb-035',
+                q: 'Qual festa de rua baiana transformou a paisagem urbana durante o Carnaval, atraindo multidões e trios elétricos?',
+                a: ['Carnaval de Salvador', 'Festa de Iemanjá', 'Semana Santa', 'Festa do Padroeiro local'],
+                correct: 0,
+                difficulty: 'easy',
+                bloomLevel: 'Conhecer',
+                skillCode: 'DCRB-CUL-35',
+                explanation: 'O Carnaval de Salvador é conhecido por trios elétricos, blocos e enorme participação popular nas ruas.'
+            },
+            {
+                id: 'cb-036',
+                q: 'Qual prática artesanal é típica em partes do Recôncavo e envolve trabalho com fios e bilros?',
+                a: ['Renda de bilro', 'Marcenaria', 'Metalurgia', 'Tecelagem industrial'],
+                correct: 0,
+                difficulty: 'medium',
+                bloomLevel: 'Conhecer',
+                skillCode: 'DCRB-CUL-36',
+                explanation: 'A renda de bilro é técnica de filigrana têxtil presente em diversas comunidades tradicionais do Nordeste, inclusive na Bahia.'
+            },
+            {
+                id: 'cb-037',
+                q: 'Quem foi Mestre Pastinha e qual a sua ligação com a cultura baiana?',
+                a: ['Referência da Capoeira Angola, com forte atuação na Bahia', 'Político local', 'Cantor de axé', 'Escultor famoso'],
+                correct: 0,
+                difficulty: 'medium',
+                bloomLevel: 'Conhecer',
+                skillCode: 'DCRB-CUL-37',
+                explanation: 'Mestre Pastinha foi mestre de Capoeira Angola e importante preservador dessa tradição afro-brasileira na Bahia.'
+            },
+            {
+                id: 'cb-038',
+                q: 'Qual papel têm as quadrilhas juninas nas festas de interior da Bahia?',
+                a: ['Recriar danças coletivas com cortejos e encenação popular', 'Cerimônia religiosa exclusiva', 'Desfile militar', 'Competição de culinária'],
+                correct: 0,
+                difficulty: 'easy',
+                bloomLevel: 'Conhecer',
+                skillCode: 'DCRB-CUL-38',
+                explanation: 'As quadrilhas são encenações dançadas que fazem parte das festas juninas, misturando tradição e celebração comunitária.'
+            },
+            {
+                id: 'cb-039',
+                q: 'Qual poeta baiano é conhecido por versos abolicionistas e participação em movimentos sociais do século XIX?',
+                a: ['Castro Alves', 'Carlos Drummond de Andrade', 'Mário de Andrade', 'Fernando Pessoa'],
+                correct: 0,
+                difficulty: 'medium',
+                bloomLevel: 'Conhecer',
+                skillCode: 'DCRB-CUL-39',
+                explanation: 'Castro Alves foi poeta baiano cuja obra denunciou a escravidão e influenciou movimentos por liberdade.'
+            },
+            {
+                id: 'cb-040',
+                q: 'Qual é a relação entre turismo e preservação cultural em espaços como o Pelourinho?',
+                a: ['Turismo pode financiar preservação, mas também causar banalização se mal gerido', 'Turismo apenas destrói cultura', 'Não há relação', 'Turismo substitui tradições por completo'],
+                correct: 0,
+                difficulty: 'hard',
+                bloomLevel: 'Avaliar',
+                skillCode: 'DCRB-CUL-40',
+                explanation: 'O turismo pode proteger patrimônio histórico se aliado a políticas públicas; porém pode também levar à mercantilização cultural.'
+            },
+            {
+                id: 'cb-041',
+                q: 'Qual técnica artesanal é associada a esculturas e objetos de culto em comunidades afro-brasileiras da Bahia?',
+                a: ['Talha em madeira e esculturas sacras', 'Pintura a óleo em tela', 'Gravação em metal industrial', 'Serigrafia moderna'],
+                correct: 0,
+                difficulty: 'medium',
+                bloomLevel: 'Conhecer',
+                skillCode: 'DCRB-CUL-41',
+                explanation: 'A talha em madeira e a escultura popular produzem imagética ligada a orixás e devoções locais.'
+            },
+            {
+                id: 'cb-042',
+                q: 'O que é o artesanato chamado "baianas de cerâmica" frequentemente vendido como lembrança?',
+                a: ['Figuras decorativas que representem a baiana e sua vestimenta tradicional', 'Ferramenta agrícola', 'Instrumento musical', 'Mapa da cidade'],
+                correct: 0,
+                difficulty: 'easy',
+                bloomLevel: 'Conhecer',
+                skillCode: 'DCRB-CUL-42',
+                explanation: 'As baianas de cerâmica estilizadas representam a figura icônica da vendedora de acarajé e são comuns como artesanato turístico.'
+            },
+            {
+                id: 'cb-043',
+                q: 'Como o turismo comunitário pode beneficiar comunidades tradicionais no Recôncavo?',
+                a: ['Gerando renda e valorizando saberes locais quando gerido comunitariamente', 'Destruindo tradições indiscriminadamente', 'Substituindo todas as práticas por entretenimento', 'Isolando comunidades do mercado'],
+                correct: 0,
+                difficulty: 'hard',
+                bloomLevel: 'Avaliar',
+                skillCode: 'DCRB-CUL-43',
+                explanation: 'O turismo comunitário bem planejado oferece fontes de renda e promove a valorização cultural sem exploração externa.'
+            },
+            {
+                id: 'cb-044',
+                q: 'Qual material é frequentemente usado em joias e colares cerimoniais no candomblé?',
+                a: ['Contas de vidro e sementes', 'Aço inox', 'Plástico industrial', 'Papel machê'],
+                correct: 0,
+                difficulty: 'medium',
+                bloomLevel: 'Conhecer',
+                skillCode: 'DCRB-CUL-44',
+                explanation: 'Contas, búzios e sementes são usados em colares (fios) que identificam filiações a orixás no candomblé.'
+            },
+            {
+                id: 'cb-045',
+                q: 'O que foi a Conjuração Baiana (Revolta dos Búzios)?',
+                a: ['Movimento popular e multirracial do final do século XVIII que reivindicava liberdade e igualdade', 'Festival cultural anual', 'Tradição culinária', 'Um tipo de dança'],
+                correct: 0,
+                difficulty: 'hard',
+                bloomLevel: 'Conhecer',
+                skillCode: 'DCRB-CUL-45',
+                explanation: 'A Conjuração Baiana (1798) foi um movimento com demandas políticas por igualdade e fim da escravidão, com forte participação popular.'
+            },
+            {
+                id: 'cb-046',
+                q: 'Qual é a importância dos quilombos para a memória cultural baiana?',
+                a: ['Preservação de tradições afro-brasileiras e resistência histórica', 'Centros comerciais modernos', 'Resort turístico', 'Unidades industriais'],
+                correct: 0,
+                difficulty: 'medium',
+                bloomLevel: 'Compreender',
+                skillCode: 'DCRB-CUL-46',
+                explanation: 'Quilombos conservam práticas, saberes e laços comunitários de resistência à escravidão e à discriminação.'
+            },
+            {
+                id: 'cb-047',
+                q: 'Qual autor baiano escreveu sobre a cultura popular e é referência para estudos sobre identidade regional?',
+                a: ['Jorge Amado', 'Carlos Drummond de Andrade', 'Clarice Lispector', 'Monteiro Lobato'],
+                correct: 0,
+                difficulty: 'easy',
+                bloomLevel: 'Conhecer',
+                skillCode: 'DCRB-CUL-47',
+                explanation: 'Jorge Amado escreveu obras que se tornaram referência para entender a cultura popular e a formação social baiana.'
+            },
+            {
+                id: 'cb-048',
+                q: 'Como a música de samba-reggae contribuiu para a visibilidade internacional da cultura baiana?',
+                a: ['Levando ritmos e estética negra de Salvador a públicos globais através de intercâmbios e gravações', 'Isolando a cultura local', 'Substituindo todas as tradições', 'Sem influência externa'],
+                correct: 0,
+                difficulty: 'hard',
+                bloomLevel: 'Analisar',
+                skillCode: 'DCRB-CUL-48',
+                explanation: 'Samba-reggae e blocos-afro atraíram atenção internacional, abrindo espaço para diálogos culturais e circulação artística.'
+            },
+            {
+                id: 'cb-049',
+                q: 'Que papel teve a escravidão na formação das práticas culturais baianas?',
+                a: ['Imprimiu forte influência africana nas religiões, culinária, música e organização comunitária', 'Não teve impacto', 'Foi substituída por cultura europeia sem traços africanos', 'Só influenciou arquitetura'],
+                correct: 0,
+                difficulty: 'hard',
+                bloomLevel: 'Analisar',
+                skillCode: 'DCRB-CUL-49',
+                explanation: 'A diáspora africana moldou profundamente religiões, ritmos, gastronomia e saberes populares na Bahia.'
+            },
+            {
+                id: 'cb-050',
+                q: 'Por que é importante documentar e preservar a cultura popular baiana?',
+                a: ['Protege identidades, garante direitos culturais e transmite saberes entre gerações', 'Para transformá-la em produto sem contexto', 'Apenas para turistas', 'Não é importante'],
+                correct: 0,
+                difficulty: 'easy',
+                bloomLevel: 'Avaliar',
+                skillCode: 'DCRB-CUL-50',
+                explanation: 'A documentação e preservação ajudam a manter patrimônios imateriais vivos, asseguram reconhecimento e sustentabilidade cultural.'
+            }
+        ],
+        summary: 'Módulo focado em manifestações, saberes e memórias vivas da cultura popular baiana, conectando história, arte e economia local.',
+        mindMap: 'https://exemplo.com/mindmaps/cultura-baiana.png',
+        videoPlaylist: 'https://www.youtube.com/playlist?list=PLTPg64KdGgY-cultura-baiana'
+    },
+    {
         id: 'sociologia-ba',
         title: 'Sociologia: Sociedade e Transformação',
         description: 'Análise das estruturas sociais e movimentos transformadores na Bahia.',
@@ -4661,6 +5175,828 @@ export const SUBJECTS = [
                 bloomLevel: 'Aplicar',
                 skillCode: 'DCRB-FIL-10',
                 explanation: 'Uma educação freiriana no sertão começaria com palavras geradoras como "terra", "seca", "roça", para analisar criticamente condições de vida.'
+            }
+        ],
+    },
+    {
+        id: 'cultura-musica-baiana',
+        title: 'Música Baiana',
+        description: 'Perguntas sobre gêneros, história, artistas, instrumentos e práticas musicais da Bahia (Carnaval, samba de roda, axé, blocos afro, etc.).',
+        iconName: 'Music',
+        category: 'Cultura',
+        learningObjective: 'Identificar, contextualizar e analisar elementos centrais da tradição e da cena contemporânea da música baiana.',
+        xp: 600,
+        questions: [
+            {
+                id: 'mb-001',
+                q: 'Qual artista é considerado um dos grandes nomes da música baiana e conhecido por canções sobre o mar e o litoral?',
+                a: ['Gilberto Gil', 'Dorival Caymmi', 'Carlinhos Brown', 'Caetano Veloso'],
+                correct: 1,
+                difficulty: 'easy',
+                bloomLevel: 'Conhecer',
+                skillCode: 'DCRB-MUS-01',
+                explanation: 'Dorival Caymmi é famoso por suas composições que celebram a vida do litoral e dos pescadores.'
+            },
+            {
+                id: 'mb-002',
+                q: 'O que é um trio elétrico no contexto do Carnaval de Salvador?',
+                a: ['Uma bateria de escola de samba', 'Um grande caminhão com som e palco móvel', 'Um tipo de bloco afro', 'Um instrumento de percussão'],
+                correct: 1,
+                difficulty: 'easy',
+                bloomLevel: 'Compreender',
+                skillCode: 'DCRB-MUS-02',
+                explanation: 'Trio elétrico é um caminhão/palanque móvel equipado com som e artistas que percorre o circuito do Carnaval.'
+            },
+            {
+                id: 'mb-003',
+                q: 'Qual ritmo nasceu da fusão entre samba e influências africanas marcadas por percussão pesada e groove de tempo médio?',
+                a: ['Forró', 'Samba-reggae', 'Bossa nova', 'Frevo'],
+                correct: 1,
+                difficulty: 'easy',
+                bloomLevel: 'Compreender',
+                skillCode: 'DCRB-MUS-03',
+                explanation: 'O samba-reggae mescla padrões rítmicos do samba com grooves e ênfase percussiva influenciada por ritmos africanos.'
+            },
+            {
+                id: 'mb-004',
+                q: 'Qual bloco afro é reconhecido por sua atuação cultural e política em Salvador, enfatizando a ancestralidade negra?',
+                a: ['Olodum', 'Bloco da Preta', 'Ilê Aiyê', 'Afoxé Filhos'],
+                correct: 2,
+                difficulty: 'easy',
+                bloomLevel: 'Conhecer',
+                skillCode: 'DCRB-MUS-04',
+                explanation: 'Ilê Aiyê é conhecido por promover autoestima negra e resgatar a história africana na Bahia.'
+            },
+            {
+                id: 'mb-005',
+                q: 'Que instrumento de percussão é tradicional nos terreiros e bastante presente em manifestações afro‑baianas?',
+                a: ['Berimbau', 'Atabaque', 'Pandeiro', 'Surdo'],
+                correct: 1,
+                difficulty: 'easy',
+                bloomLevel: 'Conhecer',
+                skillCode: 'DCRB-MUS-05',
+                explanation: 'O atabaque é um tambor de origem africana usado em rituais como o candomblé e em manifestações populares.'
+            },
+            {
+                id: 'mb-006',
+                q: 'Qual gênero musical teve grande explosão comercial nos anos 1990 em Salvador, combinado com performances de trio elétrico?',
+                a: ['Axé music', 'Tropicalia', 'Forró universitário', 'MPB clássica'],
+                correct: 0,
+                difficulty: 'easy',
+                bloomLevel: 'Conhecer',
+                skillCode: 'DCRB-MUS-06',
+                explanation: 'O axé tornou-se massivo nos anos 90, ganhando rádios e mídia nacional, ligado ao Carnaval e trios elétricos.'
+            },
+            {
+                id: 'mb-007',
+                q: 'Qual grupo percussivo de Salvador ficou famoso internacionalmente e ampliou a visibilidade do samba-reggae?',
+                a: ['Ilê Aiyê', 'Olodum', 'Afoxé Filhos', 'Batuqueiros do Recôncavo'],
+                correct: 1,
+                difficulty: 'easy',
+                bloomLevel: 'Conhecer',
+                skillCode: 'DCRB-MUS-07',
+                explanation: 'Olodum popularizou o samba-reggae e teve projeção internacional, inclusive em colaborações com artistas estrangeiros.'
+            },
+            {
+                id: 'mb-008',
+                q: 'O que é o samba de roda, tradição do Recôncavo Baiano?',
+                a: ['Uma variação do samba carioca para sala de concerto', 'Uma manifestação comunitária com roda de cantores, percussão e dança', 'Um gênero instrumental sem canto', 'Um estilo de MPB urbana'],
+                correct: 1,
+                difficulty: 'easy',
+                bloomLevel: 'Compreender',
+                skillCode: 'DCRB-MUS-08',
+                explanation: 'O samba de roda é uma prática coletiva de canto, dança e percussão ligada a celebrações comunitárias.'
+            },
+            {
+                id: 'mb-009',
+                q: 'Como a religiosidade afro aparece frequentemente na música baiana popular?',
+                a: ['Apenas como tema exótico', 'Como referência a orixás, toadas e símbolos culturais incorporados às letras e ritmos', 'Sem qualquer presença', 'Somente em músicas eruditas'],
+                correct: 1,
+                difficulty: 'medium',
+                bloomLevel: 'Analisar',
+                skillCode: 'DCRB-MUS-09',
+                explanation: 'Referências a orixás, toques e elementos litúrgicos são comuns em letras e ritmos de muitos artistas baianos.'
+            },
+            {
+                id: 'mb-010',
+                q: 'Quem é Carlinhos Brown dentro da cena musical baiana?',
+                a: ['Um compositor e percussionista que inovou com misturas rítmicas e trabalho comunitário', 'Um empresário de trios elétricos', 'Um escultor baiano', 'Um crítico musical'],
+                correct: 0,
+                difficulty: 'easy',
+                bloomLevel: 'Conhecer',
+                skillCode: 'DCRB-MUS-10',
+                explanation: 'Carlinhos Brown é compositor, percussionista e produtor importante na cena baiana, conhecido por inovações rítmicas e projetos sociais.'
+            },
+            {
+                id: 'mb-011',
+                q: 'Qual cidade da Bahia é núcleo histórico do samba de roda e da cultura afro‑brasileira?',
+                a: ['Feira de Santana', 'Recôncavo (ex.: Cachoeira, Santo Amaro)', 'Porto Seguro', 'Irecê'],
+                correct: 1,
+                difficulty: 'easy',
+                bloomLevel: 'Conhecer',
+                skillCode: 'DCRB-MUS-11',
+                explanation: 'Cidades do Recôncavo, como Cachoeira e Santo Amaro, são berços do samba de roda e de forte presença afro‑brasileira.'
+            },
+            {
+                id: 'mb-012',
+                q: 'Qual característica rítmica distingue o samba-reggae?',
+                a: ['Uso de levadas suaves e harmonia reduzida', 'Backbeat marcado por surdos e levadas sincopadas com influência africana', 'Tempo muito rápido como o frevo', 'Ausência de percussão'],
+                correct: 1,
+                difficulty: 'medium',
+                bloomLevel: 'Compreender',
+                skillCode: 'DCRB-MUS-12',
+                explanation: 'Samba-reggae enfatiza o backbeat e o contraste entre surdos e tambores menores, criando um groove sincopado.'
+            },
+            {
+                id: 'mb-013',
+                q: 'Que movimento cultural dos anos 60 teve diálogo com artistas baianos como Caetano e Gil?',
+                a: ['Bossa nova', 'Tropicalismo', 'Punk', 'Sertanejo'],
+                correct: 1,
+                difficulty: 'medium',
+                bloomLevel: 'Conhecer',
+                skillCode: 'DCRB-MUS-13',
+                explanation: 'O Tropicalismo incorporou influências regionais, incluindo elementos baianos, em sua crítica cultural e inovação musical.'
+            },
+            {
+                id: 'mb-014',
+                q: 'Como o trio elétrico transformou a experiência do Carnaval baiano?',
+                a: ['Diminuindo a participação popular', 'Criando um palco móvel que aproxima artistas e público nas ruas', 'Substituindo completamente os blocos tradicionais', 'Impondo música estrangeira'],
+                correct: 1,
+                difficulty: 'easy',
+                bloomLevel: 'Analisar',
+                skillCode: 'DCRB-MUS-14',
+                explanation: 'O trio elétrico permitiu shows itinerantes nas ruas, gerando grande envolvimento do público durante o Carnaval.'
+            },
+            {
+                id: 'mb-015',
+                q: 'Qual cantora baiana ganhou projeção nacional com sucesso nos anos 1990 e 2000 e mesclou axé e MPB?',
+                a: ['Ivete Sangalo', 'Elis Regina', 'Gal Costa', 'Roberta Sá'],
+                correct: 0,
+                difficulty: 'easy',
+                bloomLevel: 'Conhecer',
+                skillCode: 'DCRB-MUS-15',
+                explanation: 'Ivete Sangalo é uma das artistas baianas de maior sucesso comercial, com carreira no axé e crossover para a MPB.'
+            },
+            {
+                id: 'mb-016',
+                q: 'Qual papel social os blocos afros costumam desempenhar além da música?',
+                a: ['Apenas diversão turística', 'Ações de afirmação racial, educação e projetos comunitários', 'Concursos de fantasia', 'Eventos privados'],
+                correct: 1,
+                difficulty: 'medium',
+                bloomLevel: 'Analisar',
+                skillCode: 'DCRB-MUS-16',
+                explanation: 'Blocos como Ilê Aiyê promovem autoestima negra, educação cultural e projetos sociais nas comunidades.'
+            },
+            {
+                id: 'mb-017',
+                q: 'Que elemento marcante do axé ajudou sua difusão nacional na década de 1990?',
+                a: ['Letras eruditas', 'Produção de estúdio polida, videoclipe e forte presença em trios elétricos', 'Ritmo lento de marcha', 'Exclusão de percussão'],
+                correct: 1,
+                difficulty: 'medium',
+                bloomLevel: 'Analisar',
+                skillCode: 'DCRB-MUS-17',
+                explanation: 'A combinação de produção em estúdio, videoclipes atraentes e shows nos trios elétricos potencializou o alcance do axé.'
+            },
+            {
+                id: 'mb-018',
+                q: 'Como a capoeira dialoga com a música na Bahia?',
+                a: ['Sem qualquer relação', 'Através de cantos, toques de berimbau e literatura oral que acompanham a prática', 'Só dança, sem música', 'Apenas música instrumental'],
+                correct: 1,
+                difficulty: 'easy',
+                bloomLevel: 'Compreender',
+                skillCode: 'DCRB-MUS-18',
+                explanation: 'A capoeira é indissociável de cantos e do toque do berimbau, que orientam o jogo e os ritmos.'
+            },
+            {
+                id: 'mb-019',
+                q: 'Qual foi um impacto da industrialização cultural e do turismo em Salvador sobre a música local?',
+                a: ['Erradicação completa de tradições', 'Comercialização e maior visibilidade, mas também riscos de turistificação', 'Abolição do Carnaval', 'Isolamento cultural'],
+                correct: 1,
+                difficulty: 'medium',
+                bloomLevel: 'Analisar',
+                skillCode: 'DCRB-MUS-19',
+                explanation: 'O turismo ampliou a audiência da música baiana, mas também gerou adaptações e mercantilização de práticas tradicionais.'
+            },
+            {
+                id: 'mb-020',
+                q: 'Que ritmo de origem baiana influenciou a percussão de artistas pop nacionais e internacionais?',
+                a: ['Samba-reggae', 'Forró-pé-de-serra', 'Choro', 'Xote'],
+                correct: 0,
+                difficulty: 'medium',
+                bloomLevel: 'Compreender',
+                skillCode: 'DCRB-MUS-20',
+                explanation: 'Samba-reggae e as batidas de grupos como Olodum foram incorporadas ao pop brasileiro e usadas em colaborações internacionais.'
+            },
+            {
+                id: 'mb-021',
+                q: 'Como o call-and-response (chamada e resposta) se manifesta em tradições musicais baianas?',
+                a: ['Não existe', 'Cantilena solista seguida de resposta do coro, comum em rodas e cantos rituais', 'Só em música erudita', 'Apenas em duetos'],
+                correct: 1,
+                difficulty: 'medium',
+                bloomLevel: 'Compreender',
+                skillCode: 'DCRB-MUS-21',
+                explanation: 'A chamada e resposta aparece em cantos do samba de roda, toadas de capoeira e músicas ritualísticas.'
+            },
+            {
+                id: 'mb-022',
+                q: 'Qual compositor baiano compôs canções que se tornaram símbolos nacionais e refletem a cultura do Nordeste?',
+                a: ['Dorival Caymmi', 'Tom Jobim', 'Milton Nascimento', 'Raul Seixas'],
+                correct: 0,
+                difficulty: 'easy',
+                bloomLevel: 'Conhecer',
+                skillCode: 'DCRB-MUS-22',
+                explanation: 'Dorival Caymmi é referência na representação musical do litoral e da vida nordestina.'
+            },
+            {
+                id: 'mb-023',
+                q: 'Qual prática musical ajuda a preservar histórias e memórias coletivas nas comunidades do Recôncavo?',
+                a: ['Samba de roda e cantos tradicionais', 'Música eletrônica', 'Sertanejo moderno', 'Jazz contemporâneo'],
+                correct: 0,
+                difficulty: 'medium',
+                bloomLevel: 'Analisar',
+                skillCode: 'DCRB-MUS-23',
+                explanation: 'Samba de roda e cantos locais transmitem narrativas, genealogias e saberes comunitários.'
+            },
+            {
+                id: 'mb-024',
+                q: 'Que função cultural os terreiros de candomblé têm na formação musical baiana?',
+                a: ['Nenhuma função', 'Formação de ritmos, toques e cantos que influenciam músicos populares', 'Substituem escolas de música formais', 'Apenas rituais silenciosos'],
+                correct: 1,
+                difficulty: 'medium',
+                bloomLevel: 'Analisar',
+                skillCode: 'DCRB-MUS-24',
+                explanation: 'Os terreiros preservam toques e repertórios que alimentam a música popular e a identidade cultural.'
+            },
+            {
+                id: 'mb-025',
+                q: 'Qual foi uma contribuição dos artistas baianos ao Tropicalismo?',
+                a: ['Adoção exclusiva de ritmos europeus', 'Incorporação de elementos regionais e experimentação estética', 'Rejeição total de tradição', 'Isolamento musical'],
+                correct: 1,
+                difficulty: 'medium',
+                bloomLevel: 'Compreender',
+                skillCode: 'DCRB-MUS-25',
+                explanation: 'Artistas baianos ajudaram a inserir sonoridades regionais e críticas culturais no Tropicalismo.'
+            },
+            {
+                id: 'mb-026',
+                q: 'Que desafio existe para a preservação do samba de roda tradicional?',
+                a: ['Excesso de recursos públicos', 'Turistificação e falta de políticas de salvaguarda', 'Demanda internacional crescente', 'Padronização curricular escolar'],
+                correct: 1,
+                difficulty: 'hard',
+                bloomLevel: 'Analisar',
+                skillCode: 'DCRB-MUS-26',
+                explanation: 'A turistificação pode alterar práticas e significados; faltam políticas consistentes de preservação e apoio às comunidades.'
+            },
+            {
+                id: 'mb-027',
+                q: 'Qual inovação técnica de estúdio impactou o som do axé nas décadas recentes?',
+                a: ['Gravação mono', 'Uso intensivo de sintetizadores e samples', 'Exclusão de percussão ao vivo', 'Gravação ao vivo sem mixagem'],
+                correct: 1,
+                difficulty: 'medium',
+                bloomLevel: 'Analisar',
+                skillCode: 'DCRB-MUS-27',
+                explanation: 'Sintetizadores, samplers e técnicas de produção modernizaram arranjos do axé e ampliaram sua sonoridade.'
+            },
+            {
+                id: 'mb-028',
+                q: 'Como a migração de músicos baianos para outras regiões afetou a circulação de estilos?',
+                a: ['Isolamento cultural', 'Difusão de ritmos baianos e influências em cenas locais pelo país', 'Extinção do axé', 'Proibição de circulação'],
+                correct: 1,
+                difficulty: 'medium',
+                bloomLevel: 'Compreender',
+                skillCode: 'DCRB-MUS-28',
+                explanation: 'Músicos migrantes levaram ritmos e práticas baianas para outros mercados, criando hibridizações.'
+            },
+            {
+                id: 'mb-029',
+                q: 'Cite um efeito positivo dos blocos afros nas comunidades locais.',
+                a: ['Gentrificação imediata', 'Educação musical e valorização da identidade negra', 'Redução da cultura local', 'Exclusão social'],
+                correct: 1,
+                difficulty: 'easy',
+                bloomLevel: 'Aplicar',
+                skillCode: 'DCRB-MUS-29',
+                explanation: 'Blocos afros promovem oficinas, formação musical e autoestima nas comunidades onde atuam.'
+            },
+            {
+                id: 'mb-030',
+                q: 'Qual artista baiano teve importante atuação internacional e é associado ao Tropicalismo?',
+                a: ['Milton Nascimento', 'Caetano Veloso', 'Chico Science', 'Lenine'],
+                correct: 1,
+                difficulty: 'easy',
+                bloomLevel: 'Conhecer',
+                skillCode: 'DCRB-MUS-30',
+                explanation: 'Caetano Veloso, baiano, foi figura central no Tropicalismo e alcançou repercussão internacional.'
+            },
+            {
+                id: 'mb-031',
+                q: 'Como a percussão baiana foi incorporada ao pop brasileiro?',
+                a: ['Foi totalmente ignorada', 'Através de timbres e grooves adaptados por produtores em arranjos pop', 'Exclusivamente em instrumentos eruditos', 'Só em gravações ao vivo'],
+                correct: 1,
+                difficulty: 'medium',
+                bloomLevel: 'Analisar',
+                skillCode: 'DCRB-MUS-31',
+                explanation: 'Produtores incorporaram padrões de percussão e timbres baianos em arranjos pop, criando fusões sonoras.'
+            },
+            {
+                id: 'mb-032',
+                q: 'Qual é a relação entre música baiana e movimentos de afirmação racial?',
+                a: ['Sem relação', 'Música e blocos fomentam identidades negras e luta por direitos', 'Apenas entretenimento', 'Rejeição da identidade'],
+                correct: 1,
+                difficulty: 'medium',
+                bloomLevel: 'Analisar',
+                skillCode: 'DCRB-MUS-32',
+                explanation: 'Música e blocos afros são espaços de afirmação cultural, educação política e visibilidade negra.'
+            },
+            {
+                id: 'mb-033',
+                q: 'Que papel o Pelourinho desempenha na cena musical de Salvador?',
+                a: ['Centro industrial', 'Polo cultural e turístico que abriga shows, rodas e memória musical', 'Área exclusivamente residencial', 'Parque aquático'],
+                correct: 1,
+                difficulty: 'easy',
+                bloomLevel: 'Compreender',
+                skillCode: 'DCRB-MUS-33',
+                explanation: 'O Pelourinho é espaço simbólico e palco para apresentações, contribuindo para preservação e difusão cultural.'
+            },
+            {
+                id: 'mb-034',
+                q: 'Qual prática de performance é típica dos trios elétricos e aproxima o público do artista?',
+                a: ['Apresentações em teatros fechados', 'Shows itinerantes com público seguindo o trio nas ruas', 'Concertos sinfônicos', 'Apresentações apenas pela TV'],
+                correct: 1,
+                difficulty: 'easy',
+                bloomLevel: 'Compreender',
+                skillCode: 'DCRB-MUS-34',
+                explanation: 'No Carnaval, o público acompanha o trio elétrico pelas ruas, criando grande interação entre público e artista.'
+            },
+            {
+                id: 'mb-035',
+                q: 'Como a cena independente contemporânea na Bahia tem impactado o cenário musical?',
+                a: ['Homogeneizando tudo', 'Diversificando estilos e promovendo fusões com eletrônica e rap', 'Eliminando tradições', 'Restringindo circulação'],
+                correct: 1,
+                difficulty: 'medium',
+                bloomLevel: 'Analisar',
+                skillCode: 'DCRB-MUS-35',
+                explanation: 'A cena independente trouxe novas sonoridades e plataformas de divulgação, ampliando a diversidade musical local.'
+            },
+            {
+                id: 'mb-036',
+                q: 'Que elemento coreográfico costuma acompanhar as toadas do samba de roda?',
+                a: ['Samba no pé com roda e saudações entre dançarinos', 'Pas de deux clássico', 'Movimentos de hip-hop', 'Dança de salão europeia'],
+                correct: 0,
+                difficulty: 'easy',
+                bloomLevel: 'Conhecer',
+                skillCode: 'DCRB-MUS-36',
+                explanation: 'O samba de roda envolve roda de dança, improvisos e saudações, ligado a práticas comunitárias.'
+            },
+            {
+                id: 'mb-037',
+                q: 'Cite uma forma de preservação musical comunitária presente na Bahia.',
+                a: ['Festivais, oficinas e transmissões orais intergeracionais', 'Só gravações comerciais', 'Exportação de repertório', 'Destruição de memória'],
+                correct: 0,
+                difficulty: 'easy',
+                bloomLevel: 'Aplicar',
+                skillCode: 'DCRB-MUS-37',
+                explanation: 'Festivais locais e oficinas são estratégias importantes para transmissão e preservação de repertórios.'
+            },
+            {
+                id: 'mb-038',
+                q: 'Qual influência africana é mais perceptível na música baiana?',
+                a: ['Harmonia clássica europeia', 'Padrões rítmicos e percussivos', 'Melodia do leste asiático', 'Uso de instrumentos de sopro apenas'],
+                correct: 1,
+                difficulty: 'easy',
+                bloomLevel: 'Compreender',
+                skillCode: 'DCRB-MUS-38',
+                explanation: 'Elementos rítmicos e técnicas percussivas de raízes africanas são centrais na tradição musical baiana.'
+            },
+            {
+                id: 'mb-039',
+                q: 'Como a música baiana tem dialogado com gêneros eletrônicos recentes?',
+                a: ['Sem diálogo', 'Fusões e remixes que mesclam percussão tradicional com batidas eletrônicas', 'Rejeição total', 'Apenas covers acústicos'],
+                correct: 1,
+                difficulty: 'medium',
+                bloomLevel: 'Analisar',
+                skillCode: 'DCRB-MUS-39',
+                explanation: 'Produtores e DJs têm criado híbridos que preservam ritmos regionais dentro de arranjos eletrônicos.'
+            },
+            {
+                id: 'mb-040',
+                q: 'Qual é um exemplo de música que virou hino de Carnaval em Salvador?',
+                a: ['"Aquarela do Brasil"', 'Qualquer marchinha', 'Músicas de trios elétricos que marcam uma edição (ex.: hits de Ivete/Chiclete)', 'Música erudita'],
+                correct: 2,
+                difficulty: 'easy',
+                bloomLevel: 'Conhecer',
+                skillCode: 'DCRB-MUS-40',
+                explanation: 'Hits de trios elétricos frequentemente se tornam hinos de uma edição específica do Carnaval.'
+            },
+            {
+                id: 'mb-041',
+                q: 'Que prática de divulgação audiovisual mudou a visibilidade da música baiana nas últimas décadas?',
+                a: ['Clipes e transmissões ao vivo (vídeos) com grande alcance nas redes e TV', 'Somente cartazes de rua', 'Rádio apenas local', 'Correspondência física'],
+                correct: 0,
+                difficulty: 'medium',
+                bloomLevel: 'Analisar',
+                skillCode: 'DCRB-MUS-41',
+                explanation: 'Videoclipes e transmissões ao vivo ampliaram o alcance e a imagem performática dos artistas baianos.'
+            },
+            {
+                id: 'mb-042',
+                q: 'Quem foi fundamental na internacionalização do som percussivo de Salvador ao colaborar com artistas estrangeiros?',
+                a: ['Olodum', 'Trio de forró', 'Banda de jazz local', 'Cantor sertanejo'],
+                correct: 0,
+                difficulty: 'easy',
+                bloomLevel: 'Conhecer',
+                skillCode: 'DCRB-MUS-42',
+                explanation: 'Olodum colaborou com artistas internacionais e divulgou ritmos baianos globalmente.'
+            },
+            {
+                id: 'mb-043',
+                q: 'Como a moda e a dança foram influenciadas pela música baiana durante o Carnaval?',
+                a: ['Sem influência', 'Vestuário colorido, adereços e passos de dança derivados de ritmos locais', 'Uniformes formais', 'Trajes exclusivamente europeus'],
+                correct: 1,
+                difficulty: 'easy',
+                bloomLevel: 'Compreender',
+                skillCode: 'DCRB-MUS-43',
+                explanation: 'Música baiana estimula indumentária festiva e movimentos de dança específicos vinculados ao Carnaval.'
+            },
+            {
+                id: 'mb-044',
+                q: 'Quais são desafios para músicos tradicionais na economia atual?',
+                a: ['Apoio estatal excessivo', 'Baixa remuneração, pirataria e competição com entretenimento massivo', 'Monopólio musical comunitário', 'Isolamento total'],
+                correct: 1,
+                difficulty: 'hard',
+                bloomLevel: 'Analisar',
+                skillCode: 'DCRB-MUS-44',
+                explanation: 'Músicos tradicionais enfrentam dificuldades financeiras e pressões do mercado e turismo.'
+            },
+            {
+                id: 'mb-045',
+                q: 'Qual procedimento acadêmico seria adequado para pesquisar samba de roda no Recôncavo?',
+                a: ['Entrevistas etnográficas, gravações e participação-observante', 'Somente leitura de livros', 'Pesquisa por internet apenas', 'Análise estatística sem campo'],
+                correct: 0,
+                difficulty: 'hard',
+                bloomLevel: 'Aplicar',
+                skillCode: 'DCRB-MUS-45',
+                explanation: 'Métodos etnográficos e gravações de campo são essenciais para compreender práticas e significados locais.'
+            },
+            {
+                id: 'mb-046',
+                q: 'Que artista misturou ritmos baianos com música eletrônica e ganhou repercussão?',
+                a: ['Chico Science', 'A single example is Carlinhos Brown collaborating with electronic artists', 'Heitor Villa-Lobos', 'Erudite conductor'],
+                correct: 1,
+                difficulty: 'medium',
+                bloomLevel: 'Conhecer',
+                skillCode: 'DCRB-MUS-46',
+                explanation: 'Carlinhos Brown participou de projetos que mesclam percussão tradicional com eletrônica; há vários exemplos contemporâneos.'
+            },
+            {
+                id: 'mb-047',
+                q: 'Quais subgêneros ou movimentos convivem hoje sob a etiqueta "música baiana"?',
+                a: ['Só axé', 'Samba de roda, samba-reggae, axé, pagode baiano, forró elétrico e cenas independentes', 'Apenas música clássica', 'Somente rap'],
+                correct: 1,
+                difficulty: 'medium',
+                bloomLevel: 'Compreender',
+                skillCode: 'DCRB-MUS-47',
+                explanation: 'A música baiana é plural e inclui diversos subgêneros e fusões contemporâneas.'
+            },
+            {
+                id: 'mb-048',
+                q: 'Como a presença de turistas altera apresentações musicais locais?',
+                a: ['Sem alteração', 'Pode provocar adaptações de repertório e encenações para público externo', 'Proíbe apresentações', 'Transforma em música erudita'],
+                correct: 1,
+                difficulty: 'medium',
+                bloomLevel: 'Analisar',
+                skillCode: 'DCRB-MUS-48',
+                explanation: 'Para atender expectativas turísticas, grupos às vezes adaptam repertório e performance, mudando significados originais.'
+            },
+            {
+                id: 'mb-049',
+                q: 'Que ato pode fortalecer a preservação das tradições musicais baianas?',
+                a: ['Proibir manifestações', 'Políticas públicas, financiamento de mestres e formação musical comunitária', 'Substituição por shows internacionais', 'Privatização do Carnaval'],
+                correct: 1,
+                difficulty: 'easy',
+                bloomLevel: 'Avaliar',
+                skillCode: 'DCRB-MUS-49',
+                explanation: 'Financiamento, formação e reconhecimento institucional ajudam a sustentar tradições musicais.'
+            },
+            {
+                id: 'mb-050',
+                q: 'Proponha um tema de pesquisa (TCC) relacionado à música baiana (escolha a alternativa que corresponde a uma proposta acadêmica adequada).',
+                a: ['"O impacto do turismo na transformação do samba de roda no Recôncavo: etnografia e propostas de salvaguarda"', '"Como tornar o Carnaval igual em todo o mundo"', '"Porque eliminar o trio elétrico"', '"A superioridade de um gênero sobre outro"'],
+                correct: 0,
+                difficulty: 'medium',
+                bloomLevel: 'Criar',
+                skillCode: 'DCRB-MUS-50',
+                explanation: 'A proposta etnográfica é concreta, delimitada e voltada à preservação e análise crítica — adequada para TCC.'
+            }
+        ],
+    },
+    {
+        id: 'cultura-musica-periferica',
+        title: 'Música Periférica Baiana',
+        description: 'Práticas, cenas e sonoridades originadas nas periferias urbanas e comunidades populares da Bahia: samba-reggae periférico, funk baiano, pagode de roda, rap e circuitos DIY.',
+        iconName: 'Music',
+        category: 'Cultura',
+        learningObjective: 'Identificar as raízes, práticas de produção e o papel sociocultural das cenas musicais periféricas na Bahia.',
+        xp: 600,
+        questions: [
+            {
+                id: 'mpf-001',
+                q: 'Qual prática de exibição sonora é típica de circuitos periféricos e ajuda a difundir músicas locais em bairros de Salvador?',
+                a: ['Concerto erudito', 'Sound system / paredão de som', 'Rádio pública estadual', 'Show em teatro'],
+                correct: 1,
+                difficulty: 'easy',
+                bloomLevel: 'Conhecer',
+                skillCode: 'DCRB-MUS-PER-01',
+                explanation: 'Paredões e sound systems são estruturas móveis de som usadas em festas de rua e bailes para difundir repertório local.'
+            },
+            {
+                id: 'mpf-002',
+                q: 'O funk produzido na periferia baiana dialoga diretamente com qual prática cultural originalmente carioca?',
+                a: ['Samba de quadra', 'Funk carioca (bailes funk)', 'Choro de rua', 'Maracatu'],
+                correct: 1,
+                difficulty: 'easy',
+                bloomLevel: 'Compreender',
+                skillCode: 'DCRB-MUS-PER-02',
+                explanation: 'O funk baiano é uma adaptação local do baile funk carioca, com batidas e linguagem próprias.'
+            },
+            {
+                id: 'mpf-003',
+                q: 'Qual coletivo/percussionista originário da periferia ampliou o samba-reggae e a visibilidade internacional da cena de Salvador?',
+                a: ['Ilê Aiyê', 'Olodum', 'Banda Filarmônica', 'Orquestra Sinfônica'],
+                correct: 1,
+                difficulty: 'easy',
+                bloomLevel: 'Conhecer',
+                skillCode: 'DCRB-MUS-PER-03',
+                explanation: 'Olodum, nascido em bairros populares, popularizou o samba-reggae e colaborou com artistas internacionais.'
+            },
+            {
+                id: 'mpf-004',
+                q: 'Como as periferias impactam formas de produção musical na Bahia?',
+                a: ['Produção dependente apenas de gravadoras grandes', 'Produção DIY com gravações caseiras, coletivos e redes sociais', 'Exclusivamente transmissão por rádio', 'Somente apresentações em teatros'],
+                correct: 1,
+                difficulty: 'easy',
+                bloomLevel: 'Analisar',
+                skillCode: 'DCRB-MUS-PER-04',
+                explanation: 'Muitos artistas periféricos usam produção independente, estúdios caseiros e plataformas digitais para divulgar seu trabalho.'
+            },
+            {
+                id: 'mpf-005',
+                q: 'Que função social os bailes e rodas periféricas frequentemente cumprem além do entretenimento?',
+                a: ['Apenas lucro turístico', 'Espaço de sociabilidade, formação de identidade e acolhimento comunitário', 'Exclusão social', 'Treinamento militar'],
+                correct: 1,
+                difficulty: 'easy',
+                bloomLevel: 'Compreender',
+                skillCode: 'DCRB-MUS-PER-05',
+                explanation: 'Bailes e rodas fortalecem redes sociais, práticas de aprendizagem musical e pertencimento para jovens das periferias.'
+            },
+            {
+                id: 'mpf-006',
+                q: 'Qual estratégia de divulgação tem sido decisiva para o alcance nacional de artistas periféricos baianos nas últimas décadas?',
+                a: ['Exclusivamente jornais impressos', 'Redes sociais e vídeos curtos (YouTube, TikTok)', 'Boletins universitários', 'Radiofusão AM apenas'],
+                correct: 1,
+                difficulty: 'medium',
+                bloomLevel: 'Analisar',
+                skillCode: 'DCRB-MUS-PER-06',
+                explanation: 'Plataformas digitais e vídeos curtos permitiram que artistas periféricos alcancem audiências amplas sem depender de grandes selos.'
+            },
+            {
+                id: 'mpf-007',
+                q: 'Qual termo descreve a apropriação comercial de elementos periféricos por atores externos, muitas vezes sem retorno às comunidades?',
+                a: ['Cultura colaborativa', 'Apropriação cultural', 'Política pública', 'Intercâmbio justo'],
+                correct: 1,
+                difficulty: 'medium',
+                bloomLevel: 'Avaliar',
+                skillCode: 'DCRB-MUS-PER-07',
+                explanation: 'Apropriação cultural ocorre quando elementos são extraídos e monetizados sem considerar autores ou contextos de origem.'
+            },
+            {
+                id: 'mpf-008',
+                q: 'Que característica rítmica é comum em muitas produções periféricas baianas (samba-reggae/funk/pagode de roda)?',
+                a: ['Ênfase no contrabaixo e backbeat sincopado', 'Uso exclusivo de cordas', 'Ritmo binário uniforme sem síncopes', 'Ausência de percussão'],
+                correct: 0,
+                difficulty: 'medium',
+                bloomLevel: 'Compreender',
+                skillCode: 'DCRB-MUS-PER-08',
+                explanation: 'Grooves com contrabaixo marcado e linhas percussivas sincopadas são recorrentes nessas sonoridades.'
+            },
+            {
+                id: 'mpf-009',
+                q: 'Como grupos e coletivos periféricos contribuem para educação musical local?',
+                a: ['Promovendo oficinas, trocas e formação de jovens músicos', 'Impedindo o ensino formal', 'Apenas vendendo ingressos', 'Só ensino online pago'],
+                correct: 0,
+                difficulty: 'easy',
+                bloomLevel: 'Aplicar',
+                skillCode: 'DCRB-MUS-PER-09',
+                explanation: 'Coletivos frequentemente oferecem oficinas, vivências e espaços para jovens aprenderem instrumentos e produção.'
+            },
+            {
+                id: 'mpf-010',
+                q: 'Qual elemento simbólico frequentemente aparece em letras de músicas periféricas baianas relacionadas à identidade local?',
+                a: ['Referências a edifícios históricos europeus', 'Menções a praças, ladeiras, bairros e figuras locais', 'Temas exclusivamente abstratos', 'Somente natureza estrangeira'],
+                correct: 1,
+                difficulty: 'easy',
+                bloomLevel: 'Compreender',
+                skillCode: 'DCRB-MUS-PER-10',
+                explanation: 'Letras costumam citar locais, cotidiano e personagens do território periférico, reforçando identidade local.'
+            },
+            {
+                id: 'mpf-011',
+                q: 'Que prática técnica é comum em produções periféricas de baixo orçamento?',
+                a: ['Gravação em estúdios de alto custo apenas', 'Gravação em home studios e uso de sampling', 'Somente gravação analógica em fita', 'Produção exclusivamente ao vivo'],
+                correct: 1,
+                difficulty: 'medium',
+                bloomLevel: 'Compreender',
+                skillCode: 'DCRB-MUS-PER-11',
+                explanation: 'Home studios e o uso criativo de samples possibilitam a produção mesmo com recursos limitados.'
+            },
+            {
+                id: 'mpf-012',
+                q: 'Como iniciativas como rodas de samba e pagodes periféricos ajudam na preservação cultural?',
+                a: ['Fragmentando as tradições', 'Transmitindo repertório, técnicas e memórias intergeracionais', 'Impedindo a circulação musical', 'Transformando em espetáculo somente para turistas'],
+                correct: 1,
+                difficulty: 'medium',
+                bloomLevel: 'Analisar',
+                skillCode: 'DCRB-MUS-PER-12',
+                explanation: 'Rodas mantêm repertório vivo e transmitem saberes entre gerações, funcionando como memorias comunitárias.'
+            },
+            {
+                id: 'mpf-013',
+                q: 'Qual é um exemplo de resistência política presente na música periférica baiana?',
+                a: ['Letras neutras socialmente', 'Canções que denunciam desigualdades e afirmam orgulho negro', 'Censura estatal', 'Abstenção cultural'],
+                correct: 1,
+                difficulty: 'medium',
+                bloomLevel: 'Analisar',
+                skillCode: 'DCRB-MUS-PER-13',
+                explanation: 'Muitas músicas periféricas abordam violência, racismo e falta de oportunidades, funcionando como voz política.'
+            },
+            {
+                id: 'mpf-014',
+                q: 'Que desafio econômico é recorrente para artistas periféricos?',
+                a: ['Excesso de patrocínio', 'Baixa remuneração por streaming e poucas oportunidades formais de renda', 'Salários garantidos', 'Monopólio estatal que favorece artistas locais'],
+                correct: 1,
+                difficulty: 'medium',
+                bloomLevel: 'Analisar',
+                skillCode: 'DCRB-MUS-PER-14',
+                explanation: 'Streaming paga pouco por reprodução, e muitos artistas dependem de shows e economia local instável.'
+            },
+            {
+                id: 'mpf-015',
+                q: 'Em estudos de campo sobre cenas periféricas, qual método é mais indicado?',
+                a: ['Etnografia participante com entrevistas e registro audiovisual', 'Análise estatística sem contato com a comunidade', 'Somente revisão bibliográfica', 'Pesquisa por formulário online apenas'],
+                correct: 0,
+                difficulty: 'hard',
+                bloomLevel: 'Aplicar',
+                skillCode: 'DCRB-MUS-PER-15',
+                explanation: 'Etnografia permite entender práticas e significados a partir da participação e registro local.'
+            },
+            {
+                id: 'mpf-016',
+                q: 'Que papel têm as rádios comunitárias na difusão da música periférica?',
+                a: ['Nenhum papel', 'Espaço essencial para divulgação local e formação de público', 'Substituem completamente as plataformas digitais', 'Somente música estrangeira'],
+                correct: 1,
+                difficulty: 'medium',
+                bloomLevel: 'Compreender',
+                skillCode: 'DCRB-MUS-PER-16',
+                explanation: 'Rádios comunitárias ampliam o alcance local e legitimam artistas dentro do território.'
+            },
+            {
+                id: 'mpf-017',
+                q: 'Qual evolução recente tem ocorrido no rap e hip-hop periférico baiano?',
+                a: ['Estagnação total', 'Maior experimentação sonora e politização das letras com alcance digital', 'Substituição por música erudita', 'Perda completa de identidade'],
+                correct: 1,
+                difficulty: 'medium',
+                bloomLevel: 'Analisar',
+                skillCode: 'DCRB-MUS-PER-17',
+                explanation: 'Rappers locais misturam estilos, tratam de pautas sociais e usam redes para ganhar visibilidade.'
+            },
+            {
+                id: 'mpf-018',
+                q: 'Qual é uma consequência cultural da criminalização de festas periféricas (ex.: bailes proibidos)?',
+                a: ['Aumento de espaços públicos seguros', 'Marginalização cultural e perda de espaços de sociabilidade', 'Maior financiamento público', 'Transformação imediata em festivais oficiais'],
+                correct: 1,
+                difficulty: 'hard',
+                bloomLevel: 'Avaliar',
+                skillCode: 'DCRB-MUS-PER-18',
+                explanation: 'Proibições tendem a deslocar festas para espaços informais mais inseguros e reduzir oportunidades culturais.'
+            },
+            {
+                id: 'mpf-019',
+                q: 'Que tradução de valor cultural é importante para políticas que apoiem cenas periféricas?',
+                a: ['Enxergar somente valor econômico', 'Reconhecer valor cultural, pedagógico e identitário além do lucro', 'Eliminar todas as manifestações', 'Privatizar o repertório'],
+                correct: 1,
+                difficulty: 'medium',
+                bloomLevel: 'Avaliar',
+                skillCode: 'DCRB-MUS-PER-19',
+                explanation: 'Políticas eficazes reconhecem múltiplos valores (identidade, educação, coesão social) das cenas periféricas.'
+            },
+            {
+                id: 'mpf-020',
+                q: 'Como a colaboração entre coletivos pode fortalecer a cena periférica?',
+                a: ['Diminuindo a visibilidade', 'Compartilhando recursos, espaços e redes de contato', 'Competindo por recursos exclusivamente', 'Isolando artistas'],
+                correct: 1,
+                difficulty: 'easy',
+                bloomLevel: 'Aplicar',
+                skillCode: 'DCRB-MUS-PER-20',
+                explanation: 'Parcerias permitem otimizar recursos, ampliar público e criar projetos sustentáveis.'
+            },
+            {
+                id: 'mpf-021',
+                q: 'Que prática investigativa evita explorar comunidades durante pesquisa musical?',
+                a: ['Colheita de depoimentos sem consentimento', 'Consentimento informado e retorno de resultados para a comunidade', 'Publicação sem consulta', 'Gravação clandestina'],
+                correct: 1,
+                difficulty: 'hard',
+                bloomLevel: 'Avaliar',
+                skillCode: 'DCRB-MUS-PER-21',
+                explanation: 'Boas práticas exigem consentimento, transparência e devolução de benefícios ou resultados à comunidade.'
+            },
+            {
+                id: 'mpf-022',
+                q: 'Qual é um indicativo de que uma cena periférica está alcançando sustentabilidade local?',
+                a: ['Dependência única de um único evento', 'Diversificação de fontes de renda (shows, oficinas, merch, parcerias)', 'Ausência de público', 'Proibição legal'],
+                correct: 1,
+                difficulty: 'medium',
+                bloomLevel: 'Analisar',
+                skillCode: 'DCRB-MUS-PER-22',
+                explanation: 'Sustentabilidade vem da combinação de atividades culturais, educativas e comerciais locais.'
+            },
+            {
+                id: 'mpf-023',
+                q: 'Como a memória sonora das periferias pode ser preservada?',
+                a: ['Queimando gravações', 'Arquivo comunitário, gravações orais e curadoria local', 'Mantendo silêncio', 'Apenas registros oficiais estatais'],
+                correct: 1,
+                difficulty: 'medium',
+                bloomLevel: 'Aplicar',
+                skillCode: 'DCRB-MUS-PER-23',
+                explanation: 'Arquivos comunitários e registros orais garantem que repertórios e histórias locais sejam preservados com controle comunitário.'
+            },
+            {
+                id: 'mpf-024',
+                q: 'Que relação entre gênero e música periférica merece atenção acadêmica?',
+                a: ['Gênero irrelevante', 'Como mulheres e LGBTQIA+ ocupam e transformam espaços musicais periféricos', 'Somente masculinidade', 'Exclusão total de mulheres'],
+                correct: 1,
+                difficulty: 'hard',
+                bloomLevel: 'Analisar',
+                skillCode: 'DCRB-MUS-PER-24',
+                explanation: 'Estudos mostram papel central de mulheres e pessoas LGBTQIA+ em práticas e lideranças culturais periféricas.'
+            },
+            {
+                id: 'mpf-025',
+                q: 'Que papel tem o sampling nas produções periféricas?',
+                a: ['Impedir criação musical', 'Permitir diálogos com repertórios locais e econômicos criativos de produção', 'Proibir qualquer referência', 'Substituir instrumentação ao vivo sempre'],
+                correct: 1,
+                difficulty: 'medium',
+                bloomLevel: 'Compreender',
+                skillCode: 'DCRB-MUS-PER-25',
+                explanation: 'Sampling conecta músicas a histórias locais e é técnica amplamente usada em rap, funk e eletrônica periférica.'
+            },
+            {
+                id: 'mpf-026',
+                q: 'Qual instrumento é símbolo de resistência e presença afro‑periférica em muitos encontros musicais da Bahia?',
+                a: ['Violino', 'Atabaque', 'Flauta de concerto', 'Marimba europeia'],
+                correct: 1,
+                difficulty: 'easy',
+                bloomLevel: 'Conhecer',
+                skillCode: 'DCRB-MUS-PER-26',
+                explanation: 'O atabaque é comum em rituais e rodas, simbolizando continuidade de matrizes africanas na periferia.'
+            },
+            {
+                id: 'mpf-027',
+                q: 'Como festivais locais podem evitar a expulsão das comunidades que os originaram (gentrificação)?',
+                a: ['Não envolver a comunidade', 'Políticas inclusivas, participação local e mecanismos de retorno econômico', 'Transformar tudo em resorts', 'Proibir moradores'],
+                correct: 1,
+                difficulty: 'hard',
+                bloomLevel: 'Avaliar',
+                skillCode: 'DCRB-MUS-PER-27',
+                explanation: 'Garantir participação, propriedade intelectual local e retorno econômico reduz riscos de gentrificação.'
+            },
+            {
+                id: 'mpf-028',
+                q: 'Que tipo de parceria costuma amplificar vozes periféricas sem explorá‑las?',
+                a: ['Parcerias sem contrato', 'Co-produção com cláusulas de benefício comunitário e transparência', 'Acordos de apropriação', 'Patrocínio exclusivamente comercial'],
+                correct: 1,
+                difficulty: 'medium',
+                bloomLevel: 'Avaliar',
+                skillCode: 'DCRB-MUS-PER-28',
+                explanation: 'Co-produção justa assegura direitos autorais, pagamento e participação nas decisões artísticas.'
+            },
+            {
+                id: 'mpf-029',
+                q: 'Que indicador mostra que uma música periférica alcançou presença cultural além do território local?',
+                a: ['Só existência em fita cassete', 'Reaproveitamento em mídias nacionais e referências em outros artistas', 'Exclusão de plataformas digitais', 'Proibição de execução'],
+                correct: 1,
+                difficulty: 'medium',
+                bloomLevel: 'Analisar',
+                skillCode: 'DCRB-MUS-PER-29',
+                explanation: 'Quando músicas são citadas, sampleadas ou tocadas em mídias nacionais, sinalizam circulação além do local.'
+            },
+            {
+                id: 'mpf-030',
+                q: 'Proposta de TCC alinhada à música periférica baiana: qual é a melhor alternativa?',
+                a: ['"Análise etnográfica das práticas de produção e circulação do funk baiano em bairros periféricos: propostas de políticas culturais"', '"Comparar apenas óperas europeias"', '"Eliminar festas de rua"', '"Estudar só músicas internacionais"'],
+                correct: 0,
+                difficulty: 'medium',
+                bloomLevel: 'Criar',
+                skillCode: 'DCRB-MUS-PER-30',
+                explanation: 'A proposta etnográfica é localizada, aplicável e relevante para políticas culturais e salvaguarda.'
             }
         ],
     }

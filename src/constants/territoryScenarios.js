@@ -6,6 +6,513 @@ export const INITIAL_STATS = {
   environment: 50 // Preservação ambiental
 };
 
+export const POWER_CARDS = [
+  {
+    id: 'stimulus_package',
+    name: 'Pacote de Estímulo',
+    description: 'Injeção emergencial de recursos nos cofres estaduais.',
+    type: 'boost',
+    rarity: 'common',
+    cost: 12,
+    icon: '💰',
+    effect: { stat: 'economy', value: 15 },
+    flavor: 'Medida emergencial aprovada em regime de urgência.'
+  },
+  {
+    id: 'social_program',
+    name: 'Programa Social',
+    description: 'Mutirão de assistência social em todas as regiões.',
+    type: 'boost',
+    rarity: 'common',
+    cost: 12,
+    icon: '🤝',
+    effect: { stat: 'society', value: 15 },
+    flavor: 'A população volta a acreditar na gestão pública.'
+  },
+  {
+    id: 'reforestation',
+    name: 'Reflorestamento Express',
+    description: 'Ação emergencial de recuperação de áreas degradadas.',
+    type: 'boost',
+    rarity: 'common',
+    cost: 12,
+    icon: '🌱',
+    effect: { stat: 'environment', value: 15 },
+    flavor: 'Milhares de mudas nativas plantadas em tempo recorde.'
+  },
+  {
+    id: 'mega_investment',
+    name: 'Mega Investimento',
+    description: 'Pacto com investidores internacionais para atrair capital.',
+    type: 'boost',
+    rarity: 'rare',
+    cost: 20,
+    icon: '🏦',
+    effect: { stat: 'economy', value: 25 },
+    flavor: 'Multinacionais anunciam instalação de fábricas no estado.'
+  },
+  {
+    id: 'universal_healthcare',
+    name: 'Saúde Universal',
+    description: 'Programa emergencial de saúde para todo o estado.',
+    type: 'boost',
+    rarity: 'rare',
+    cost: 20,
+    icon: '🏥',
+    effect: { stat: 'society', value: 25 },
+    flavor: 'Postos de saúde 24h abertos em todas as cidades.'
+  },
+  {
+    id: 'green_revolution',
+    name: 'Revolução Verde',
+    description: 'Parceria com ONGs para restauração completa do bioma.',
+    type: 'boost',
+    rarity: 'rare',
+    cost: 20,
+    icon: '🌿',
+    effect: { stat: 'environment', value: 25 },
+    flavor: 'Mata Atlântica baiana em processo de regeneração total.'
+  },
+
+  // --- NOVAS CARTAS CRIATIVAS (trade-offs e passivas) ---
+  {
+    id: 'public_private_partnership',
+    name: 'PPP Estratégica',
+    description: 'Acelera desenvolvimento: +20 Economia, custa -8 Sociedade e -6 Capital.',
+    type: 'boost',
+    rarity: 'rare',
+    cost: 6,
+    icon: '🤝🏗️',
+    effect: { stat: 'economy', value: 20 },
+    specialCost: { society: -8 },
+    flavor: 'Obras mais rápidas, porém com desaprovação popular em curto prazo.'
+  },
+  {
+    id: 'cultural_festival',
+    name: 'Festival Cultural',
+    description: 'Ressalta identidade local: +18 Society, custa -10 Economy (patrocínio público).',
+    type: 'boost',
+    rarity: 'common',
+    cost: 8,
+    icon: '🎭',
+    effect: { stat: 'society', value: 18 },
+    specialCost: { economy: -10 },
+    flavor: 'Turismo sobe, mas cofres sentem o gasto.'
+  },
+  {
+    id: 'green_bonds',
+    name: 'Green Bonds',
+    description: 'Financiamento verde: +10 Environment + passivo +2 Env/turn por 3T; custa -12 Economy.',
+    type: 'passive',
+    rarity: 'epic',
+    cost: 14,
+    icon: '🌱💵',
+    effect: { passivePerTurn: { environment: 2 }, duration: 3, stat: 'environment', value: 10 },
+    specialCost: { economy: -12 },
+    flavor: 'Mercado financeiro financia restauração ambiental com retorno social.'
+  },
+  {
+    id: 'tax_reform',
+    name: 'Reforma Tributária',
+    description: 'Aumenta economia +6/turn por 4T, custa -10 Society e -10 Capital (descontentamento).',
+    type: 'passive',
+    rarity: 'epic',
+    cost: 10,
+    icon: '📊',
+    effect: { passivePerTurn: { economy: 6 }, duration: 4 },
+    specialCost: { society: -10, economy: 0 },
+    flavor: 'Medida impopular a curto prazo, que impulsiona crescimento.'
+  },
+  {
+    id: 'infrastructure_bond',
+    name: 'Título de Infraestrutura',
+    description: 'Grande obra: +30 Economy, -12 Environment, custa -15 Capital.',
+    type: 'boost',
+    rarity: 'rare',
+    cost: 15,
+    icon: '🛣️',
+    effect: { stat: 'economy', value: 30 },
+    specialCost: { environment: -12 },
+    flavor: 'Conecta cidades, mas custa caro ao meio ambiente.'
+  },
+  {
+    id: 'debt_consolidation',
+    name: 'Consolidação da Dívida',
+    description: 'Reduz volatilidade: +15 Capital, custa -10 Economy agora.',
+    type: 'capitalRestore',
+    rarity: 'common',
+    cost: 6,
+    icon: '📉',
+    effect: { capitalRestore: 15 },
+    specialCost: { economy: -10 },
+    flavor: 'Trocar dívida cara por prazo maior — alívio político imediato.'
+  },
+  {
+    id: 'research_grants',
+    name: 'Editais de Pesquisa',
+    description: 'Impulso tecnológico: +12 Economy over time (passivo +3/turn por 3T), custa -6 Capital.',
+    type: 'passive',
+    rarity: 'rare',
+    cost: 8,
+    icon: '🔬',
+    effect: { passivePerTurn: { economy: 3 }, duration: 3, stat: 'economy', value: 12 },
+    flavor: 'Inovação que rende frutos no médio prazo.'
+  },
+  {
+    id: 'urban_clearance',
+    name: 'Desapropriação Rápida',
+    description: 'Libera terreno para indústria: +25 Economy, custa -15 Society e -10 Environment.',
+    type: 'boost',
+    rarity: 'epic',
+    cost: 18,
+    icon: '🏗️',
+    effect: { stat: 'economy', value: 25 },
+    specialCost: { society: -15, environment: -10 },
+    flavor: 'Desenvolvimento à custa de comunidades e áreas verdes.'
+  },
+  {
+    id: 'volunteer_corps',
+    name: 'Corpo de Voluntários',
+    description: 'Mobilização cidadã: +12 Environment, custa -6 Society (esforço comunitário).',
+    type: 'boost',
+    rarity: 'common',
+    cost: 4,
+    icon: '🫱🏻‍🫲🏽',
+    effect: { stat: 'environment', value: 12 },
+    specialCost: { society: -6 },
+    flavor: 'Comunidades se unem para recuperar áreas públicas.'
+  },
+
+  // --- CARTAS DE ESCUDO (Proteção temporária) ---
+  {
+    id: 'economic_shield',
+    name: 'Fundo de Reserva',
+    description: 'Economia protegida de perdas severas por 3 turnos.',
+    type: 'shield',
+    rarity: 'rare',
+    cost: 18,
+    icon: '🛡️',
+    effect: { stat: 'economy', duration: 3, minProtection: 15 },
+    flavor: 'O fundo soberano absorve as flutuações do mercado.'
+  },
+  {
+    id: 'social_shield',
+    name: 'Pacto Social',
+    description: 'Sociedade protegida de quedas severas por 3 turnos.',
+    type: 'shield',
+    rarity: 'rare',
+    cost: 18,
+    icon: '🏛️',
+    effect: { stat: 'society', duration: 3, minProtection: 15 },
+    flavor: 'Acordo com sindicatos e movimentos sociais garante estabilidade.'
+  },
+  {
+    id: 'env_shield',
+    name: 'Decreto Ambiental',
+    description: 'Meio ambiente protegido de danos severos por 3 turnos.',
+    type: 'shield',
+    rarity: 'rare',
+    cost: 18,
+    icon: '🌳',
+    effect: { stat: 'environment', duration: 3, minProtection: 15 },
+    flavor: 'Área de proteção ambiental expandida por decreto.'
+  },
+
+  // --- CARTAS DE MULTIPLICADOR ---
+  {
+    id: 'golden_age',
+    name: 'Era de Ouro',
+    description: 'Todos os ganhos positivos são DOBRADOS por 2 turnos!',
+    type: 'multiplier',
+    rarity: 'epic',
+    cost: 25,
+    icon: '✨',
+    effect: { duration: 2, multiplier: 2 },
+    flavor: 'Um período de harmonia e prosperidade sem precedentes.'
+  },
+  {
+    id: 'efficiency_boost',
+    name: 'Gestão Eficiente',
+    description: 'Custo de capital político REDUZIDO pela metade por 3 turnos.',
+    type: 'capitalDiscount',
+    rarity: 'epic',
+    cost: 22,
+    icon: '⚡',
+    effect: { duration: 3, capitalCostMultiplier: 0.5 },
+    flavor: 'Otimização administrativa reduz gastos políticos.'
+  },
+
+  // --- CARTAS EMERGENCIAIS ---
+  {
+    id: 'second_chance',
+    name: 'Segunda Chance',
+    description: 'Previne um game over, restaurando todos os stats para 30%.',
+    type: 'emergency',
+    rarity: 'legendary',
+    cost: 30,
+    icon: '🔮',
+    effect: { resetValue: 30 },
+    flavor: 'O povo concede mais uma oportunidade ao governador.'
+  },
+  {
+    id: 'political_rally',
+    name: 'Comício Popular',
+    description: 'Restaura 25 de Capital Político imediatamente.',
+    type: 'capitalRestore',
+    rarity: 'common',
+    cost: 0, // Custa 0 capital pois restaura capital
+    icon: '📢',
+    effect: { capitalRestore: 25 },
+    specialCost: { economy: -8, society: -5 }, // Custa de outros stats
+    flavor: 'Discurso inflamado na praça reacende a fé do povo.'
+  },
+
+  // --- CARTAS DE EQUILÍBRIO ---
+  {
+    id: 'balance_act',
+    name: 'Lei de Equilíbrio',
+    description: 'Equaliza todos os três pilares para a média entre eles.',
+    type: 'balance',
+    rarity: 'epic',
+    cost: 20,
+    icon: '⚖️',
+    effect: {},
+    flavor: 'Um pacto histórico redistribui os recursos igualmente.'
+  },
+  {
+    id: 'minor_balance',
+    name: 'Ajuste Fino',
+    description: 'Move o pilar mais baixo +10 e o mais alto -10.',
+    type: 'rebalance',
+    rarity: 'common',
+    cost: 10,
+    icon: '🔧',
+    effect: { transferAmount: 10 },
+    flavor: 'Redistribuição moderada de prioridades.'
+  },
+
+  // --- CARTA ALEATÓRIA ---
+  {
+    id: 'wild_card',
+    name: 'Carta Coringa',
+    description: 'Efeito ALEATÓRIO! Pode ser muito bom... ou muito ruim.',
+    type: 'wildcard',
+    rarity: 'epic',
+    cost: 8,
+    icon: '🃏',
+    effect: {},
+    flavor: 'Se a sorte estiver do seu lado...'
+  }
+];
+
+export const CARD_RARITIES = {
+  common: { label: 'Comum', color: 'slate', glow: '' },
+  rare: { label: 'Rara', color: 'blue', glow: 'shadow-blue-500/30' },
+  epic: { label: 'Épica', color: 'purple', glow: 'shadow-purple-500/30' },
+  legendary: { label: 'Lendária', color: 'amber', glow: 'shadow-amber-500/40' }
+};
+
+// Retorna 3-4 cartas aleatórias para a loja (rotação a cada compra/turno)
+export const getShopCards = (turn) => {
+  const pool = [...POWER_CARDS];
+  // Cartas raras/épicas aparecem mais tarde
+  const available = pool.filter(c => {
+    if (c.rarity === 'legendary' && turn < 5) return false;
+    if (c.rarity === 'epic' && turn < 3) return false;
+    return true;
+  });
+
+  const shuffled = available.sort(() => Math.random() - 0.5);
+  // Dinâmica por turno: 1-2 => 3 cartas, 3-4 => 4 cartas, 5-8 => 6 cartas, 9+ => 8 cartas
+  let count;
+  if (turn <= 2) count = 3;
+  else if (turn <= 4) count = 4;
+  else if (turn <= 8) count = 6;
+  else count = 8;
+
+  // Nunca retornar mais cartas do que as disponíveis
+  count = Math.min(count, available.length);
+  return shuffled.slice(0, count);
+};
+
+// Aplica efeito de uma carta comprada
+export const applyCardEffect = (card, currentStats, activeEffects) => {
+  const newStats = { ...currentStats };
+  let newEffects = [...activeEffects];
+
+  // Aplicar custos especiais (consome outros status além do capital)
+  if (card.specialCost) {
+    if (card.specialCost.economy) newStats.economy = Math.max(STATS_LIMITS.MIN + 1, Math.min(STATS_LIMITS.MAX - 1, newStats.economy + card.specialCost.economy));
+    if (card.specialCost.society) newStats.society = Math.max(STATS_LIMITS.MIN + 1, Math.min(STATS_LIMITS.MAX - 1, newStats.society + card.specialCost.society));
+    if (card.specialCost.environment) newStats.environment = Math.max(STATS_LIMITS.MIN + 1, Math.min(STATS_LIMITS.MAX - 1, newStats.environment + card.specialCost.environment));
+  }
+
+  switch (card.type) {
+    case 'boost':
+      newStats[card.effect.stat] = Math.min(STATS_LIMITS.MAX - 1, Math.max(STATS_LIMITS.MIN + 1, newStats[card.effect.stat] + card.effect.value));
+      break;
+
+    case 'shield':
+      newEffects.push({
+        id: card.id + '_' + Date.now(),
+        cardId: card.id,
+        type: 'shield',
+        stat: card.effect.stat,
+        turnsLeft: card.effect.duration,
+        minProtection: card.effect.minProtection,
+        icon: card.icon,
+        name: card.name,
+        bg: card.bg
+      });
+      break;
+
+    case 'multiplier':
+      newEffects.push({
+        id: card.id + '_' + Date.now(),
+        cardId: card.id,
+        type: 'multiplier',
+        turnsLeft: card.effect.duration,
+        multiplier: card.effect.multiplier,
+        icon: card.icon,
+        name: card.name,
+        bg: card.bg
+      });
+      break;
+
+    case 'capitalDiscount':
+      newEffects.push({
+        id: card.id + '_' + Date.now(),
+        cardId: card.id,
+        type: 'capitalDiscount',
+        turnsLeft: card.effect.duration,
+        capitalCostMultiplier: card.effect.capitalCostMultiplier,
+        icon: card.icon,
+        name: card.name,
+        bg: card.bg
+      });
+      break;
+
+    case 'emergency':
+      newEffects.push({
+        id: card.id + '_' + Date.now(),
+        cardId: card.id,
+        type: 'emergency',
+        turnsLeft: 999, // dura pra sempre até ser usado
+        resetValue: card.effect.resetValue,
+        icon: card.icon,
+        name: card.name,
+        bg: card.bg
+      });
+      break;
+
+    case 'capitalRestore':
+      newStats.politicalCapital = Math.min(100, newStats.politicalCapital + card.effect.capitalRestore);
+      break;
+
+    case 'balance': {
+      const avg = Math.round((newStats.economy + newStats.society + newStats.environment) / 3);
+      newStats.economy = avg;
+      newStats.society = avg;
+      newStats.environment = avg;
+      break;
+    }
+
+    case 'rebalance': {
+      const vals = { economy: newStats.economy, society: newStats.society, environment: newStats.environment };
+      const low = Object.entries(vals).reduce((a, b) => a[1] < b[1] ? a : b);
+      const high = Object.entries(vals).reduce((a, b) => a[1] > b[1] ? a : b);
+      newStats[low[0]] = Math.min(STATS_LIMITS.MAX - 1, newStats[low[0]] + card.effect.transferAmount);
+      newStats[high[0]] = Math.max(STATS_LIMITS.MIN + 1, newStats[high[0]] - card.effect.transferAmount);
+      break;
+    }
+
+    case 'passive':
+      // cria efeito passivo que aplica um delta por turno
+      newStats[card.effect.stat] = card.effect.value ? Math.min(STATS_LIMITS.MAX - 1, Math.max(STATS_LIMITS.MIN + 1, newStats[card.effect.stat] + (card.effect.value || 0))) : newStats[card.effect.stat];
+      newEffects.push({
+        id: card.id + '_' + Date.now(),
+        cardId: card.id,
+        type: 'passive',
+        turnsLeft: card.effect.duration,
+        passivePerTurn: card.effect.passivePerTurn,
+        icon: card.icon,
+        name: card.name,
+        bg: card.bg
+      });
+      break;
+
+    case 'wildcard': {
+      const luck = Math.random();
+      if (luck > 0.6) {
+        // Boa sorte: +20 em tudo
+        newStats.economy = Math.min(STATS_LIMITS.MAX - 1, newStats.economy + 20);
+        newStats.society = Math.min(STATS_LIMITS.MAX - 1, newStats.society + 20);
+        newStats.environment = Math.min(STATS_LIMITS.MAX - 1, newStats.environment + 20);
+      } else if (luck > 0.3) {
+        // Sorte média: +15 em stat aleatório
+        const stats = ['economy', 'society', 'environment'];
+        const randomStat = stats[Math.floor(Math.random() * 3)];
+        newStats[randomStat] = Math.min(STATS_LIMITS.MAX - 1, newStats[randomStat] + 15);
+      } else {
+        // Azar: -10 em tudo
+        newStats.economy = Math.max(STATS_LIMITS.MIN + 1, newStats.economy - 10);
+        newStats.society = Math.max(STATS_LIMITS.MIN + 1, newStats.society - 10);
+        newStats.environment = Math.max(STATS_LIMITS.MIN + 1, newStats.environment - 10);
+      }
+      break;
+    }
+
+    default:
+      break;
+  }
+
+  return { newStats, newEffects };
+};
+
+// Processa efeitos ativos no impacto de uma escolha
+export const applyActiveEffectsToImpact = (impact, activeEffects) => {
+  let modifiedImpact = { ...impact };
+  let capitalCostMultiplier = 1;
+
+  activeEffects.forEach(eff => {
+    // Multiplicador de ganhos positivos
+    if (eff.type === 'multiplier') {
+      Object.keys(modifiedImpact).forEach(key => {
+        if (modifiedImpact[key] > 0) {
+          modifiedImpact[key] = Math.round(modifiedImpact[key] * eff.multiplier);
+        }
+      });
+    }
+
+    // Desconto de capital
+    if (eff.type === 'capitalDiscount') {
+      capitalCostMultiplier = Math.min(capitalCostMultiplier, eff.capitalCostMultiplier);
+    }
+  });
+
+  return { modifiedImpact, capitalCostMultiplier };
+};
+
+// Aplica escudos após atualizar stats
+export const applyShieldsToStats = (newStats, activeEffects) => {
+  const shielded = { ...newStats };
+
+  activeEffects.forEach(eff => {
+    if (eff.type === 'shield' && shielded[eff.stat] < eff.minProtection) {
+      shielded[eff.stat] = eff.minProtection;
+    }
+  });
+
+  return shielded;
+};
+
+// Decrementa turnos dos efeitos ativos
+export const tickActiveEffects = (activeEffects) => {
+  return activeEffects
+    .map(eff => ({ ...eff, turnsLeft: eff.turnsLeft - 1 }))
+    .filter(eff => eff.turnsLeft > 0);
+};
+
 // Constantes para limites dos indicadores
 export const STATS_LIMITS = {
   MIN: 0,

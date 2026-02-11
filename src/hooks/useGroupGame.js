@@ -72,6 +72,7 @@ export const GAME_CATEGORIES = [
   { id: 'historia', label: 'História', icon: '📜' },
   { id: 'biologia', label: 'Biologia', icon: '🧬' },
   { id: 'linguagens', label: 'Linguagens', icon: '📖' },
+  { id: 'cultura', label: 'Cultura', icon: '🎭' },
   { id: 'sociologia', label: 'Sociologia', icon: '🏙️' },
   { id: 'filosofia', label: 'Filosofia', icon: '🤔' }
 ];

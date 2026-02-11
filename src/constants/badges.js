@@ -345,6 +345,89 @@ export const BADGES = [
     reqTotalXP: 50000
   },
 
+  // BADGES MULTIPLAYER (Arena / Jogo em Grupo)
+  {
+    id: 'multi-host',
+    name: "Anfitrião(a) Destemido(a)",
+    desc: "Criou e iniciou uma partida multiplayer ao vivo.",
+    icon: '🫂',
+    points: 100,
+    rarity: 'common',
+    event: 'multiplayer'
+  },
+  {
+    id: 'multi-first-win',
+    name: "Primeira Vitória na Arena",
+    desc: "Venceu sua primeira partida multiplayer.",
+    icon: '🏅',
+    points: 150,
+    rarity: 'common',
+    event: 'multiplayer'
+  },
+  {
+    id: 'multi-winner-pro',
+    name: "Campeão(ã) da Roda",
+    desc: "Conquistou 10 vitórias em partidas multiplayer.",
+    icon: '🥇',
+    points: 500,
+    rarity: 'rare',
+    event: 'multiplayer'
+  },
+  {
+    id: 'multi-perfect',
+    name: "Acerto Perfeito",
+    desc: "Acertou todas as questões em uma partida multiplayer.",
+    icon: '💯',
+    points: 300,
+    rarity: 'uncommon',
+    event: 'multiplayer'
+  },
+  {
+    id: 'multi-quickdraw',
+    name: "Tiro Rápido",
+    desc: "Acertou uma questão em menos de 3 segundos durante uma partida multiplayer.",
+    icon: '⚡',
+    points: 80,
+    rarity: 'common',
+    event: 'multiplayer'
+  },
+  {
+    id: 'multi-reliable',
+    name: "Jogador(a) Confiável",
+    desc: "Participou e respondeu todas as questões sem desconexões.",
+    icon: '🔗',
+    points: 200,
+    rarity: 'uncommon',
+    event: 'multiplayer'
+  },
+  {
+    id: 'multi-comeback',
+    name: "Virada Épica",
+    desc: "Estava atrás antes da última questão e venceu a partida.",
+    icon: '🎯',
+    points: 400,
+    rarity: 'rare',
+    event: 'multiplayer'
+  },
+  {
+    id: 'multi-mvp',
+    name: "MVP da Partida",
+    desc: "Maior média de pontos por questão na partida (e entre os melhores).",
+    icon: '🏆',
+    points: 350,
+    rarity: 'uncommon',
+    event: 'multiplayer'
+  },
+  {
+    id: 'multi-host-marathon',
+    name: "Anfitrião Incansável",
+    desc: "Hospedou 25 partidas multiplayer.",
+    icon: '🔥',
+    points: 800,
+    rarity: 'epic',
+    event: 'multiplayer'
+  },
+
   // BADGES COMUNITÁRIOS
   {
     id: 'badge-mentor',
@@ -366,6 +449,130 @@ export const BADGES = [
     desc: "Enviou 20 feedbacks construtivos sobre questões.",
     icon: '📝',
     reqFeedbacks: 20
+  },
+
+  // BADGES: Cultura Popular Baiana (novo)
+  {
+    id: 'badge-bahia-iniciacao',
+    name: "Filho(a) da Bahia",
+    desc: "Concluiu o módulo introdutório sobre cultura popular baiana.",
+    icon: '🪘',
+    reqQuestions: ['cb-001', 'cb-002', 'cb-003']
+  },
+  {
+    id: 'badge-bahia-rituais',
+    name: "Guardião(ã) dos Orixás",
+    desc: "Identificou rituais, instrumentos e símbolos do candomblé e sincretismos.",
+    icon: '🕯️',
+    reqQuestions: ['cb-011', 'cb-012', 'cb-013', 'cb-014', 'cb-015']
+  },
+  {
+    id: 'badge-bahia-sabores',
+    name: "Paladar da Terra",
+    desc: "Reconheceu pratos e ingredientes tradicionais da culinária baiana.",
+    icon: '🍛',
+    reqQuestions: ['cb-021', 'cb-022', 'cb-023', 'cb-024']
+  },
+  {
+    id: 'badge-bahia-carnaval-mestre',
+    name: "Mestre do Largo",
+    desc: "Dominou conhecimentos sobre Carnaval, blocos-afro e ritmos populares.",
+    icon: '🥁',
+    reqQuestions: ['cb-031', 'cb-032', 'cb-033', 'cb-034', 'cb-035', 'cb-036']
+  },
+  {
+    id: 'badge-bahia-artesanato',
+    name: "Oficineiro(a)",
+    desc: "Identificou técnicas e peças do artesanato baiano.",
+    icon: '🧵',
+    reqQuestions: ['cb-041', 'cb-042', 'cb-043', 'cb-044']
+  },
+  {
+    id: 'badge-bahia-resistencia-historia',
+    name: "Memória Viva",
+    desc: "Demonstrou conhecimento sobre eventos, personalidades e formas de resistência cultural.",
+    icon: '📚',
+    reqQuestions: ['cb-045', 'cb-046', 'cb-047', 'cb-048', 'cb-049', 'cb-050']
+  },
+  {
+    id: 'badge-bahia-musica-raiz',
+    name: "Maré do Ijexá",
+    desc: "Identificou gêneros, instrumentos e artistas centrais da música baiana.",
+    icon: '🎶',
+    reqQuestions: ['cb-025', 'cb-026', 'cb-027', 'cb-028', 'cb-029']
+  },
+  {
+    id: 'badge-bahia-embaixador',
+    name: "Embaixador(a) Baiano(a)",
+    desc: "Colecionou conhecimentos essenciais sobre a cultura popular baiana.",
+    icon: '⭐',
+    reqQuestions: ['cb-003','cb-015','cb-024','cb-033','cb-042','cb-049']
+  },
+
+  // BADGES: Música Periférica Baiana
+  {
+    id: 'badge-mpf-iniciante',
+    name: "Observador(a) das Periferias",
+    desc: "Respondeu corretamente 5 perguntas introdutórias sobre cenas periféricas baianas.",
+    icon: '🔊',
+    reqQuestions: ['mpf-001','mpf-002','mpf-003','mpf-004','mpf-005']
+  },
+  {
+    id: 'badge-mpf-produtor',
+    name: "Produtor(a) de Rua",
+    desc: "Demonstrou conhecimentos sobre produção caseira, sampling e estratégias DIY.",
+    icon: '🎛️',
+    reqQuestions: ['mpf-011','mpf-025','mpf-006']
+  },
+  {
+    id: 'badge-mpf-preservador',
+    name: "Arquivo Comunitário",
+    desc: "Reconheceu práticas e ferramentas de preservação da memória sonora periférica.",
+    icon: '🗂️',
+    reqQuestions: ['mpf-012','mpf-023','mpf-021']
+  },
+  {
+    id: 'badge-mpf-ativista',
+    name: "Voz da Periferia",
+    desc: "Acertou questões sobre musicalidade como forma de resistência e mobilização social.",
+    icon: '✊',
+    reqQuestions: ['mpf-013','mpf-018','mpf-019']
+  },
+  {
+    id: 'badge-mpf-colaborador',
+    name: "Coletivo em Rede",
+    desc: "Mostrou entendimento sobre colaboração entre coletivos e co-produções justas.",
+    icon: '🤝',
+    reqQuestions: ['mpf-020','mpf-028','mpf-009']
+  },
+  {
+    id: 'badge-mpf-viral',
+    name: "Explosão no Paredão",
+    desc: "Reconheceu estratégias de difusão digital e local que ampliam a circulação de músicas periféricas.",
+    icon: '📣',
+    reqQuestions: ['mpf-006','mpf-029','mpf-016'],
+    points: 200,
+    rarity: 'uncommon'
+  },
+  {
+    id: 'badge-mpf-tcc',
+    name: "Pesquisador(a) de Cena",
+    desc: "Demonstrou aptidão metodológica para estudar práticas musicais periféricas (TCC/etnografia).",
+    icon: '📚',
+    reqQuestions: ['mpf-015','mpf-030','mpf-021']
+  },
+  {
+    id: 'badge-mpf-mestre',
+    name: "Mestre da Cena Periférica",
+    desc: "Concluiu todo o módulo de Música Periférica Baiana (30 questões).",
+    icon: '🏅',
+    reqQuestions: [
+      'mpf-001','mpf-002','mpf-003','mpf-004','mpf-005','mpf-006','mpf-007','mpf-008','mpf-009','mpf-010',
+      'mpf-011','mpf-012','mpf-013','mpf-014','mpf-015','mpf-016','mpf-017','mpf-018','mpf-019','mpf-020',
+      'mpf-021','mpf-022','mpf-023','mpf-024','mpf-025','mpf-026','mpf-027','mpf-028','mpf-029','mpf-030'
+    ],
+    points: 350,
+    rarity: 'rare'
   }
 ];
 

@@ -597,6 +597,7 @@ export default function App() {
               isDark={isDark}
               userData={userData}
               updateProgress={updateProgress}
+              unlockBadge={unlockBadge}
             />
           )}
         </AnimatePresence>

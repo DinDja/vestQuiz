@@ -6,7 +6,7 @@ import { GroupGameMenu, GroupGameLobby } from './GroupGameLobby';
 import { CountdownOverlay, GroupGamePlay } from './GroupGamePlay';
 import { GroupGameResults } from './GroupGameResults';
 
-export const GroupGameScreen = ({ setView, isDark, userData, updateProgress }) => {
+export const GroupGameScreen = ({ setView, isDark, userData, updateProgress, unlockBadge }) => {
   const game = useGroupGame(userData);
 
   return (
@@ -84,6 +84,7 @@ export const GroupGameScreen = ({ setView, isDark, userData, updateProgress }) =
               setView('dashboard');
             }}
             updateProgress={updateProgress}
+            unlockBadge={unlockBadge}
           />
         )}
 
