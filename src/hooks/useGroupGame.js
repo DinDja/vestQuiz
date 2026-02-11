@@ -258,6 +258,9 @@ export const useGroupGame = (userData) => {
     if (!auth.currentUser) return;
     setError(null);
 
+    // debug: ensure auth available
+    console.log('joinRoom called with code=', code, 'uid=', auth.currentUser?.uid);
+
     const upperCode = code.toUpperCase().trim();
     const roomRef = doc(db, 'rooms', upperCode);
 
@@ -269,6 +272,7 @@ export const useGroupGame = (userData) => {
       }
 
       const data = snap.data();
+      console.log('joinRoom: room snapshot data=', data);
       if (data.status !== 'waiting') {
         setError('Esta sala já está em jogo ou encerrada.');
         return;
@@ -281,18 +285,22 @@ export const useGroupGame = (userData) => {
       }
 
       const uid = auth.currentUser.uid;
+      const playerPayload = {
+        uid,
+        displayName: userData.displayName || 'Jogador',
+        photoURL: userData.photoURL || '',
+        score: 0,
+        answers: [],
+        isReady: true,
+        isConnected: true,
+        xp: userData.xp || 0,
+        level: Math.min(Math.floor((userData.xp || 0) / 2000) + 1, 20)
+      };
+
+      console.log('joinRoom: updating with players.' + uid, playerPayload);
+
       await updateDoc(roomRef, {
-        [`players.${uid}`]: {
-          uid,
-          displayName: userData.displayName || 'Jogador',
-          photoURL: userData.photoURL || '',
-          score: 0,
-          answers: [],
-          isReady: true,
-          isConnected: true,
-          xp: userData.xp || 0,
-          level: Math.min(Math.floor((userData.xp || 0) / 2000) + 1, 20)
-        }
+        [`players.${uid}`]: playerPayload
       });
 
       setRoomCode(upperCode);

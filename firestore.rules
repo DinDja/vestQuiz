@@ -1,0 +1,101 @@
+// firestore.rules - suggested rules for local record
+// Paste the contents below into Firebase Console → Firestore → Rules and publish.
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // --- COLEÇÃO PRINCIPAL: love_pages ---
+    match /love_pages/{pageId} {
+      allow read: if resource.data.isPublished == true
+                  || (request.auth != null && resource.data.userId == request.auth.uid);
+      allow create: if request.auth != null
+                    && request.resource.data.userId == request.auth.uid
+                    && request.resource.data.views == 0
+                    && request.resource.data.likes == 0
+                    && request.resource.data.createdAt is timestamp;
+      allow update: if (
+                        request.auth != null
+                        && resource.data.userId == request.auth.uid
+                        && request.resource.data.views == resource.data.views
+                        && request.resource.data.likes == resource.data.likes
+                      )
+                    || request.resource.data.diff(resource.data).affectedKeys().hasOnly(['views'])
+                    || request.resource.data.diff(resource.data).affectedKeys().hasOnly(['likes']);
+      allow delete: if request.auth != null && resource.data.userId == request.auth.uid;
+
+      match /likes/{userId} {
+        allow create: if request.auth != null
+                      && request.auth.uid == userId
+                      && !exists(/databases/$(database)/documents/love_pages/$(pageId)/likes/$(userId))
+                      && request.resource.data.keys().hasOnly(['likedAt', 'userId'])
+                      && request.resource.data.userId == request.auth.uid;
+        allow read, update, delete: if false;
+      }
+    }
+
+    // --- COLEÇÃO users ---
+    match /users/{userId} {
+      allow read: if true;
+      allow write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    match /users/{userId}/history/{docId} {
+      allow read: if true;
+      allow write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    match /users/{userId}/achievements/{docId} {
+      allow read: if true;
+      allow write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    match /users/{userId}/simulations/{simulationId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    match /analytics/{analyticsId} {
+      allow create: if true;
+      allow read, update, delete: if false;
+    }
+
+    // --- rooms collection (real-time matches) ---
+    match /rooms/{roomId} {
+      allow read: if true;
+
+      allow create: if request.auth != null
+                    && request.resource.data.hostId == request.auth.uid
+                    && request.resource.data.players[request.auth.uid].uid == request.auth.uid;
+
+      allow update: if request.auth != null && (
+        // existing player updating only their submap (answers, isReady, isConnected)
+        (resource.data.players[request.auth.uid] != null
+          && request.resource.data.players.keys().hasOnly([request.auth.uid])
+          && request.resource.data.players[request.auth.uid].keys().hasAny(['answers','isReady','isConnected'])
+        )
+        // host updating game-flow fields
+        || (resource.data.hostId == request.auth.uid
+            && (
+              request.resource.data.status is string
+              || request.resource.data.currentQuestion is int
+              || request.resource.data.questionStartedAt is timestamp
+              || request.resource.data.finishedAt is timestamp
+            )
+        )
+        // new player joining while room is waiting — allow adding own player entry (supports dot-path updates)
+        || (
+          resource.data.status == 'waiting'
+          && request.resource.data.players[request.auth.uid].uid == request.auth.uid
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['players'])
+        )
+      );
+
+      allow delete: if request.auth != null && resource.data.hostId == request.auth.uid;
+    }
+
+    // --- NOVA COLEÇÃO PARA TESTES DA IA ---
+    match /conversations/{docId} {
+      allow read, write: if true;
+    }
+  }
+}
