@@ -37,21 +37,32 @@ service cloud.firestore {
     // --- COLEÇÃO users ---
     match /users/{userId} {
       allow read: if true;
-      allow write: if request.auth != null && request.auth.uid == userId;
+      allow create: if request.auth != null
+                    && request.auth.uid == userId
+                    && request.resource.data.uid == userId
+                    && request.resource.data.createdAt is timestamp;
+      allow update: if request.auth != null && request.auth.uid == userId
+                    && (request.resource.data.uid == resource.data.uid
+                        && request.resource.data.createdAt == resource.data.createdAt);
+      allow delete: if false;
     }
 
     match /users/{userId}/history/{docId} {
-      allow read: if true;
+      allow read: if request.auth != null && request.auth.uid == userId;
       allow write: if request.auth != null && request.auth.uid == userId;
+      allow delete: if request.auth != null && request.auth.uid == userId;
     }
 
     match /users/{userId}/achievements/{docId} {
       allow read: if true;
       allow write: if request.auth != null && request.auth.uid == userId;
+      allow delete: if request.auth != null && request.auth.uid == userId;
     }
 
     match /users/{userId}/simulations/{simulationId} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow write: if request.auth != null && request.auth.uid == userId;
+      allow delete: if request.auth != null && request.auth.uid == userId;
     }
 
     match /analytics/{analyticsId} {
@@ -96,6 +107,103 @@ service cloud.firestore {
     // --- NOVA COLEÇÃO PARA TESTES DA IA ---
     match /conversations/{docId} {
       allow read, write: if true;
+    }
+
+    // --- COLEÇÃO COMUNIDADE: Atividades Comunitárias ---
+    match /communityActivity/mentor/{userId}/{docId} {
+      allow read: if true;
+      allow create, write: if request.auth != null && request.auth.uid == userId;
+      allow delete: if request.auth != null && request.auth.uid == userId;
+    }
+
+    match /communityActivity/submittedQuestions/{docId} {
+      allow read: if true;
+      allow create: if request.auth != null
+                    && request.resource.data.userId == request.auth.uid
+                    && request.resource.data.question is string
+                    && request.resource.data.options is list
+                    && request.resource.data.correctAnswer is int
+                    && request.resource.data.subject is string
+                    && request.resource.data.timestamp is timestamp;
+      allow update: if request.auth != null && resource.data.userId == request.auth.uid
+                    && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'likes', 'dislikes']);
+      allow delete: if request.auth != null && resource.data.userId == request.auth.uid;
+    }
+
+    match /communityActivity/feedbacks/{docId} {
+      allow read: if true;
+      allow create: if request.auth != null
+                    && request.resource.data.userId == request.auth.uid
+                    && request.resource.data.questionId is string
+                    && request.resource.data.feedbackText is string
+                    && request.resource.data.rating is int
+                    && request.resource.data.timestamp is timestamp;
+      allow update: if request.auth != null && resource.data.userId == request.auth.uid
+                    && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['helpful']);
+      allow delete: if request.auth != null && resource.data.userId == request.auth.uid;
+    }
+
+    // --- COLEÇÃO MENTORSHIP: Sessões e Chat de Mentoria ---
+    match /mentorshipSessions/{sessionId} {
+      allow read: if request.auth != null
+                  && (resource.data.studentId == request.auth.uid || resource.data.mentorId == request.auth.uid);
+      allow create: if request.auth != null
+                    && request.resource.data.studentId == request.auth.uid
+                    && request.resource.data.startedAt is timestamp;
+      allow update: if request.auth != null
+                    && (resource.data.studentId == request.auth.uid || resource.data.mentorId == request.auth.uid);
+      allow delete: if request.auth != null
+                    && (resource.data.studentId == request.auth.uid || resource.data.mentorId == request.auth.uid);
+
+      // Mensagens dentro de cada sessão
+      match /messages/{msgId} {
+        allow read: if request.auth != null
+                    && (get(/databases/$(database)/documents/mentorshipSessions/$(sessionId)).data.studentId == request.auth.uid
+                        || get(/databases/$(database)/documents/mentorshipSessions/$(sessionId)).data.mentorId == request.auth.uid);
+        allow create: if request.auth != null
+                      && request.resource.data.senderId == request.auth.uid
+                      && request.resource.data.text is string
+                      && request.resource.data.timestamp is timestamp
+                      && (get(/databases/$(database)/documents/mentorshipSessions/$(sessionId)).data.studentId == request.auth.uid
+                          || get(/databases/$(database)/documents/mentorshipSessions/$(sessionId)).data.mentorId == request.auth.uid);
+        allow update, delete: if false;
+      }
+    }
+
+    // --- COLEÇÃO DISCUSSIONS: Fórum de Discussão ---
+    match /discussions/{docId} {
+      allow read: if true;
+      allow create: if request.auth != null
+                    && request.resource.data.authorId == request.auth.uid
+                    && request.resource.data.authorName is string
+                    && request.resource.data.title is string
+                    && request.resource.data.description is string
+                    && request.resource.data.subject is string
+                    && request.resource.data.createdAt is timestamp
+                    && request.resource.data.views == 0
+                    && request.resource.data.replies == 0
+                    && request.resource.data.likes == 0;
+      allow update: if request.auth != null && resource.data.authorId == request.auth.uid
+                    && (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['likes', 'views', 'replies'])
+                        || request.resource.data.diff(resource.data).affectedKeys().hasOnly(['isPinned']));
+      allow delete: if request.auth != null && resource.data.authorId == request.auth.uid;
+
+      match /replies/{replyId} {
+        allow read: if true;
+        allow create: if request.auth != null
+                      && request.resource.data.authorId == request.auth.uid
+                      && request.resource.data.authorName is string
+                      && request.resource.data.text is string
+                      && request.resource.data.createdAt is timestamp
+                      && request.resource.data.likes == 0
+                      && request.resource.data.helpful == false;
+        allow update: if request.auth != null
+                      && ((resource.data.authorId == request.auth.uid
+                          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['likes', 'helpful']))
+                          || (get(/databases/$(database)/documents/discussions/$(docId)).data.authorId == request.auth.uid
+                          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['helpful'])));
+        allow delete: if request.auth != null && resource.data.authorId == request.auth.uid;
+      }
     }
   }
 }

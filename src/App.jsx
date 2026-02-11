@@ -35,6 +35,7 @@ import { RankingScreen } from './components/ranking/RankingScreen';
 import { ProfileScreen } from './components/profile/ProfileScreen';
 import { BottomNavigation } from './components/layout/BottomNavigation';
 import { AchievementToast } from './components/common/AchievementToast';
+import { CommunityFeaturesModal } from './components/common/CommunityFeaturesModal';
 import { getIconComponent } from './utils/iconMapper';
 import LoadingScreen from './components/common/LoadingScreen';
 import { SimulatedScreen } from './components/simulated/SimulatedScreen';
@@ -45,6 +46,8 @@ import { DifficultySelector } from './components/quiz/DifficultySelector';
 import { TerritoryManager } from './components/simulated/TerritoryManager';
 import { CarnivalChallenge } from './components/carnival/CarnivalChallenge';
 import { GroupGameScreen } from './components/group-game/GroupGameScreen';
+import { MentorshipScreen } from './components/mentorship/MentorshipScreen';
+import { DiscussionForum } from './components/mentorship/DiscussionForum';
 
 export default function App() {
   const [view, setView] = useState('login');
@@ -60,6 +63,7 @@ export default function App() {
   const [showSubjectDetails, setShowSubjectDetails] = useState(false);
   const [quizFinished, setQuizFinished] = useState(false);
   const [filteredQuestions, setFilteredQuestions] = useState([]);
+  const [showCommunityModal, setShowCommunityModal] = useState(false);
 
   const toggleTheme = () => setIsDark(!isDark);
 
@@ -374,6 +378,21 @@ export default function App() {
         }
       }
 
+      // 8. Badge de mentoria (badge-mentor)
+      if (!shouldUnlock && badge.id === 'badge-mentor') {
+        shouldUnlock = (userData.mentorHelps || 0) >= badge.reqMentorHelp;
+      }
+
+      // 9. Badge de pergunta boa (badge-pergunta-boa)
+      if (!shouldUnlock && badge.id === 'badge-pergunta-boa') {
+        shouldUnlock = (userData.questionsSubmitted || []).length >= 1;
+      }
+
+      // 10. Badge de feedback (badge-feedback)
+      if (!shouldUnlock && badge.id === 'badge-feedback') {
+        shouldUnlock = (userData.feedbacksCount || 0) >= badge.reqFeedbacks;
+      }
+
       if (shouldUnlock) {
         await unlockBadge(badge.id);
         // Atualiza a lista local para evitar re-desbloqueio no mesmo ciclo
@@ -456,6 +475,95 @@ export default function App() {
     }
   };
 
+  // Funções para Badges Comunitárias
+  
+  const recordMentorHelp = async (helpedUserId) => {
+    if (!auth.currentUser) return;
+    try {
+      const userDocRef = doc(db, 'users', auth.currentUser.uid);
+      const newMentorCount = (userData.mentorHelps || 0) + 1;
+      await updateDoc(userDocRef, { mentorHelps: newMentorCount });
+      setUserData(prev => ({ ...prev, mentorHelps: newMentorCount }));
+      
+      // Verifica se desbloqueou a badge de mentor
+      checkAndUnlockBadges(userData.correctQuestions || [], userData.xp || 0);
+      
+      // Registra no Firestore
+      const mentorActivityRef = collection(db, 'communityActivity', 'mentor', auth.currentUser.uid);
+      await setDoc(doc(mentorActivityRef, new Date().getTime().toString()), {
+        helpedUser: helpedUserId,
+        timestamp: new Date().toISOString(),
+        mentorName: userData.displayName
+      });
+    } catch (error) {
+      console.error("Erro ao registrar mentoria:", error);
+    }
+  };
+
+  const submitQuestionIdea = async (questionData) => {
+    if (!auth.currentUser) return;
+    try {
+      const userDocRef = doc(db, 'users', auth.currentUser.uid);
+      const updatedSubmitted = [...(userData.questionsSubmitted || [])];
+      const questionId = new Date().getTime().toString();
+      updatedSubmitted.push(questionId);
+      
+      await updateDoc(userDocRef, { questionsSubmitted: updatedSubmitted });
+      setUserData(prev => ({ ...prev, questionsSubmitted: updatedSubmitted }));
+      
+      // Verifica se desbloqueou a badge de pergunta boa
+      checkAndUnlockBadges(userData.correctQuestions || [], userData.xp || 0);
+      
+      // Registra a sugestão de pergunta
+      const questionsRef = collection(db, 'communityActivity', 'submittedQuestions');
+      await setDoc(doc(questionsRef, questionId), {
+        userId: auth.currentUser.uid,
+        userName: userData.displayName,
+        userPhoto: userData.photoURL,
+        question: questionData.question,
+        options: questionData.options,
+        correctAnswer: questionData.correctAnswer,
+        explanation: questionData.explanation,
+        subject: questionData.subject,
+        difficulty: questionData.difficulty,
+        timestamp: new Date().toISOString(),
+        status: 'pending',
+        likes: 0,
+        dislikes: 0
+      });
+    } catch (error) {
+      console.error("Erro ao submeter pergunta:", error);
+    }
+  };
+
+  const submitQuestionFeedback = async (questionId, feedbackText, rating) => {
+    if (!auth.currentUser) return;
+    try {
+      const userDocRef = doc(db, 'users', auth.currentUser.uid);
+      const newFeedbackCount = (userData.feedbacksCount || 0) + 1;
+      await updateDoc(userDocRef, { feedbacksCount: newFeedbackCount });
+      setUserData(prev => ({ ...prev, feedbacksCount: newFeedbackCount }));
+      
+      // Verifica se desbloqueou a badge de feedback
+      checkAndUnlockBadges(userData.correctQuestions || [], userData.xp || 0);
+      
+      // Registra o feedback
+      const feedbackRef = collection(db, 'communityActivity', 'feedbacks');
+      await setDoc(doc(feedbackRef, new Date().getTime().toString()), {
+        userId: auth.currentUser.uid,
+        userName: userData.displayName,
+        userPhoto: userData.photoURL,
+        questionId: questionId,
+        feedbackText: feedbackText,
+        rating: rating, // 1-5 stars
+        timestamp: new Date().toISOString(),
+        helpful: 0
+      });
+    } catch (error) {
+      console.error("Erro ao enviar feedback:", error);
+    }
+  };
+
   const handleGoogleLogin = async () => {
     try {
       const provider = new GoogleAuthProvider();
@@ -526,6 +634,7 @@ export default function App() {
               toggleTheme={toggleTheme}
               setView={setView}
               badges={ALL_BADGES}
+              onOpenCommunity={() => setShowCommunityModal(true)}
             />
           )}
 
@@ -626,6 +735,24 @@ export default function App() {
               unlockBadge={unlockBadge}
             />
           )}
+
+          {/* Mentorship Screen */}
+          {view === 'mentorship' && (
+            <MentorshipScreen
+              setView={setView}
+              isDark={isDark}
+              userData={userData}
+            />
+          )}
+
+          {/* Discussion Forum */}
+          {view === 'discussion' && (
+            <DiscussionForum
+              setView={setView}
+              isDark={isDark}
+              userData={userData}
+            />
+          )}
         </AnimatePresence>
 
         {showSubjectDetails && selectedSubject && (
@@ -642,6 +769,16 @@ export default function App() {
       <AnimatePresence>
         {newBadge && <AchievementToast badge={newBadge} onDismiss={() => setNewBadge(null)} />}
       </AnimatePresence>
+
+      {/* Community Features Modal */}
+      <CommunityFeaturesModal
+        isOpen={showCommunityModal}
+        onClose={() => setShowCommunityModal(false)}
+        onRecordMentor={recordMentorHelp}
+        onSubmitQuestion={submitQuestionIdea}
+        onSubmitFeedback={submitQuestionFeedback}
+        userData={userData}
+      />
 
       <style dangerouslySetInnerHTML={{
         __html: `

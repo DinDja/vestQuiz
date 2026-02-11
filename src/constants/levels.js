@@ -16,7 +16,6 @@ export const getLevelData = (xp = 0) => {
   const currentLevelXp = xp % LEVEL_CONFIG.XP_PER_LEVEL;
   const progress = (currentLevelXp / LEVEL_CONFIG.XP_PER_LEVEL) * 100;
   
-  // Design por Estágio de Aprendizado
   let cardStyle = "";
   if (level <= 5) cardStyle = "from-emerald-600 to-teal-800 border-emerald-400/30"; // Base
   else if (level <= 10) cardStyle = "from-blue-600 to-indigo-800 border-blue-400/30"; // Intermediário

@@ -31,7 +31,8 @@ export const Dashboard = ({
   isDark,
   toggleTheme,
   setView,
-  badges
+  badges,
+  onOpenCommunity
 }) => {
   const [showIntro, setShowIntro] = useState(false);
 
@@ -464,6 +465,114 @@ export const Dashboard = ({
         <div className="absolute right-4 top-1/2 -translate-y-1/2 text-white/50 group-active:translate-x-1 transition-transform">
           <ChevronRight size={20} />
         </div>
+      </div>
+
+      {/* CARD COMUNIDADE: Funcionalidades Comunitárias */}
+      <div 
+        onClick={onOpenCommunity}
+        className={`group relative overflow-hidden rounded-3xl p-6 cursor-pointer transition-all duration-300 transform active:scale-95 border-b-4 border-black/20 ${
+          isDark 
+            ? 'bg-gradient-to-br from-emerald-600 to-teal-700 shadow-emerald-900/20' 
+            : 'bg-gradient-to-br from-emerald-500 to-teal-600 shadow-emerald-200'
+        } shadow-xl`}
+      >
+        <div className="relative z-10 flex items-center justify-between">
+          <div className="space-y-1.5">
+            <div className="flex items-center gap-2 text-white/80">
+              <Users size={16} />
+              <span className="text-[10px] font-black uppercase tracking-widest">
+                Comunidade
+              </span>
+            </div>
+            <div>
+              <h3 className="text-xl font-black text-white uppercase tracking-tight leading-none">
+                Recursos Comunitários
+              </h3>
+              <p className="text-xs text-white/70 font-medium mt-1">
+                Conte ideias e ajude!
+              </p>
+            </div>
+          </div>
+          
+          <div className="h-12 w-12 rounded-2xl bg-white/20 flex items-center justify-center backdrop-blur-sm group-hover:bg-white/30 transition-colors border border-white/10">
+               <ChevronRight className="text-white" size={24} />
+          </div>
+        </div>
+
+        {/* Decoration */}
+        <Users className="absolute -right-2 -bottom-4 text-white/10 w-32 h-32 rotate-12 transition-transform duration-500 group-hover:rotate-0" />
+      </div>
+
+      {/* CARD MENTORIA */}
+      <div 
+        onClick={() => setView('mentorship')}
+        className={`group relative overflow-hidden rounded-3xl p-6 cursor-pointer transition-all duration-300 transform active:scale-95 border-b-4 border-black/20 ${
+          isDark 
+            ? 'bg-gradient-to-br from-cyan-600 to-blue-700 shadow-cyan-900/20' 
+            : 'bg-gradient-to-br from-cyan-500 to-blue-600 shadow-cyan-200'
+        } shadow-xl`}
+      >
+        <div className="relative z-10 flex items-center justify-between">
+          <div className="space-y-1.5">
+            <div className="flex items-center gap-2 text-white/80">
+              <Users size={16} />
+              <span className="text-[10px] font-black uppercase tracking-widest">
+                Aprendizado Colaborativo
+              </span>
+            </div>
+            <div>
+              <h3 className="text-xl font-black text-white uppercase tracking-tight leading-none">
+                Mentoria Acadêmica
+              </h3>
+              <p className="text-xs text-white/70 font-medium mt-1">
+                Receba ajuda ou seja mentor!
+              </p>
+            </div>
+          </div>
+          
+          <div className="h-12 w-12 rounded-2xl bg-white/20 flex items-center justify-center backdrop-blur-sm group-hover:bg-white/30 transition-colors border border-white/10">
+               <ChevronRight className="text-white" size={24} />
+          </div>
+        </div>
+
+        {/* Decoration */}
+        <Users className="absolute -right-2 -bottom-4 text-white/10 w-32 h-32 rotate-12 transition-transform duration-500 group-hover:rotate-0" />
+      </div>
+
+      {/* CARD FÓRUM */}
+      <div 
+        onClick={() => setView('discussion')}
+        className={`group relative overflow-hidden rounded-3xl p-6 cursor-pointer transition-all duration-300 transform active:scale-95 border-b-4 border-black/20 ${
+          isDark 
+            ? 'bg-gradient-to-br from-purple-600 to-indigo-700 shadow-purple-900/20' 
+            : 'bg-gradient-to-br from-purple-500 to-indigo-600 shadow-purple-200'
+        } shadow-xl`}
+      >
+        <div className="relative z-10 flex items-center justify-between">
+          <div className="space-y-1.5">
+            <div className="flex items-center gap-2 text-white/80">
+              <Users size={16} />
+              <span className="text-[10px] font-black uppercase tracking-widest">
+                Comunidade
+              </span>
+            </div>
+            <div>
+              <h3 className="text-xl font-black text-white uppercase tracking-tight leading-none">
+                Fórum de Discussão
+              </h3>
+              <p className="text-xs text-white/70 font-medium mt-1">
+                Compartilhe dúvidas e soluções!
+              </p>
+            </div>
+          </div>
+          
+          <div className="h-12 w-12 rounded-2xl bg-white/20 flex items-center justify-center backdrop-blur-sm group-hover:bg-white/30 transition-colors border border-white/10">
+               <ChevronRight className="text-white" size={24} />
+          </div>
+        </div>
+
+        {/* Decoration */}
+        <Users className="absolute -right-2 -bottom-4 text-white/10 w-32 h-32 rotate-12 transition-transform duration-500 group-hover:rotate-0" />
       </div>
 
       {/* evento limitado (Carnaval) movido para cima */}

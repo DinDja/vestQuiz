@@ -451,7 +451,7 @@ export const BADGES = [
     reqFeedbacks: 20
   },
 
-  // BADGES: Cultura Popular Baiana (novo)
+  // BADGES: Cultura Popular Baiana
   {
     id: 'badge-bahia-iniciacao',
     name: "Filho(a) da Bahia",
