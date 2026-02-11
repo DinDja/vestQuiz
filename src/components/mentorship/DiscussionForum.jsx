@@ -30,7 +30,7 @@ export const DiscussionForum = ({
   const [replies, setReplies] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const subjects = ['Geral', 'Matemática', 'Geografia', 'História', 'Biologia', 'Linguagens', 'Sociologia', 'Filosofia'];
+  const subjects = ['Geral', 'Matemática', 'Geografia', 'História', 'Biologia', 'Linguagens', 'Sociologia', 'Filosofia', 'Teologia', 'Religião Iorubá'];
 
   // Carregar discussões
   useEffect(() => {

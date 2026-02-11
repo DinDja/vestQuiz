@@ -3653,7 +3653,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'easy',
                 bloomLevel: 'Conhecer',
-                skillCode: 'DCRB-CUL-01',
+                skillCode: 'CE-DCRB-03',
                 explanation: 'O acarajé, feito de feijão-fradinho e frito no óleo-de-dendê, tem origem iorubá e é símbolo da culinária de rua baiana.'
             },
             {
@@ -3663,7 +3663,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'easy',
                 bloomLevel: 'Conhecer',
-                skillCode: 'DCRB-CUL-02',
+                skillCode: 'CE-DCRB-03',
                 explanation: 'O azeite-de-dendê (óleo de palma) é fundamental na culinária afro-baiana, conferindo cor e sabor marcantes.'
             },
             {
@@ -3673,7 +3673,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'easy',
                 bloomLevel: 'Conhecer',
-                skillCode: 'DCRB-CUL-03',
+                skillCode: 'DCRB-ART-06',
                 explanation: 'Dorival Caymmi construiu um repertório que celebra pescadores, praias e modos de vida do litoral baiano.'
             },
             {
@@ -3683,7 +3683,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'easy',
                 bloomLevel: 'Compreender',
-                skillCode: 'DCRB-CUL-04',
+                skillCode: 'CE-DCRB-03',
                 explanation: 'O samba de roda reúne canto, percussão e dança em círculos comunitários; foi inscrito pela UNESCO como patrimônio imaterial.'
             },
             {
@@ -3693,7 +3693,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'easy',
                 bloomLevel: 'Conhecer',
-                skillCode: 'DCRB-CUL-05',
+                skillCode: 'DCRB-ART-06',
                 explanation: 'O atabaque é um tambor de origem africana usado tanto em manifestações religiosas quanto em vários estilos musicais baianos.'
             },
             {
@@ -3703,7 +3703,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'easy',
                 bloomLevel: 'Compreender',
-                skillCode: 'DCRB-CUL-06',
+                skillCode: 'DCRB-SOC-05',
                 explanation: 'A Lavagem do Bonfim mistura devoção católica e rituais afro-brasileiros, atraindo grande participação popular em Salvador.'
             },
             {
@@ -3713,7 +3713,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'easy',
                 bloomLevel: 'Compreender',
-                skillCode: 'DCRB-CUL-07',
+                skillCode: 'CE-DCRB-03',
                 explanation: 'As fitas são amarradas como pedidos ou graças; ao serem cortadas, acredita-se que o desejo será atendido.'
             },
             {
@@ -3723,7 +3723,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'easy',
                 bloomLevel: 'Conhecer',
-                skillCode: 'DCRB-CUL-08',
+                skillCode: 'EM13CHS201',
                 explanation: 'O Olodum, criado em Salvador, combina ativismo cultural com forte identidade rítmica e visual no Carnaval.'
             },
             {
@@ -3733,7 +3733,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'easy',
                 bloomLevel: 'Conhecer',
-                skillCode: 'DCRB-CUL-09',
+                skillCode: 'DCRB-ART-06',
                 explanation: 'O samba-reggae surgiu em Salvador na interseção entre samba e reggae, promovendo novos arranjos rítmicos no Carnaval.'
             },
             {
@@ -3743,7 +3743,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'easy',
                 bloomLevel: 'Conhecer',
-                skillCode: 'DCRB-CUL-10',
+                skillCode: 'DCRB-SOC-05',
                 explanation: 'Iemanjá é uma orixá das águas, muito cultuada em festas e oferendas costeiras na Bahia e em outras regiões.'
             },
             {
@@ -3753,7 +3753,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'easy',
                 bloomLevel: 'Conhecer',
-                skillCode: 'DCRB-CUL-11',
+                skillCode: 'DCRB-SOC-05',
                 explanation: 'Os terreiros são espaços sagrados do candomblé onde se realizam cerimônias, cânticos e danças ritualísticas.'
             },
             {
@@ -3763,7 +3763,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'medium',
                 bloomLevel: 'Compreender',
-                skillCode: 'DCRB-CUL-12',
+                skillCode: 'DCRB-SOC-05',
                 explanation: 'A ialorixá é autoridade religiosa que conduz cerimônias, transmite saberes e orienta a comunidade no candomblé.'
             },
             {
@@ -3773,7 +3773,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'medium',
                 bloomLevel: 'Analisar',
-                skillCode: 'DCRB-CUL-13',
+                skillCode: 'EM13CHS201',
                 explanation: 'O sincretismo resultou em práticas que mesclam santos católicos e orixás africanos como estratégia de resistência cultural.'
             },
             {
@@ -3783,7 +3783,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'medium',
                 bloomLevel: 'Conhecer',
-                skillCode: 'DCRB-CUL-14',
+                skillCode: 'DCRB-ART-01',
                 explanation: 'O candomblé utiliza cantigas em iorubá, roupas cerimoniais e oferendas em rituais que celebram orixás.'
             },
             {
@@ -3793,7 +3793,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'medium',
                 bloomLevel: 'Conhecer',
-                skillCode: 'DCRB-CUL-15',
+                skillCode: 'EM13CHS201',
                 explanation: 'Cachoeira, no Recôncavo, é um polo histórico de manifestações culturais afro-brasileiras e resistência quilombola.'
             },
             {
@@ -3803,7 +3803,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'medium',
                 bloomLevel: 'Compreender',
-                skillCode: 'DCRB-CUL-16',
+                skillCode: 'DCRB-SOC-05',
                 explanation: 'Axé é uma noção de energia e poder espiritual presente em cultos afro-brasileiros e na música popular baiana.'
             },
             {
@@ -3813,7 +3813,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'easy',
                 bloomLevel: 'Conhecer',
-                skillCode: 'DCRB-CUL-17',
+                skillCode: 'DCRB-LIN-01',
                 explanation: 'Jorge Amado descreveu o cotidiano, as festas e os conflitos sociais da Bahia, tornando-se referência literária.'
             },
             {
@@ -3823,7 +3823,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'easy',
                 bloomLevel: 'Conhecer',
-                skillCode: 'DCRB-CUL-18',
+                skillCode: 'DCRB-ART-01',
                 explanation: 'O samba de roda, com canto e roda coletiva, tem raízes africanas e forte presença no Recôncavo e na cultura baiana.'
             },
             {
@@ -3833,7 +3833,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'easy',
                 bloomLevel: 'Conhecer',
-                skillCode: 'DCRB-CUL-19',
+                skillCode: 'CE-DCRB-03',
                 explanation: 'As festas juninas (São João) reúnem quadrilhas, comidas típicas e celebrações católicas adaptadas à cultura local.'
             },
             {
@@ -3843,7 +3843,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'easy',
                 bloomLevel: 'Conhecer',
-                skillCode: 'DCRB-CUL-20',
+                skillCode: 'DCRB-ART-01',
                 explanation: 'A baiana de acarajé usa saia rodada, lenço na cabeça e colares que remetem a tradições afro-brasileiras.'
             },
             {
@@ -3853,7 +3853,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'medium',
                 bloomLevel: 'Conhecer',
-                skillCode: 'DCRB-CUL-21',
+                skillCode: 'CE-DCRB-03',
                 explanation: 'O vatapá é um creme à base de pão, camarão, dendê e temperos, presente na culinária baiana e em festas.'
             },
             {
@@ -3863,7 +3863,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'medium',
                 bloomLevel: 'Conhecer',
-                skillCode: 'DCRB-CUL-22',
+                skillCode: 'CE-DCRB-03',
                 explanation: 'O caruru é um prato feito com quiabo, castanhas, camarão e dendê, comum em oferendas e refeições festivas.'
             },
             {
@@ -3873,7 +3873,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'medium',
                 bloomLevel: 'Analisar',
-                skillCode: 'DCRB-CUL-23',
+                skillCode: 'DCRB-SOC-05',
                 explanation: 'O acarajé deriva de práticas alimentares iorubás trazidas ao Brasil por povos africanos escravizados.'
             },
             {
@@ -3883,7 +3883,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'medium',
                 bloomLevel: 'Compreender',
-                skillCode: 'DCRB-CUL-24',
+                skillCode: 'EM13CHS201',
                 explanation: 'As baianas representam empreendedorismo popular e papéis de liderança econômica entre mulheres em espaços urbanos.'
             },
             {
@@ -3893,7 +3893,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'medium',
                 bloomLevel: 'Conhecer',
-                skillCode: 'DCRB-CUL-25',
+                skillCode: 'DCRB-ART-06',
                 explanation: 'Bandas como Timbalada inovaram ao validar percussão e ritmos afro-brasileiros no cenário pop baiano.'
             },
             {
@@ -3903,7 +3903,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'easy',
                 bloomLevel: 'Conhecer',
-                skillCode: 'DCRB-CUL-26',
+                skillCode: 'DCRB-ART-06',
                 explanation: 'Caetano Veloso, natural de Santo Amaro (BA), foi central na Tropicália e na divulgação internacional da música brasileira.'
             },
             {
@@ -3913,7 +3913,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'medium',
                 bloomLevel: 'Conhecer',
-                skillCode: 'DCRB-CUL-27',
+                skillCode: 'DCRB-ART-06',
                 explanation: 'O samba-reggae é uma fusão rítmica que emergiu em Salvador e se relaciona a blocos-afro e movimentos culturais.'
             },
             {
@@ -3923,7 +3923,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'medium',
                 bloomLevel: 'Compreender',
-                skillCode: 'DCRB-CUL-28',
+                skillCode: 'EM13CHS201',
                 explanation: 'Ilê Aiyê foi um bloco-afro que promoveu orgulho racial e políticas culturais centradas na população negra.'
             },
             {
@@ -3933,7 +3933,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'easy',
                 bloomLevel: 'Conhecer',
-                skillCode: 'DCRB-CUL-29',
+                skillCode: 'DCRB-ART-06',
                 explanation: 'Ivete Sangalo, de Juazeiro (BA), tornou-se um ícone do axé e presença marcante nas festas populares.'
             },
             {
@@ -3943,7 +3943,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'easy',
                 bloomLevel: 'Conhecer',
-                skillCode: 'DCRB-CUL-30',
+                skillCode: 'DCRB-ART-06',
                 explanation: 'O trio elétrico é um caminhão com palco onde artistas e público se deslocam pelas ruas durante o Carnaval.'
             },
             {
@@ -3953,7 +3953,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'medium',
                 bloomLevel: 'Aplicar',
-                skillCode: 'DCRB-CUL-31',
+                skillCode: 'DCRB-ART-06',
                 explanation: 'Samba de roda e samba-reggae são manifestações que enfatizam percussão e participação coletiva no Carnaval baiano.'
             },
             {
@@ -3963,7 +3963,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'medium',
                 bloomLevel: 'Compreender',
-                skillCode: 'DCRB-CUL-32',
+                skillCode: 'EM13CHS201',
                 explanation: 'Olodum misturou ativismo cultural com ritmo e estética negra, influenciando música e política cultural.'
             },
             {
@@ -3973,7 +3973,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'hard',
                 bloomLevel: 'Analisar',
-                skillCode: 'DCRB-CUL-33',
+                skillCode: 'EM13CHS201',
                 explanation: 'Maracatu tem raízes em Pernambuco e difere em estrutura rítmica e cerimonial do samba de roda baiano.'
             },
             {
@@ -3983,7 +3983,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'medium',
                 bloomLevel: 'Avaliar',
-                skillCode: 'DCRB-CUL-34',
+                skillCode: 'EM13CHS201',
                 explanation: 'Blocos-afro promovem autoestima coletiva, memória histórica e oportunidades culturais para populações negras.'
             },
             {
@@ -3993,7 +3993,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'easy',
                 bloomLevel: 'Conhecer',
-                skillCode: 'DCRB-CUL-35',
+                skillCode: 'DCRB-ART-06',
                 explanation: 'O Carnaval de Salvador é conhecido por trios elétricos, blocos e enorme participação popular nas ruas.'
             },
             {
@@ -4003,7 +4003,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'medium',
                 bloomLevel: 'Conhecer',
-                skillCode: 'DCRB-CUL-36',
+                skillCode: 'CE-DCRB-03',
                 explanation: 'A renda de bilro é técnica de filigrana têxtil presente em diversas comunidades tradicionais do Nordeste, inclusive na Bahia.'
             },
             {
@@ -4013,7 +4013,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'medium',
                 bloomLevel: 'Conhecer',
-                skillCode: 'DCRB-CUL-37',
+                skillCode: 'DCRB-EF-01',
                 explanation: 'Mestre Pastinha foi mestre de Capoeira Angola e importante preservador dessa tradição afro-brasileira na Bahia.'
             },
             {
@@ -4023,7 +4023,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'easy',
                 bloomLevel: 'Conhecer',
-                skillCode: 'DCRB-CUL-38',
+                skillCode: 'CE-DCRB-03',
                 explanation: 'As quadrilhas são encenações dançadas que fazem parte das festas juninas, misturando tradição e celebração comunitária.'
             },
             {
@@ -4033,7 +4033,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'medium',
                 bloomLevel: 'Conhecer',
-                skillCode: 'DCRB-CUL-39',
+                skillCode: 'DCRB-LIN-01',
                 explanation: 'Castro Alves foi poeta baiano cuja obra denunciou a escravidão e influenciou movimentos por liberdade.'
             },
             {
@@ -4043,7 +4043,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'hard',
                 bloomLevel: 'Avaliar',
-                skillCode: 'DCRB-CUL-40',
+                skillCode: 'CE-DCRB-03',
                 explanation: 'O turismo pode proteger patrimônio histórico se aliado a políticas públicas; porém pode também levar à mercantilização cultural.'
             },
             {
@@ -4053,7 +4053,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'medium',
                 bloomLevel: 'Conhecer',
-                skillCode: 'DCRB-CUL-41',
+                skillCode: 'CE-DCRB-03',
                 explanation: 'A talha em madeira e a escultura popular produzem imagética ligada a orixás e devoções locais.'
             },
             {
@@ -4063,7 +4063,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'easy',
                 bloomLevel: 'Conhecer',
-                skillCode: 'DCRB-CUL-42',
+                skillCode: 'CE-DCRB-03',
                 explanation: 'As baianas de cerâmica estilizadas representam a figura icônica da vendedora de acarajé e são comuns como artesanato turístico.'
             },
             {
@@ -4073,7 +4073,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'hard',
                 bloomLevel: 'Avaliar',
-                skillCode: 'DCRB-CUL-43',
+                skillCode: 'CE-DCRB-03',
                 explanation: 'O turismo comunitário bem planejado oferece fontes de renda e promove a valorização cultural sem exploração externa.'
             },
             {
@@ -4083,7 +4083,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'medium',
                 bloomLevel: 'Conhecer',
-                skillCode: 'DCRB-CUL-44',
+                skillCode: 'DCRB-ART-06',
                 explanation: 'Contas, búzios e sementes são usados em colares (fios) que identificam filiações a orixás no candomblé.'
             },
             {
@@ -4093,7 +4093,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'hard',
                 bloomLevel: 'Conhecer',
-                skillCode: 'DCRB-CUL-45',
+                skillCode: 'EM13CHS201',
                 explanation: 'A Conjuração Baiana (1798) foi um movimento com demandas políticas por igualdade e fim da escravidão, com forte participação popular.'
             },
             {
@@ -4103,7 +4103,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'medium',
                 bloomLevel: 'Compreender',
-                skillCode: 'DCRB-CUL-46',
+                skillCode: 'EM13CHS201',
                 explanation: 'Quilombos conservam práticas, saberes e laços comunitários de resistência à escravidão e à discriminação.'
             },
             {
@@ -4113,7 +4113,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'easy',
                 bloomLevel: 'Conhecer',
-                skillCode: 'DCRB-CUL-47',
+                skillCode: 'DCRB-LIN-05',
                 explanation: 'Jorge Amado escreveu obras que se tornaram referência para entender a cultura popular e a formação social baiana.'
             },
             {
@@ -4123,7 +4123,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'hard',
                 bloomLevel: 'Analisar',
-                skillCode: 'DCRB-CUL-48',
+                skillCode: 'DCRB-ART-06',
                 explanation: 'Samba-reggae e blocos-afro atraíram atenção internacional, abrindo espaço para diálogos culturais e circulação artística.'
             },
             {
@@ -4133,7 +4133,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'hard',
                 bloomLevel: 'Analisar',
-                skillCode: 'DCRB-CUL-49',
+                skillCode: 'EM13CHS201',
                 explanation: 'A diáspora africana moldou profundamente religiões, ritmos, gastronomia e saberes populares na Bahia.'
             },
             {
@@ -4143,13 +4143,135 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'easy',
                 bloomLevel: 'Avaliar',
-                skillCode: 'DCRB-CUL-50',
+                skillCode: 'CE-DCRB-03',
                 explanation: 'A documentação e preservação ajudam a manter patrimônios imateriais vivos, asseguram reconhecimento e sustentabilidade cultural.'
             }
         ],
         summary: 'Módulo focado em manifestações, saberes e memórias vivas da cultura popular baiana, conectando história, arte e economia local.',
         mindMap: 'https://exemplo.com/mindmaps/cultura-baiana.png',
         videoPlaylist: 'https://www.youtube.com/playlist?list=PLTPg64KdGgY-cultura-baiana'
+    },
+    {
+        id: 'teologia-crista',
+        title: 'Teologia Cristã — Doutrina e História',
+        description: 'Doutrina cristã, história da igreja, sacramentos, escatologia e principais correntes teológicas.',
+        iconName: 'BookOpen',
+        category: 'Humanas',
+        learningObjective: 'Compreender doutrinas centrais do cristianismo, história e diversidade confessional.',
+        xp: 600,
+        questions: [
+            { id: 'teo-001', q: 'Qual doutrina descreve Deus como Pai, Filho e Espírito Santo?', a: ['Unitarianismo', 'Trindade', 'Modalismo', 'Deísmo'], correct: 1, difficulty: 'easy', bloomLevel: 'Conhecer', skillCode: 'EM13LGG102', explanation: 'A doutrina da Trindade define Deus em três pessoas coiguais e consubstanciais.' },
+            { id: 'teo-002', q: 'O Concílio que afirmou a consubstancialidade do Filho ao Pai foi:', a: ['Nicéia I', 'Calcedônia', 'Éfeso', 'Constantinopla II'], correct: 0, difficulty: 'medium', bloomLevel: 'Conhecer', skillCode: 'EM13CHS201', explanation: 'O Credo de Nicéia (325) afirmou que o Filho é homoousios (da mesma substância) com o Pai.' },
+            { id: 'teo-003', q: 'Qual termo descreve a crença na encarnação de Deus em Jesus?', a: ['Transubstanciação', 'Encarnação', 'Expiação', 'Gnose'], correct: 1, difficulty: 'easy', bloomLevel: 'Compreender', skillCode: 'EM13LGG102', explanation: 'Encarnação refere-se a Deus tornando-se humano em Jesus Cristo.' },
+            { id: 'teo-004', q: 'A doutrina que afirma justificação somente pela fé está associada a qual movimento?', a: ['Conciliarismo', 'Reforma Protestante', 'Monasticismo', 'Pentecostalismo'], correct: 1, difficulty: 'easy', bloomLevel: 'Conhecer', skillCode: 'EM13LGG102', explanation: 'Sola fide foi princípio central da Reforma, especialmente em Lutero.' },
+            { id: 'teo-005', q: 'Quem é frequentemente chamado de pai da teologia cristã ocidental por sistematizar a fé?', a: ['Tomás de Aquino', 'Agostinho de Hipona', 'João Crisóstomo', 'Orígenes'], correct: 1, difficulty: 'medium', bloomLevel: 'Conhecer', skillCode: 'EM13CHS201', explanation: 'Agostinho influenciou profundamente a teologia ocidental, especialmente sobre graça e pecado.' },
+            { id: 'teo-006', q: 'Qual sacramento é tradicionalmente associado à remissão dos pecados iniciais?', a: ['Confirmação', 'Batismo', 'Unção dos enfermos', 'Matrimônio'], correct: 1, difficulty: 'easy', bloomLevel: 'Conhecer', skillCode: 'EM13LGG102', explanation: 'O batismo é visto como sacramento de iniciação que perdoa os pecados.' },
+            { id: 'teo-007', q: 'A ênfase na salvação como dom imerecido de Deus é chamada de:', a: ['Mérito humano', 'Ritualismo', 'Graça', 'Justiça social'], correct: 2, difficulty: 'easy', bloomLevel: 'Compreender', skillCode: 'EM13LGG102', explanation: 'A graça é o favor divino que não pode ser ganho por obras humanas.' },
+            { id: 'teo-008', q: 'Quem foi figura-central da Reforma no século XVI na Alemanha?', a: ['Calvino', 'Lutero', 'Knox', 'Wycliffe'], correct: 1, difficulty: 'easy', bloomLevel: 'Conhecer', skillCode: 'EM13LGG102', explanation: 'Martinho Lutero iniciou a Reforma com as 95 teses (1517).' },
+            { id: 'teo-009', q: 'O estudo teológico que trata dos “últimos eventos” é chamado de:', a: ['Cristologia', 'Escatologia', 'Soteriologia', 'Eclesiologia'], correct: 1, difficulty: 'easy', bloomLevel: 'Conhecer', skillCode: 'EM13LGG102', explanation: 'Escatologia lida com morte, juízo final, ressurreição e fim dos tempos.' },
+            { id: 'teo-010', q: 'A explicação católica para a presença real de Cristo na Eucaristia chama-se:', a: ['Consubstanciação', 'Transubstanciação', 'Memorialismo', 'Simbólico'], correct: 1, difficulty: 'medium', bloomLevel: 'Compreender', skillCode: 'EM13LGG102', explanation: 'Transubstanciação indica mudança da substância do pão e do vinho.' },
+            { id: 'teo-011', q: 'Quais critérios tradicionais ajudaram a formar o cânon do Novo Testamento?', a: ['Antiguidade, ortodoxia, uso litúrgico', 'Popularidade atual, marketing, número de cópias', 'Apoio estatal imediato', 'Tamanho do texto'], correct: 0, difficulty: 'medium', bloomLevel: 'Analisar', skillCode: 'EM13CHS201', explanation: 'Antiguidade, conformidade doutrinal e uso litúrgico foram decisivos.' },
+            { id: 'teo-012', q: 'O Concílio de Calcedônia (451) definiu Cristo como:', a: ['Dois modos de ser', 'Duas naturezas em uma pessoa', 'Um homem exaltado', 'Apenas divino'], correct: 1, difficulty: 'medium', bloomLevel: 'Conhecer', skillCode: 'EM13CHS201', explanation: 'A definição calcedoniana: duas naturezas (divina e humana) numa única pessoa.' },
+            { id: 'teo-013', q: 'A teologia que enfatiza predestinação e soberania divina é associada a:', a: ['Arminianismo', 'Calvinismo', 'Pelagianismo', 'Arianismo'], correct: 1, difficulty: 'medium', bloomLevel: 'Compreender', skillCode: 'EM13LGG102', explanation: 'O calvinismo destaca a soberania de Deus e a eleição divina.' },
+            { id: 'teo-014', q: 'Como se chama uma declaração oficial comunitária de fé (ex.: Credo)?', a: ['Heterodoxia', 'Credo', 'Exegese', 'Homilia'], correct: 1, difficulty: 'easy', bloomLevel: 'Conhecer', skillCode: 'EM13LGG102', explanation: 'Credos são sínteses públicas de crença usadas na liturgia.' },
+            { id: 'teo-015', q: 'Quem escreveu a Summa Theologiae?', a: ['Agostinho', 'Anselmo', 'Tomás de Aquino', 'Jerônimo'], correct: 2, difficulty: 'medium', bloomLevel: 'Conhecer', skillCode: 'EM13CHS201', explanation: 'Tomás de Aquino sistematizou a teologia cristã na Idade Média.' },
+            { id: 'teo-016', q: 'Qual termo descreve a cerimónia que lembra a morte e a ressurreição de Cristo?', a: ['Batismo', 'Eucaristia', 'Confissão', 'Unção'], correct: 1, difficulty: 'easy', bloomLevel: 'Conhecer', skillCode: 'EM13LGG102', explanation: 'A Eucaristia (Santa Ceia) recorda a morte e ressurreição de Cristo.' },
+            { id: 'teo-017', q: 'O movimento que busca a unidade entre denominações cristãs é chamado de:', a: ['Fundamentalismo', 'Ecumenismo', 'Rigorismo', 'Sectarismo'], correct: 1, difficulty: 'easy', bloomLevel: 'Conhecer', skillCode: 'EM13LGG102', explanation: 'Ecumenismo promove diálogo e cooperação entre igrejas cristãs.' },
+            { id: 'teo-018', q: 'A leitura bíblica que procura sentido histórico-literário do texto é a:', a: ['Alegórica', 'Moralista', 'Histórico-gramatical', 'Mística'], correct: 2, difficulty: 'medium', bloomLevel: 'Compreender', skillCode: 'EM13LGG102', explanation: 'A abordagem histórico-gramatical foca contexto e intenção original.' },
+            { id: 'teo-019', q: 'A ideia do “pecado original” é mais fortemente associada a qual teólogo antigo?', a: ['Tomás de Aquino', 'Agostinho', 'Tertuliano', 'Eusébio'], correct: 1, difficulty: 'medium', bloomLevel: 'Conhecer', skillCode: 'EM13LGG102', explanation: 'Agostinho desenvolveu a doutrina do pecado original na patrística.' },
+            { id: 'teo-020', q: 'Qual corrente enfatiza a experiência carismática do Espírito Santo?', a: ['Luteranismo', 'Pentecostalismo', 'Anglicanismo', 'Ortodoxia Oriental'], correct: 1, difficulty: 'easy', bloomLevel: 'Conhecer', skillCode: 'EM13LGG102', explanation: 'O pentecostalismo valoriza manifestações como falar em línguas e curas.' },
+            { id: 'teo-021', q: 'O termo “expiação” refere-se a:', a: ['Rituais de purificação', 'Como a morte de Cristo reconcilia a humanidade com Deus', 'Estrutura litúrgica', 'Forma de governo eclesiástico'], correct: 1, difficulty: 'medium', bloomLevel: 'Compreender', skillCode: 'EM13LGG102', explanation: 'Expiação trata da reconciliação entre Deus e humanidade por meio de Cristo.' },
+            { id: 'teo-022', q: 'Qual foi a principal língua do Novo Testamento?', a: ['Latim', 'Hebraico', 'Grego koiné', 'Siríaco'], correct: 2, difficulty: 'easy', bloomLevel: 'Conhecer', skillCode: 'EM13LGG102', explanation: 'O NT foi escrito majoritariamente em grego koiné.' },
+            { id: 'teo-023', q: 'Qual cargo eclesiástico está ligado à sucessão apostólica?', a: ['Diácono', 'Bispo', 'Presbítero leigo', 'Catequista'], correct: 1, difficulty: 'easy', bloomLevel: 'Conhecer', skillCode: 'EM13LGG102', explanation: 'O ofício episcopal é tradicionalmente ligado à sucessão apostólica.' },
+            { id: 'teo-024', q: 'Qual tradição reformada enfatiza autoridade bíblica e liturgia reformatada?', a: ['Anglicanismo', 'Reformado/Calvinismo', 'Metodismo', 'Monofisismo'], correct: 1, difficulty: 'medium', bloomLevel: 'Compreender', skillCode: 'EM13CHS201', explanation: 'Tradições reformadas seguem princípios da Reforma protestante, incluindo Sola Scriptura.' },
+            { id: 'teo-025', q: 'A teologia natural busca:', a: ['Provar Deus apenas por revelação', 'Usar razão e criação para refletir sobre Deus', 'Rejeitar a fé', 'Substituir a Bíblia'], correct: 1, difficulty: 'medium', bloomLevel: 'Compreender', skillCode: 'EM13LGG102', explanation: 'Teologia natural investiga conhecimento de Deus por meio da razão e do mundo criado.' },
+            { id: 'teo-026', q: 'Na doutrina cristã, “incorruptibilidade” refer-se a:', a: ['Apenas imortalidade da alma', 'Corpo ressuscitado livre de corrupção', 'Doutrina budista', 'Simbolismo social'], correct: 1, difficulty: 'medium', bloomLevel: 'Compreender', skillCode: 'EM13LGG102', explanation: 'Refere-se à qualidade do corpo na ressurreição, sem decadência.' },
+            { id: 'teo-027', q: 'Quem defendeu vigorosamente a justificação pela fé (sola fide)?', a: ['Agostinho', 'Martinho Lutero', 'Orígenes', 'Gregório Magno'], correct: 1, difficulty: 'easy', bloomLevel: 'Conhecer', skillCode: 'EM13CHS201', explanation: 'Lutero foi proeminente na defesa da sola fide durante a Reforma.' },
+            { id: 'teo-028', q: 'A diferença prática entre aspersão e imersão no batismo é:', a: ['Local do rito', 'Quantidade de água usada', 'Modo físico de administrar o batismo', 'Identidade do celebrante'], correct: 2, difficulty: 'easy', bloomLevel: 'Compreender', skillCode: 'EM13LGG102', explanation: 'Aspersão pulveriza água; imersão submerge o sujeito.' },
+            { id: 'teo-029', q: 'Qual prática sacramental institui ministério ordenado ou confirmação?', a: ['Eucaristia', 'Ordem/Confirmação', 'Casamento', 'Jejum'], correct: 1, difficulty: 'medium', bloomLevel: 'Conhecer', skillCode: 'EM13LGG102', explanation: 'Ordenação institui ministério; confirmação sela a fé em muitas tradições.' },
+            { id: 'teo-030', q: 'Soteriologia é o estudo de:', a: ['Natureza de Deus', 'Doutrina da salvação', 'Organização da igreja', 'História bíblica'], correct: 1, difficulty: 'easy', bloomLevel: 'Conhecer', skillCode: 'EM13LGG102', explanation: 'Soteriologia trata de como e por que a salvação ocorre.' },
+            { id: 'teo-031', q: 'Qual tradição preserva ritos litúrgicos antigos e forte ênfase sacramental?', a: ['Protestantismo liberal', 'Ortodoxia Oriental/Catolicidade litúrgica', 'Anabatismo', 'Fundamentalismo'], correct: 1, difficulty: 'medium', bloomLevel: 'Compreender', skillCode: 'EM13CHS201', explanation: 'Igrejas ortodoxas e católicas mantêm liturgias históricas e sacramentalidade.' },
+            { id: 'teo-032', q: 'Qual movimento missionário se expandiu globalmente no século XIX?', a: ['Reforma', 'Movimento missionário protestante', 'Concílio Vaticano II', 'Iluminismo'], correct: 1, difficulty: 'medium', bloomLevel: 'Conhecer', skillCode: 'EM13CHS201', explanation: 'Missões protestantes do século XIX impulsionaram evangelização global.' },
+            { id: 'teo-033', q: 'Na patrística, uma preocupação central foi:', a: ['Relação entre fé e razão e combate a heresias', 'Economia política', 'Teoria da evolução', 'Ecumenismo moderno'], correct: 0, difficulty: 'medium', bloomLevel: 'Analisar', skillCode: 'EM13CHS201', explanation: 'Pais da igreja defenderam a ortodoxia e articularam relação entre fé e razão.' },
+            { id: 'teo-034', q: 'Canonização na Igreja Católica significa:', a: ['Escolher um pastor', 'Reconhecer oficialmente alguém como santo', 'Traduzir a Bíblia', 'Reformar ritos'], correct: 1, difficulty: 'easy', bloomLevel: 'Conhecer', skillCode: 'EM13CHS201', explanation: 'Canonizar é declarar alguém santo e digno de culto público.' },
+            { id: 'teo-035', q: 'A doutrina que nega a plena divindade de Cristo (ex.: Cristo criado) é:', a: ['Trinitariano', 'Arianismo', 'Pelagianismo', 'Monasticismo'], correct: 1, difficulty: 'medium', bloomLevel: 'Conhecer', skillCode: 'EM13LGG102', explanation: 'Arianismo afirmava que o Filho foi criado e não coeterno com o Pai.' },
+            { id: 'teo-036', q: 'Qual abordagem litúrgica destaca a centralidade da Palavra pregada?', a: ['Liturgia eucarística', 'Pregação/proclamação', 'Iconografia', 'Ascetismo'], correct: 1, difficulty: 'easy', bloomLevel: 'Compreender', skillCode: 'EM13LGG102', explanation: 'Algumas tradições protestantes colocam ênfase central na proclamação.' },
+            { id: 'teo-037', q: 'Quais são as virtudes cardeais na tradição cristã (clássica)?', a: ['Fé, Esperança, Caridade', 'Prudência, Justiça, Temperança, Fortaleza', 'Unidade, Paz, Bem-estar', 'Profecia, Cura, Línguas'], correct: 1, difficulty: 'medium', bloomLevel: 'Conhecer', skillCode: 'EM13LGG102', explanation: 'Prudência, justiça, temperança e fortaleza são virtudes cardeais clássicas.' },
+            { id: 'teo-038', q: 'Qual concílio do século XX reformou ritos e práticas católicas?', a: ['Concílio Vaticano II', 'Concílio de Trento', 'Concílio de Niceia', 'Concílio de Éfeso'], correct: 0, difficulty: 'easy', bloomLevel: 'Conhecer', skillCode: 'EM13CHS201', explanation: 'Vaticano II (1962–1965) promoveu reformas litúrgicas e pastorais.' },
+            { id: 'teo-039', q: 'Qual tradição defende batismo apenas de crentes (não de bebês)?', a: ['Anglicanismo', 'Anabatista', 'Ortodoxia', 'Catolicismo'], correct: 1, difficulty: 'medium', bloomLevel: 'Conhecer', skillCode: 'EM13CHS201', explanation: 'Anabatistas defendem o batismo de crentes conscientes.' },
+            { id: 'teo-040', q: 'A hermenêutica histórica-crítica busca:', a: ['Leitura literal sem contexto', 'Análise do contexto histórico e literário', 'Interpretação exclusivamente alegórica', 'Ignorar contexto autoral'], correct: 1, difficulty: 'medium', bloomLevel: 'Analisar', skillCode: 'EM13LGG102', explanation: 'A crítica histórica considera contexto, linguagem e intenção do autor.' },
+            { id: 'teo-041', q: 'No cristianismo, o título “Messias” refere-se a:', a: ['Figura salvadora esperada', 'Profeta menor', 'Ritual', 'Sacramento'], correct: 0, difficulty: 'easy', bloomLevel: 'Conhecer', skillCode: 'EM13LGG102', explanation: 'Messias (Cristo) é entendido como aquele ungido para salvar.' },
+            { id: 'teo-042', q: 'Qual tradição valoriza ícones, liturgia e sucessão apostólica?', a: ['Pentecostalismo', 'Ortodoxia Oriental', 'Liberalismo teológico', 'Humanismo cristão'], correct: 1, difficulty: 'medium', bloomLevel: 'Conhecer', skillCode: 'EM13CHS201', explanation: 'A ortodoxia oriental enfatiza liturgia e continuidade apostólica.' },
+            { id: 'teo-043', q: 'Que teólogo é associado à teologia da libertação?', a: ['Gustavo Gutiérrez', 'John Calvin', 'Thomas Cranmer', 'Orígenes'], correct: 0, difficulty: 'medium', bloomLevel: 'Conhecer', skillCode: 'EM13CHS201', explanation: 'Gustavo Gutiérrez é reconhecido como fundador da teologia da libertação.' },
+            { id: 'teo-044', q: 'O Credo Niceno-Constantinopolitano é:', a: ['Um livro devocional', 'Uma formulação conciliar da fé', 'Um hino medieval', 'Uma carta papal'], correct: 1, difficulty: 'easy', bloomLevel: 'Conhecer', skillCode: 'EM13CHS201', explanation: 'É uma fórmula de fé elaborada nos concílios de Niceia e Constantinopla.' },
+            { id: 'teo-045', q: 'A doutrina Sola Scriptura afirma que:', a: ['A Bíblia é autoridade final para a fé', 'Tradição é suprema', 'Razão substitui a Bíblia', 'Escolas teológicas decidem'], correct: 0, difficulty: 'easy', bloomLevel: 'Conhecer', skillCode: 'EM13LGG102', explanation: 'Sola Scriptura sustenta a Escritura como autoridade normativa para a fé e prática.' },
+            { id: 'teo-046', q: 'Na teologia sacramental, a eficácia do sacramento depende de:', a: ['Apenas fé do ministro', 'Graça de Deus e meios instituídos (debate entre tradições)', 'Popularidade do rito', 'Renda da comunidade'], correct: 1, difficulty: 'hard', bloomLevel: 'Analisar', skillCode: 'EM13LGG102', explanation: 'As tradições debatem a eficácia, mas muitas afirmam ação da graça nos sacramentos.' },
+            { id: 'teo-047', q: 'A visão que separa corpo e alma completamente é chamada:', a: ['Holismo', 'Dualismo cartesiano', 'Tricotomia', 'Monismo'], correct: 1, difficulty: 'medium', bloomLevel: 'Conhecer', skillCode: 'EM13LGG102', explanation: 'O dualismo cartesiano distingue mente/alma e corpo como substâncias distintas.' },
+            { id: 'teo-048', q: 'Uma questão central nos primeiros concílios ecumênicos foi:', a: ['Natureza de Cristo e da Trindade', 'Organização bancária', 'Calendário agrícola', 'Arquitetura sacra'], correct: 0, difficulty: 'medium', bloomLevel: 'Conhecer', skillCode: 'EM13CHS201', explanation: 'Os concílios trataram principalmente de cristologia e trinitarianismo.' },
+            { id: 'teo-049', q: 'O exame de consciência é uma prática ligada a:', a: ['Doutrina econômica', 'Formação moral e penitência', 'Teologia natural', 'História da igreja'], correct: 1, difficulty: 'easy', bloomLevel: 'Aplicar', skillCode: 'HT-DH-01', explanation: 'É um exercício de revisão moral pessoal relacionado à confissão e arrependimento.' },
+            { id: 'teo-050', q: 'A ênfase em simbolismo sacramental e mistério caracteriza qual abordagem?', a: ['Racionalismo', 'Litúrgico-sacramental/mística', 'Fundamentalismo', 'Nihilismo teológico'], correct: 1, difficulty: 'medium', bloomLevel: 'Analisar', skillCode: 'EM13LGG102', explanation: 'Abordagens litúrgicas-místicas destacam símbolos e mistério como centrais.' }
+        ]
+    },
+    {
+        id: 'religiao-ioruba',
+        title: 'Religião Iorubá — Cosmovisão e Práticas',
+        description: 'Cosmovisão, orixás, Ifá, rituais, sincretismo e a presença iorubá na diáspora atlântica.',
+        iconName: 'Globe',
+        category: 'Humanas',
+        learningObjective: 'Reconhecer conceitos centrais, ritos e práticas da tradição iorubá e suas expressões na diáspora.',
+        xp: 600,
+        questions: [
+            { id: 'yor-001', q: 'Qual termo iorubá refere-se à força vital ou energia espiritual que anima seres e objetos?', a: ['Ifá', 'Axé (àsè)', 'Oríṣà', 'Ẹ̀mí'], correct: 1, difficulty: 'easy', bloomLevel: 'Conhecer', skillCode: 'DCRB-SOC-05', explanation: 'Axé (àsè) é a energia espiritual que torna coisas eficazes.' },
+            { id: 'yor-002', q: 'Como é chamado o conjunto de divindades iorubás?', a: ['Orun', 'Oríṣà (Orisha)', 'Egúngún', 'Olódùmarè'], correct: 1, difficulty: 'easy', bloomLevel: 'Conhecer', skillCode: 'DCRB-SOC-05', explanation: 'Orisàs (orixás) são as divindades ou forças espirituais do panteão iorubá.' },
+            { id: 'yor-003', q: 'Quem é frequentemente reconhecido como o Deus supremo no panteão iorubá?', a: ['Ṣàngó', 'Olódùmarè / Ọlọrun', 'Ògún', 'Ọya'], correct: 1, difficulty: 'easy', bloomLevel: 'Conhecer', skillCode: 'DCRB-SOC-05', explanation: 'Olódùmarè (ou Ọlọrun) é entendido como o Criador e supremo.' },
+            { id: 'yor-004', q: 'Qual divindade iorubá é associada ao ferro, trabalho e guerra?', a: ['Yemọja', 'Ògún', 'Esù', 'Ọbatala'], correct: 1, difficulty: 'easy', bloomLevel: 'Conhecer', skillCode: 'DCRB-SOC-05', explanation: 'Ògún é o orixá do ferro, tecnologia e ofícios.' },
+            { id: 'yor-005', q: 'O sistema de adivinhação central na tradição iorubá é chamado:', a: ['Tarot', 'Ifá', 'Oráculo Grego', 'I Ching'], correct: 1, difficulty: 'easy', bloomLevel: 'Conhecer', skillCode: 'DCRB-SOC-05', explanation: 'Ifá é o sistema divinatório e corpus literário associado a Orunmila.' },
+            { id: 'yor-006', q: 'Qual é o papel do Babalawo na tradição Ifá?', a: ['Sacerdote/adivinho treinado em Ifá', 'Guerreiro', 'Rei civil', 'Artista'], correct: 0, difficulty: 'medium', bloomLevel: 'Conhecer', skillCode: 'DCRB-SOC-05', explanation: 'Babalawos são sacerdotes-especialistas em adivinhação Ifá.' },
+            { id: 'yor-007', q: 'Quem é Esù (Eshu) na cosmologia iorubá?', a: ['Deus supremo benevolente', 'Mensageiro/mediador e guardião de encruzilhadas', 'Divindade da água somente', 'Espírito maligno exclusivamente'], correct: 1, difficulty: 'easy', bloomLevel: 'Conhecer', skillCode: 'DCRB-SOC-05', explanation: 'Esù regula caminhos, comunicação e mediação entre planos.' },
+            { id: 'yor-008', q: 'O culto aos ancestrais iorubás é frequentemente chamado de:', a: ['Egúngún', 'Candomblé', 'Santería', 'Vodou'], correct: 0, difficulty: 'medium', bloomLevel: 'Conhecer', skillCode: 'DCRB-ART-01', explanation: 'Egúngún refere-se às manifestações/rituais que honram os ancestrais.' },
+            { id: 'yor-009', q: 'Qual divindade é associada às águas e à maternidade?', a: ['Ọya', 'Yemọja (Yemoja)', 'Ogun', 'Esù'], correct: 1, difficulty: 'easy', bloomLevel: 'Conhecer', skillCode: 'DCRB-SOC-05', explanation: 'Yemọja é tradicionalmente vinculada aos rios e ao mar e à maternidade.' },
+            { id: 'yor-010', q: 'O que é um ọ̀rìṣà em termos simples?', a: ['Um ritual específico', 'Uma divindade/força espiritual', 'Um tipo de oferenda', 'Um instrumento musical'], correct: 1, difficulty: 'easy', bloomLevel: 'Conhecer', skillCode: 'DCRB-SOC-05', explanation: 'Orixás são divindades ou manifestações de forças cósmicas.' },
+            { id: 'yor-011', q: 'Que prática litúrgica envolve máscaras e celebração dos ancestrais?', a: ['Ifá', 'Egúngún', 'Ọpọ́n Ifá', 'Oṣun'], correct: 1, difficulty: 'medium', bloomLevel: 'Conhecer', skillCode: 'DCRB-ART-01', explanation: 'Egúngún inclui danças mascaradas que representam ancestrais.' },
+            { id: 'yor-012', q: 'Qual conceito iorubá refere-se ao destino individual ou "cabeça espiritual"?', a: ['Iṣẹ́', 'Ori', 'Ase', 'Olu'], correct: 1, difficulty: 'medium', bloomLevel: 'Conhecer', skillCode: 'DCRB-SOC-05', explanation: 'Ori é a cabeça e destino pessoal, central à ética iorubá.' },
+            { id: 'yor-013', q: 'Qual orixá está associado ao trovão e à justiça?', a: ['Ṣàngó (Shango)', 'Ọya', 'Ọbatala', 'Osun'], correct: 0, difficulty: 'easy', bloomLevel: 'Conhecer', skillCode: 'DCRB-SOC-05', explanation: 'Ṣàngó é ligado ao trovão, relâmpago e justiça.' },
+            { id: 'yor-014', q: 'A transferência ou manutenção de axé costuma ocorrer por meio de:', a: ['Leitura de livros', 'Rituais, oferendas e iniciações', 'Votação comunitária', 'Meditação secular'], correct: 1, difficulty: 'medium', bloomLevel: 'Aplicar', skillCode: 'DCRB-SOC-05', explanation: 'Axé é cultivado e transmitido por práticas rituais e iniciações.' },
+            { id: 'yor-015', q: 'Em rituais de Ifá, os versos e signos usados para interpretar mensagens chamam-se:', a: ['Odu', 'Psalmos', 'Mantras', 'Sutras'], correct: 0, difficulty: 'medium', bloomLevel: 'Conhecer', skillCode: 'DCRB-LIN-05', explanation: 'Os Odu Ifá são coleções de versos e sinais usados na adivinhação.' },
+            { id: 'yor-016', q: 'Qual divindade é associada ao ar, transformação e ventos?', a: ['Yemọja', 'Ọya', 'Ògún', 'Esù'], correct: 1, difficulty: 'easy', bloomLevel: 'Conhecer', skillCode: 'DCRB-SOC-05', explanation: 'Ọya é vinculada ao vento, tempestade e transformação.' },
+            { id: 'yor-017', q: 'A figura do iniciador e guardião dos segredos religiosos iorubás para homens é:', a: ['Iyalawo', 'Babalawo', 'Obá', 'Olorun'], correct: 1, difficulty: 'medium', bloomLevel: 'Conhecer', skillCode: 'DCRB-SOC-05', explanation: 'Babalawo é o especialista-masculino em Ifá e rituais.' },
+            { id: 'yor-018', q: 'Em que regiões a tradição iorubá influenciou religiões sincréticas?', a: ['Sudeste Asiático', 'Caribe e Brasil (Candomblé, Santería)', 'Escandinávia', 'Europa Oriental'], correct: 1, difficulty: 'easy', bloomLevel: 'Conhecer', skillCode: 'EM13CHS201', explanation: 'A diáspora levou práticas iorubás a sincretizarem-se no Caribe e Brasil.' },
+            { id: 'yor-019', q: 'Qual é a importância dos egúngún nas comunidades iorubás?', a: ['Divindade do mar', 'Manifestação dos ancestrais e sua proteção', 'Nome de festival de colheita', 'Instrumento musical'], correct: 1, difficulty: 'medium', bloomLevel: 'Conhecer', skillCode: 'DCRB-SOC-05', explanation: 'Egúngún representa e conecta a comunidade aos ancestrais.' },
+            { id: 'yor-020', q: 'O que é “Ibeji” na cosmologia iorubá?', a: ['Ritual de purificação', 'Espírito dos gêmeos e veneração dos gêmeos', 'Tipo de oráculo', 'Nome de orixá guerreiro'], correct: 1, difficulty: 'easy', bloomLevel: 'Conhecer', skillCode: 'DCRB-SOC-05', explanation: 'Ibeji refere-se aos gêmeos e à sua veneração especial.' },
+            { id: 'yor-021', q: 'Qual caráter principal de Esù o torna central nas cerimônias?', a: ['É exclusivamente maligno', 'É mensageiro entre humanos e orixás e regula caminhos', 'É divindade da água', 'Não participa de rituais'], correct: 1, difficulty: 'easy', bloomLevel: 'Compreender', skillCode: 'DCRB-SOC-05', explanation: 'Esù abre e fecha caminhos e é essencial para comunicação ritual.' },
+            { id: 'yor-022', q: 'O que é um ôpón Ifá?', a: ['Instrumento musical', 'Tábua de adivinhação usada pelos babalawos', 'Tipo de oferenda', 'Máscara ancestral'], correct: 1, difficulty: 'medium', bloomLevel: 'Conhecer', skillCode: 'DCRB-LIN-05', explanation: 'Ôpón Ifá é tábua utilizada por babalawos na adivinhação.' },
+            { id: 'yor-023', q: 'Qual orixá é associada à sabedoria, pureza e criação?', a: ['Ọbatala', 'Ṣàngó', 'Osun', 'Ògún'], correct: 0, difficulty: 'medium', bloomLevel: 'Conhecer', skillCode: 'DCRB-SOC-05', explanation: 'Ọbatala associa-se à criação, pureza e ética.' },
+            { id: 'yor-024', q: 'A prática de dar oferendas para obter proteção ou favor é chamada:', a: ['Peregrinação', 'Ẹbọ (oferta/sacrifício)', 'Exorcismo', 'Jejum'], correct: 1, difficulty: 'easy', bloomLevel: 'Conhecer', skillCode: 'DCRB-SOC-05', explanation: 'Ẹbọ é o termo para oferendas ou sacrifícios rituais.' },
+            { id: 'yor-025', q: 'Qual elemento frequentemente completa a tríade céu-terra-___ na cosmologia iorubá?', a: ['Mar/águas (omi)', 'Fogo apenas', 'Vácuo', 'Montanhas exclusivas'], correct: 0, difficulty: 'medium', bloomLevel: 'Compreender', skillCode: 'DCRB-SOC-05', explanation: 'As águas (omi) são centrais na cosmologia iorubá.' },
+            { id: 'yor-026', q: 'Quem preserva e transmite histórias e mitos tradicionais em muitas comunidades iorubás?', a: ['Babalawos e contadores/anciãos (griôs)', 'Políticos', 'Comerciantes', 'Estrangeiros'], correct: 0, difficulty: 'medium', bloomLevel: 'Conhecer', skillCode: 'DCRB-LIN-05', explanation: 'Anciãos, sacerdotes e griôs mantêm a tradição oral.' },
+            { id: 'yor-027', q: 'O termo “Olódùmarè” refere-se a:', a: ['Ritual funerário', 'Deus supremo/criador', 'Tipo de adivinhação', 'Instrumento'], correct: 1, difficulty: 'easy', bloomLevel: 'Conhecer', skillCode: 'DCRB-SOC-05', explanation: 'Olódùmarè é o criador supremo na cosmologia iorubá.' },
+            { id: 'yor-028', q: 'A celebração que honra os mortos com fantasias e danças é:', a: ['Egúngún', 'Ifá', 'Ebo', 'Ojúmọ̀'], correct: 0, difficulty: 'easy', bloomLevel: 'Conhecer', skillCode: 'DCRB-ART-01', explanation: 'Egúngún envolve danças mascaradas em homenagem aos ancestrais.' },
+            { id: 'yor-029', q: 'O que significa dizer que práticas iorubás nas Américas são sincréticas?', a: ['Foram isoladas', 'Misturaram elementos iorubás com catolicismo e outras tradições', 'Rejeitaram tudo', 'Idênticas ao hinduísmo'], correct: 1, difficulty: 'medium', bloomLevel: 'Compreender', skillCode: 'DCRB-SOC-05', explanation: 'Sincretismo é a mistura criativa entre diferentes tradições religiosas.' },
+            { id: 'yor-030', q: 'Qual orixá tem forte associação com rios, beleza e fertilidade?', a: ['Ọya', 'Ọṣun (Osun)', 'Ṣàngó', 'Esù'], correct: 1, difficulty: 'easy', bloomLevel: 'Conhecer', skillCode: 'DCRB-SOC-05', explanation: 'Ọṣun é orixá das águas doces, amor e fertilidade.' },
+            { id: 'yor-031', q: 'Qual é o papel social das festas de orixás nas comunidades iorubás?', a: ['Eventos apenas privados', 'Reforçar identidade, coesão comunitária e memória ancestral', 'Substituir judiciário', 'Exclusivamente turísticos'], correct: 1, difficulty: 'medium', bloomLevel: 'Analisar', skillCode: 'DCRB-SOC-05', explanation: 'Festas fortalecem identidade, redes sociais e memória coletiva.' },
+            { id: 'yor-032', q: 'Em Ifá, o conhecimento sagrado é organizado em coleções chamadas:', a: ['Sutras', 'Odu Ifá', 'Evangelhos', 'Puranas'], correct: 1, difficulty: 'medium', bloomLevel: 'Conhecer', skillCode: 'DCRB-LIN-05', explanation: 'Os Odu Ifá são corpus de versos e narrativas usados na adivinhação.' },
+            { id: 'yor-033', q: 'A cor e símbolos associados a um orixá servem para:', a: ['Vestir líderes políticos', 'Identificar e honrar cada orixá nas cerimônias', 'Substituir linguagem falada', 'Proibir música'], correct: 1, difficulty: 'easy', bloomLevel: 'Conhecer', skillCode: 'DCRB-ART-01', explanation: 'Cores e símbolos ajudam a reconhecer e invocar atributos de cada orixá.' },
+            { id: 'yor-034', q: 'Quem normalmente preside cerimônias femininas no candomblé?', a: ['Babalawo masculino', 'Iyalorixá / sacerdotisa feminina', 'Prefeito', 'Médico'], correct: 1, difficulty: 'medium', bloomLevel: 'Conhecer', skillCode: 'DCRB-SOC-05', explanation: 'Iyalorixás lideram cultos e orientam comunidades em terreiros.' },
+            { id: 'yor-035', q: 'Qual noção iorubá de destino pessoal pode ser cultivada ou mudada?', a: ['Karma', 'Ori', 'Dharma', 'Mana'], correct: 1, difficulty: 'medium', bloomLevel: 'Compreender', skillCode: 'DCRB-SOC-05', explanation: 'Ori é destino pessoal que pode ser orientado por rituais e escolhas.' },
+            { id: 'yor-036', q: 'Qual prática reconcilia ofensas entre pessoas e o mundo espiritual?', a: ['Debate público', 'Ẹbọ (oferta/sacrifício)', 'Votação', 'Intervenção militar'], correct: 1, difficulty: 'medium', bloomLevel: 'Aplicar', skillCode: 'DCRB-SOC-05', explanation: 'Ẹbọ restaura equilíbrio relacional entre humanos e orixás.' },
+            { id: 'yor-037', q: 'O termo “Orun” geralmente refere-se a:', a: ['Mundo espiritual/céu', 'Tipo de dança', 'Instrumento', 'Erva medicinal'], correct: 0, difficulty: 'easy', bloomLevel: 'Conhecer', skillCode: 'DCRB-SOC-05', explanation: 'Orun é o domínio espiritual/céu na cosmologia iorubá.' },
+            { id: 'yor-038', q: 'Qual é a relação entre Ifá e os Odu?', a: ['Odu são cidades', 'Odu são signos/versos usados na adivinhação Ifá', 'Ifá é subcategoria de Odu', 'Não relacionados'], correct: 1, difficulty: 'medium', bloomLevel: 'Conhecer', skillCode: 'DCRB-LIN-05', explanation: 'Odu compõem o corpo textual e mnemônico de Ifá.' },
+            { id: 'yor-039', q: 'Na ritualidade iorubá, a música e percussão servem para:', a: ['Apenas entreter', 'Invocar, comunicar e sustentar presença espiritual', 'Substituir idioma', 'Usar só em festas civis'], correct: 1, difficulty: 'easy', bloomLevel: 'Conhecer', skillCode: 'DCRB-ART-06', explanation: 'Tambores e cânticos são meios de comunicação com o mundo espiritual.' },
+            { id: 'yor-040', q: 'Qual contato histórico levou ao surgimento de religiões afro-diaspóricas?', a: ['Comércio pacífico', 'Tráfico atlântico de escravizados e diáspora', 'Migração voluntária no século XX', 'Colonialismo asiático'], correct: 1, difficulty: 'easy', bloomLevel: 'Conhecer', skillCode: 'EM13CHS201', explanation: 'A diáspora forçada criou contextos onde tradições africanas se transformaram nas Américas.' },
+            { id: 'yor-041', q: 'Qual orixá é associado à morte, transição e tempestade?', a: ['Ọya', 'Osun', 'Orunmila', 'Yemọja'], correct: 0, difficulty: 'medium', bloomLevel: 'Conhecer', skillCode: 'DCRB-SOC-05', explanation: 'Ọya relaciona-se a liminaridade, tempestades e processos de transformação.' },
+            { id: 'yor-042', q: 'O que caracteriza um ritual de iniciação iorubá?', a: ['Simples conversa', 'Série de cerimônias, ensinamentos e recepção de axé', 'Votação da comunidade', 'Apenas leitura pública'], correct: 1, difficulty: 'medium', bloomLevel: 'Conhecer', skillCode: 'DCRB-SOC-05', explanation: 'Iniciações envolvem ritos, regras e transmissão de axé e segredos.' },
+            { id: 'yor-043', q: 'Qual é o papel de Orunmila/Ifá?', a: ['Deus supremo', 'Senhor da adivinhação e sabedoria', 'Divindade da caça', 'Espírito do comércio'], correct: 1, difficulty: 'easy', bloomLevel: 'Conhecer', skillCode: 'DCRB-SOC-05', explanation: 'Orunmila é a divindade associada ao conhecimento divinatório (Ifá).' },
+            { id: 'yor-044', q: 'Em contextos urbanos modernos, tradições iorubás frequentemente:', a: ['Desaparecem', 'Adaptam-se, sincretizam-se e persistem', 'Tornam-se idênticas ao cristianismo', 'São proibidas universalmente'], correct: 1, difficulty: 'medium', bloomLevel: 'Analisar', skillCode: 'EM13CHS201', explanation: 'Tradições religiosas mostram capacidade de adaptação e persistência cultural.' },
+            { id: 'yor-045', q: 'O que é àṣẹ (axé) aplicado a pessoas e objetos?', a: ['Uma punição', 'Poder espiritual que confere eficácia e bênção', 'Uma erva', 'Uma música'], correct: 1, difficulty: 'easy', bloomLevel: 'Conhecer', skillCode: 'DCRB-SOC-05', explanation: 'Àṣẹ é a energia eficaz que possibilita ação ritual e bênçãos.' },
+            { id: 'yor-046', q: 'Como rituais iorubás tratam relação entre humanos e natureza?', a: ['Separação radical', 'Interdependência e reciprocidade espiritual', 'Dominação absoluta', 'Indiferença religiosa'], correct: 1, difficulty: 'medium', bloomLevel: 'Compreender', skillCode: 'DCRB-SOC-05', explanation: 'Há forte noção de reciprocidade entre humanos, orixás e elementos naturais.' },
+            { id: 'yor-047', q: 'A presença de orixás nos terreiros costuma manifestar-se por:', a: ['Textos sagrados apenas', 'Possessão/manifestação, dança, cânticos e símbolos', 'Ausência de música', 'Somente artes plásticas'], correct: 1, difficulty: 'easy', bloomLevel: 'Conhecer', skillCode: 'DCRB-ART-01', explanation: 'Possessões, danças e cânticos são maneiras comuns de manifestação.' },
+            { id: 'yor-048', q: 'Qual papel têm os contadores de história (griôs) na preservação iorubá?', a: ['Administração fiscal', 'Guardiões da memória, mito e genealogia', 'Exclusivamente soldados', 'Juízes civis'], correct: 1, difficulty: 'medium', bloomLevel: 'Conhecer', skillCode: 'DCRB-LIN-05', explanation: 'Griôs guardam narrativas, genealogias e saberes orais.' },
+            { id: 'yor-049', q: 'A confecção de oferendas específicas para um orixá demonstra:', a: ['Indiferença ritual', 'Reconhecimento de atributos e estabelecimento de relação', 'Substituição de leis civis', 'Comércio'], correct: 1, difficulty: 'easy', bloomLevel: 'Compreender', skillCode: 'DCRB-ART-01', explanation: 'Oferendas reconhecem e respeitam as preferências simbólicas do orixá.' },
+            { id: 'yor-050', q: 'Uma preocupação ética contemporânea envolvendo tradições iorubás e diáspora é:', a: ['Apenas econômica', 'Preservação cultural, apropriação e direitos religiosos', 'Substituição pelo turismo', 'Isolamento religioso'], correct: 1, difficulty: 'medium', bloomLevel: 'Analisar', skillCode: 'HT-CAI-02', explanation: 'Debates atuais incluem apropriação cultural, proteção de terreiros e direitos religiosos.' }
+        ]
     },
     {
         id: 'sociologia-ba',
@@ -5194,7 +5316,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'easy',
                 bloomLevel: 'Conhecer',
-                skillCode: 'DCRB-MUS-01',
+                skillCode: 'DCRB-ART-06',
                 explanation: 'Dorival Caymmi é famoso por suas composições que celebram a vida do litoral e dos pescadores.'
             },
             {
@@ -5204,7 +5326,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'easy',
                 bloomLevel: 'Compreender',
-                skillCode: 'DCRB-MUS-02',
+                skillCode: 'DCRB-ART-06',
                 explanation: 'Trio elétrico é um caminhão/palanque móvel equipado com som e artistas que percorre o circuito do Carnaval.'
             },
             {
@@ -5214,7 +5336,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'easy',
                 bloomLevel: 'Compreender',
-                skillCode: 'DCRB-MUS-03',
+                skillCode: 'DCRB-ART-06',
                 explanation: 'O samba-reggae mescla padrões rítmicos do samba com grooves e ênfase percussiva influenciada por ritmos africanos.'
             },
             {
@@ -5224,7 +5346,7 @@ export const SUBJECTS = [
                 correct: 2,
                 difficulty: 'easy',
                 bloomLevel: 'Conhecer',
-                skillCode: 'DCRB-MUS-04',
+                skillCode: 'EM13CHS201',
                 explanation: 'Ilê Aiyê é conhecido por promover autoestima negra e resgatar a história africana na Bahia.'
             },
             {
@@ -5234,7 +5356,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'easy',
                 bloomLevel: 'Conhecer',
-                skillCode: 'DCRB-MUS-05',
+                skillCode: 'DCRB-ART-06',
                 explanation: 'O atabaque é um tambor de origem africana usado em rituais como o candomblé e em manifestações populares.'
             },
             {
@@ -5244,7 +5366,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'easy',
                 bloomLevel: 'Conhecer',
-                skillCode: 'DCRB-MUS-06',
+                skillCode: 'DCRB-ART-06',
                 explanation: 'O axé tornou-se massivo nos anos 90, ganhando rádios e mídia nacional, ligado ao Carnaval e trios elétricos.'
             },
             {
@@ -5254,7 +5376,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'easy',
                 bloomLevel: 'Conhecer',
-                skillCode: 'DCRB-MUS-07',
+                skillCode: 'DCRB-ART-06',
                 explanation: 'Olodum popularizou o samba-reggae e teve projeção internacional, inclusive em colaborações com artistas estrangeiros.'
             },
             {
@@ -5264,7 +5386,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'easy',
                 bloomLevel: 'Compreender',
-                skillCode: 'DCRB-MUS-08',
+                skillCode: 'DCRB-ART-01',
                 explanation: 'O samba de roda é uma prática coletiva de canto, dança e percussão ligada a celebrações comunitárias.'
             },
             {
@@ -5274,7 +5396,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'medium',
                 bloomLevel: 'Analisar',
-                skillCode: 'DCRB-MUS-09',
+                skillCode: 'DCRB-SOC-05',
                 explanation: 'Referências a orixás, toques e elementos litúrgicos são comuns em letras e ritmos de muitos artistas baianos.'
             },
             {
@@ -5284,7 +5406,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'easy',
                 bloomLevel: 'Conhecer',
-                skillCode: 'DCRB-MUS-10',
+                skillCode: 'DCRB-ART-06',
                 explanation: 'Carlinhos Brown é compositor, percussionista e produtor importante na cena baiana, conhecido por inovações rítmicas e projetos sociais.'
             },
             {
@@ -5294,7 +5416,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'easy',
                 bloomLevel: 'Conhecer',
-                skillCode: 'DCRB-MUS-11',
+                skillCode: 'DCRB-ART-06',
                 explanation: 'Cidades do Recôncavo, como Cachoeira e Santo Amaro, são berços do samba de roda e de forte presença afro‑brasileira.'
             },
             {
@@ -5304,7 +5426,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'medium',
                 bloomLevel: 'Compreender',
-                skillCode: 'DCRB-MUS-12',
+                skillCode: 'DCRB-ART-06',
                 explanation: 'Samba-reggae enfatiza o backbeat e o contraste entre surdos e tambores menores, criando um groove sincopado.'
             },
             {
@@ -5314,7 +5436,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'medium',
                 bloomLevel: 'Conhecer',
-                skillCode: 'DCRB-MUS-13',
+                skillCode: 'EM13CHS201',
                 explanation: 'O Tropicalismo incorporou influências regionais, incluindo elementos baianos, em sua crítica cultural e inovação musical.'
             },
             {
@@ -5324,7 +5446,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'easy',
                 bloomLevel: 'Analisar',
-                skillCode: 'DCRB-MUS-14',
+                skillCode: 'EM13CHS201',
                 explanation: 'O trio elétrico permitiu shows itinerantes nas ruas, gerando grande envolvimento do público durante o Carnaval.'
             },
             {
@@ -5334,7 +5456,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'easy',
                 bloomLevel: 'Conhecer',
-                skillCode: 'DCRB-MUS-15',
+                skillCode: 'DCRB-ART-06',
                 explanation: 'Ivete Sangalo é uma das artistas baianas de maior sucesso comercial, com carreira no axé e crossover para a MPB.'
             },
             {
@@ -5344,7 +5466,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'medium',
                 bloomLevel: 'Analisar',
-                skillCode: 'DCRB-MUS-16',
+                skillCode: 'EM13CHS201',
                 explanation: 'Blocos como Ilê Aiyê promovem autoestima negra, educação cultural e projetos sociais nas comunidades.'
             },
             {
@@ -5354,7 +5476,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'medium',
                 bloomLevel: 'Analisar',
-                skillCode: 'DCRB-MUS-17',
+                skillCode: 'DCRB-ART-06',
                 explanation: 'A combinação de produção em estúdio, videoclipes atraentes e shows nos trios elétricos potencializou o alcance do axé.'
             },
             {
@@ -5364,7 +5486,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'easy',
                 bloomLevel: 'Compreender',
-                skillCode: 'DCRB-MUS-18',
+                skillCode: 'DCRB-EF-01',
                 explanation: 'A capoeira é indissociável de cantos e do toque do berimbau, que orientam o jogo e os ritmos.'
             },
             {
@@ -5374,7 +5496,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'medium',
                 bloomLevel: 'Analisar',
-                skillCode: 'DCRB-MUS-19',
+                skillCode: 'CE-DCRB-03',
                 explanation: 'O turismo ampliou a audiência da música baiana, mas também gerou adaptações e mercantilização de práticas tradicionais.'
             },
             {
@@ -5384,7 +5506,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'medium',
                 bloomLevel: 'Compreender',
-                skillCode: 'DCRB-MUS-20',
+                skillCode: 'DCRB-ART-06',
                 explanation: 'Samba-reggae e as batidas de grupos como Olodum foram incorporadas ao pop brasileiro e usadas em colaborações internacionais.'
             },
             {
@@ -5394,7 +5516,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'medium',
                 bloomLevel: 'Compreender',
-                skillCode: 'DCRB-MUS-21',
+                skillCode: 'DCRB-ART-06',
                 explanation: 'A chamada e resposta aparece em cantos do samba de roda, toadas de capoeira e músicas ritualísticas.'
             },
             {
@@ -5404,7 +5526,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'easy',
                 bloomLevel: 'Conhecer',
-                skillCode: 'DCRB-MUS-22',
+                skillCode: 'DCRB-ART-06',
                 explanation: 'Dorival Caymmi é referência na representação musical do litoral e da vida nordestina.'
             },
             {
@@ -5414,7 +5536,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'medium',
                 bloomLevel: 'Analisar',
-                skillCode: 'DCRB-MUS-23',
+                skillCode: 'DCRB-LIN-05',
                 explanation: 'Samba de roda e cantos locais transmitem narrativas, genealogias e saberes comunitários.'
             },
             {
@@ -5424,7 +5546,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'medium',
                 bloomLevel: 'Analisar',
-                skillCode: 'DCRB-MUS-24',
+                skillCode: 'DCRB-ART-01',
                 explanation: 'Os terreiros preservam toques e repertórios que alimentam a música popular e a identidade cultural.'
             },
             {
@@ -5434,7 +5556,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'medium',
                 bloomLevel: 'Compreender',
-                skillCode: 'DCRB-MUS-25',
+                skillCode: 'DCRB-ART-06',
                 explanation: 'Artistas baianos ajudaram a inserir sonoridades regionais e críticas culturais no Tropicalismo.'
             },
             {
@@ -5444,7 +5566,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'hard',
                 bloomLevel: 'Analisar',
-                skillCode: 'DCRB-MUS-26',
+                skillCode: 'HT-CAI-02',
                 explanation: 'A turistificação pode alterar práticas e significados; faltam políticas consistentes de preservação e apoio às comunidades.'
             },
             {
@@ -5454,7 +5576,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'medium',
                 bloomLevel: 'Analisar',
-                skillCode: 'DCRB-MUS-27',
+                skillCode: 'DCRB-ART-06',
                 explanation: 'Sintetizadores, samplers e técnicas de produção modernizaram arranjos do axé e ampliaram sua sonoridade.'
             },
             {
@@ -5464,7 +5586,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'medium',
                 bloomLevel: 'Compreender',
-                skillCode: 'DCRB-MUS-28',
+                skillCode: 'DCRB-ART-06',
                 explanation: 'Músicos migrantes levaram ritmos e práticas baianas para outros mercados, criando hibridizações.'
             },
             {
@@ -5474,7 +5596,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'easy',
                 bloomLevel: 'Aplicar',
-                skillCode: 'DCRB-MUS-29',
+                skillCode: 'EM13CHS201',
                 explanation: 'Blocos afros promovem oficinas, formação musical e autoestima nas comunidades onde atuam.'
             },
             {
@@ -5484,7 +5606,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'easy',
                 bloomLevel: 'Conhecer',
-                skillCode: 'DCRB-MUS-30',
+                skillCode: 'DCRB-ART-06',
                 explanation: 'Caetano Veloso, baiano, foi figura central no Tropicalismo e alcançou repercussão internacional.'
             },
             {
@@ -5494,7 +5616,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'medium',
                 bloomLevel: 'Analisar',
-                skillCode: 'DCRB-MUS-31',
+                skillCode: 'DCRB-ART-06',
                 explanation: 'Produtores incorporaram padrões de percussão e timbres baianos em arranjos pop, criando fusões sonoras.'
             },
             {
@@ -5504,7 +5626,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'medium',
                 bloomLevel: 'Analisar',
-                skillCode: 'DCRB-MUS-32',
+                skillCode: 'EM13CHS201',
                 explanation: 'Música e blocos afros são espaços de afirmação cultural, educação política e visibilidade negra.'
             },
             {
@@ -5514,7 +5636,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'easy',
                 bloomLevel: 'Compreender',
-                skillCode: 'DCRB-MUS-33',
+                skillCode: 'CE-DCRB-03',
                 explanation: 'O Pelourinho é espaço simbólico e palco para apresentações, contribuindo para preservação e difusão cultural.'
             },
             {
@@ -5524,7 +5646,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'easy',
                 bloomLevel: 'Compreender',
-                skillCode: 'DCRB-MUS-34',
+                skillCode: 'DCRB-ART-06',
                 explanation: 'No Carnaval, o público acompanha o trio elétrico pelas ruas, criando grande interação entre público e artista.'
             },
             {
@@ -5534,7 +5656,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'medium',
                 bloomLevel: 'Analisar',
-                skillCode: 'DCRB-MUS-35',
+                skillCode: 'DCRB-ART-06',
                 explanation: 'A cena independente trouxe novas sonoridades e plataformas de divulgação, ampliando a diversidade musical local.'
             },
             {
@@ -5544,7 +5666,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'easy',
                 bloomLevel: 'Conhecer',
-                skillCode: 'DCRB-MUS-36',
+                skillCode: 'DCRB-ART-01',
                 explanation: 'O samba de roda envolve roda de dança, improvisos e saudações, ligado a práticas comunitárias.'
             },
             {
@@ -5554,7 +5676,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'easy',
                 bloomLevel: 'Aplicar',
-                skillCode: 'DCRB-MUS-37',
+                skillCode: 'CE-DCRB-03',
                 explanation: 'Festivais locais e oficinas são estratégias importantes para transmissão e preservação de repertórios.'
             },
             {
@@ -5564,7 +5686,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'easy',
                 bloomLevel: 'Compreender',
-                skillCode: 'DCRB-MUS-38',
+                skillCode: 'DCRB-ART-06',
                 explanation: 'Elementos rítmicos e técnicas percussivas de raízes africanas são centrais na tradição musical baiana.'
             },
             {
@@ -5574,7 +5696,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'medium',
                 bloomLevel: 'Analisar',
-                skillCode: 'DCRB-MUS-39',
+                skillCode: 'DCRB-ART-06',
                 explanation: 'Produtores e DJs têm criado híbridos que preservam ritmos regionais dentro de arranjos eletrônicos.'
             },
             {
@@ -5584,7 +5706,7 @@ export const SUBJECTS = [
                 correct: 2,
                 difficulty: 'easy',
                 bloomLevel: 'Conhecer',
-                skillCode: 'DCRB-MUS-40',
+                skillCode: 'DCRB-ART-06',
                 explanation: 'Hits de trios elétricos frequentemente se tornam hinos de uma edição específica do Carnaval.'
             },
             {
@@ -5594,7 +5716,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'medium',
                 bloomLevel: 'Analisar',
-                skillCode: 'DCRB-MUS-41',
+                skillCode: 'DCRB-ART-06',
                 explanation: 'Videoclipes e transmissões ao vivo ampliaram o alcance e a imagem performática dos artistas baianos.'
             },
             {
@@ -5604,7 +5726,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'easy',
                 bloomLevel: 'Conhecer',
-                skillCode: 'DCRB-MUS-42',
+                skillCode: 'DCRB-ART-06',
                 explanation: 'Olodum colaborou com artistas internacionais e divulgou ritmos baianos globalmente.'
             },
             {
@@ -5614,7 +5736,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'easy',
                 bloomLevel: 'Compreender',
-                skillCode: 'DCRB-MUS-43',
+                skillCode: 'DCRB-ART-06',
                 explanation: 'Música baiana estimula indumentária festiva e movimentos de dança específicos vinculados ao Carnaval.'
             },
             {
@@ -5624,7 +5746,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'hard',
                 bloomLevel: 'Analisar',
-                skillCode: 'DCRB-MUS-44',
+                skillCode: 'EM13CHS201',
                 explanation: 'Músicos tradicionais enfrentam dificuldades financeiras e pressões do mercado e turismo.'
             },
             {
@@ -5634,7 +5756,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'hard',
                 bloomLevel: 'Aplicar',
-                skillCode: 'DCRB-MUS-45',
+                skillCode: 'EM13CHS201',
                 explanation: 'Métodos etnográficos e gravações de campo são essenciais para compreender práticas e significados locais.'
             },
             {
@@ -5644,7 +5766,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'medium',
                 bloomLevel: 'Conhecer',
-                skillCode: 'DCRB-MUS-46',
+                skillCode: 'DCRB-ART-06',
                 explanation: 'Carlinhos Brown participou de projetos que mesclam percussão tradicional com eletrônica; há vários exemplos contemporâneos.'
             },
             {
@@ -5654,7 +5776,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'medium',
                 bloomLevel: 'Compreender',
-                skillCode: 'DCRB-MUS-47',
+                skillCode: 'DCRB-ART-06',
                 explanation: 'A música baiana é plural e inclui diversos subgêneros e fusões contemporâneas.'
             },
             {
@@ -5664,7 +5786,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'medium',
                 bloomLevel: 'Analisar',
-                skillCode: 'DCRB-MUS-48',
+                skillCode: 'CE-DCRB-03',
                 explanation: 'Para atender expectativas turísticas, grupos às vezes adaptam repertório e performance, mudando significados originais.'
             },
             {
@@ -5674,7 +5796,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'easy',
                 bloomLevel: 'Avaliar',
-                skillCode: 'DCRB-MUS-49',
+                skillCode: 'CE-DCRB-03',
                 explanation: 'Financiamento, formação e reconhecimento institucional ajudam a sustentar tradições musicais.'
             },
             {
@@ -5684,7 +5806,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'medium',
                 bloomLevel: 'Criar',
-                skillCode: 'DCRB-MUS-50',
+                skillCode: 'EM13CHS201',
                 explanation: 'A proposta etnográfica é concreta, delimitada e voltada à preservação e análise crítica — adequada para TCC.'
             }
         ],
@@ -5705,7 +5827,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'easy',
                 bloomLevel: 'Conhecer',
-                skillCode: 'DCRB-MUS-PER-01',
+                skillCode: 'DCRB-ART-06',
                 explanation: 'Paredões e sound systems são estruturas móveis de som usadas em festas de rua e bailes para difundir repertório local.'
             },
             {
@@ -5715,7 +5837,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'easy',
                 bloomLevel: 'Compreender',
-                skillCode: 'DCRB-MUS-PER-02',
+                skillCode: 'DCRB-ART-06',
                 explanation: 'O funk baiano é uma adaptação local do baile funk carioca, com batidas e linguagem próprias.'
             },
             {
@@ -5725,7 +5847,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'easy',
                 bloomLevel: 'Conhecer',
-                skillCode: 'DCRB-MUS-PER-03',
+                skillCode: 'DCRB-ART-06',
                 explanation: 'Olodum, nascido em bairros populares, popularizou o samba-reggae e colaborou com artistas internacionais.'
             },
             {
@@ -5735,7 +5857,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'easy',
                 bloomLevel: 'Analisar',
-                skillCode: 'DCRB-MUS-PER-04',
+                skillCode: 'EM13CHS201',
                 explanation: 'Muitos artistas periféricos usam produção independente, estúdios caseiros e plataformas digitais para divulgar seu trabalho.'
             },
             {
@@ -5745,7 +5867,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'easy',
                 bloomLevel: 'Compreender',
-                skillCode: 'DCRB-MUS-PER-05',
+                skillCode: 'EM13CHS201',
                 explanation: 'Bailes e rodas fortalecem redes sociais, práticas de aprendizagem musical e pertencimento para jovens das periferias.'
             },
             {
@@ -5755,7 +5877,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'medium',
                 bloomLevel: 'Analisar',
-                skillCode: 'DCRB-MUS-PER-06',
+                skillCode: 'EM13CHS201',
                 explanation: 'Plataformas digitais e vídeos curtos permitiram que artistas periféricos alcancem audiências amplas sem depender de grandes selos.'
             },
             {
@@ -5765,7 +5887,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'medium',
                 bloomLevel: 'Avaliar',
-                skillCode: 'DCRB-MUS-PER-07',
+                skillCode: 'HT-CAI-02',
                 explanation: 'Apropriação cultural ocorre quando elementos são extraídos e monetizados sem considerar autores ou contextos de origem.'
             },
             {
@@ -5775,7 +5897,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'medium',
                 bloomLevel: 'Compreender',
-                skillCode: 'DCRB-MUS-PER-08',
+                skillCode: 'DCRB-ART-06',
                 explanation: 'Grooves com contrabaixo marcado e linhas percussivas sincopadas são recorrentes nessas sonoridades.'
             },
             {
@@ -5785,7 +5907,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'easy',
                 bloomLevel: 'Aplicar',
-                skillCode: 'DCRB-MUS-PER-09',
+                skillCode: 'EM13CHS201',
                 explanation: 'Coletivos frequentemente oferecem oficinas, vivências e espaços para jovens aprenderem instrumentos e produção.'
             },
             {
@@ -5795,7 +5917,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'easy',
                 bloomLevel: 'Compreender',
-                skillCode: 'DCRB-MUS-PER-10',
+                skillCode: 'DCRB-ART-06',
                 explanation: 'Letras costumam citar locais, cotidiano e personagens do território periférico, reforçando identidade local.'
             },
             {
@@ -5805,7 +5927,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'medium',
                 bloomLevel: 'Compreender',
-                skillCode: 'DCRB-MUS-PER-11',
+                skillCode: 'EM13CHS201',
                 explanation: 'Home studios e o uso criativo de samples possibilitam a produção mesmo com recursos limitados.'
             },
             {
@@ -5815,7 +5937,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'medium',
                 bloomLevel: 'Analisar',
-                skillCode: 'DCRB-MUS-PER-12',
+                skillCode: 'EM13CHS201',
                 explanation: 'Rodas mantêm repertório vivo e transmitem saberes entre gerações, funcionando como memorias comunitárias.'
             },
             {
@@ -5825,7 +5947,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'medium',
                 bloomLevel: 'Analisar',
-                skillCode: 'DCRB-MUS-PER-13',
+                skillCode: 'HT-CAI-02',
                 explanation: 'Muitas músicas periféricas abordam violência, racismo e falta de oportunidades, funcionando como voz política.'
             },
             {
@@ -5835,7 +5957,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'medium',
                 bloomLevel: 'Analisar',
-                skillCode: 'DCRB-MUS-PER-14',
+                skillCode: 'CE-DCRB-03',
                 explanation: 'Streaming paga pouco por reprodução, e muitos artistas dependem de shows e economia local instável.'
             },
             {
@@ -5845,7 +5967,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'hard',
                 bloomLevel: 'Aplicar',
-                skillCode: 'DCRB-MUS-PER-15',
+                skillCode: 'EM13CHS201',
                 explanation: 'Etnografia permite entender práticas e significados a partir da participação e registro local.'
             },
             {
@@ -5855,7 +5977,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'medium',
                 bloomLevel: 'Compreender',
-                skillCode: 'DCRB-MUS-PER-16',
+                skillCode: 'EM13CHS201',
                 explanation: 'Rádios comunitárias ampliam o alcance local e legitimam artistas dentro do território.'
             },
             {
@@ -5865,7 +5987,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'medium',
                 bloomLevel: 'Analisar',
-                skillCode: 'DCRB-MUS-PER-17',
+                skillCode: 'CE-DCRB-03',
                 explanation: 'Rappers locais misturam estilos, tratam de pautas sociais e usam redes para ganhar visibilidade.'
             },
             {
@@ -5875,7 +5997,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'hard',
                 bloomLevel: 'Avaliar',
-                skillCode: 'DCRB-MUS-PER-18',
+                skillCode: 'HT-CAI-02',
                 explanation: 'Proibições tendem a deslocar festas para espaços informais mais inseguros e reduzir oportunidades culturais.'
             },
             {
@@ -5885,7 +6007,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'medium',
                 bloomLevel: 'Avaliar',
-                skillCode: 'DCRB-MUS-PER-19',
+                skillCode: 'CE-DCRB-03',
                 explanation: 'Políticas eficazes reconhecem múltiplos valores (identidade, educação, coesão social) das cenas periféricas.'
             },
             {
@@ -5895,7 +6017,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'easy',
                 bloomLevel: 'Aplicar',
-                skillCode: 'DCRB-MUS-PER-20',
+                skillCode: 'CE-DCRB-03',
                 explanation: 'Parcerias permitem otimizar recursos, ampliar público e criar projetos sustentáveis.'
             },
             {
@@ -5905,7 +6027,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'hard',
                 bloomLevel: 'Avaliar',
-                skillCode: 'DCRB-MUS-PER-21',
+                skillCode: 'HT-CAI-02',
                 explanation: 'Boas práticas exigem consentimento, transparência e devolução de benefícios ou resultados à comunidade.'
             },
             {
@@ -5915,7 +6037,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'medium',
                 bloomLevel: 'Analisar',
-                skillCode: 'DCRB-MUS-PER-22',
+                skillCode: 'CE-DCRB-03',
                 explanation: 'Sustentabilidade vem da combinação de atividades culturais, educativas e comerciais locais.'
             },
             {
@@ -5925,7 +6047,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'medium',
                 bloomLevel: 'Aplicar',
-                skillCode: 'DCRB-MUS-PER-23',
+                skillCode: 'CE-DCRB-03',
                 explanation: 'Arquivos comunitários e registros orais garantem que repertórios e histórias locais sejam preservados com controle comunitário.'
             },
             {
@@ -5935,7 +6057,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'hard',
                 bloomLevel: 'Analisar',
-                skillCode: 'DCRB-MUS-PER-24',
+                skillCode: 'EM13CHS201',
                 explanation: 'Estudos mostram papel central de mulheres e pessoas LGBTQIA+ em práticas e lideranças culturais periféricas.'
             },
             {
@@ -5945,7 +6067,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'medium',
                 bloomLevel: 'Compreender',
-                skillCode: 'DCRB-MUS-PER-25',
+                skillCode: 'DCRB-ART-06',
                 explanation: 'Sampling conecta músicas a histórias locais e é técnica amplamente usada em rap, funk e eletrônica periférica.'
             },
             {
@@ -5955,7 +6077,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'easy',
                 bloomLevel: 'Conhecer',
-                skillCode: 'DCRB-MUS-PER-26',
+                skillCode: 'CE-DCRB-03',
                 explanation: 'O atabaque é comum em rituais e rodas, simbolizando continuidade de matrizes africanas na periferia.'
             },
             {
@@ -5965,7 +6087,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'hard',
                 bloomLevel: 'Avaliar',
-                skillCode: 'DCRB-MUS-PER-27',
+                skillCode: 'CE-DCRB-03',
                 explanation: 'Garantir participação, propriedade intelectual local e retorno econômico reduz riscos de gentrificação.'
             },
             {
@@ -5975,7 +6097,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'medium',
                 bloomLevel: 'Avaliar',
-                skillCode: 'DCRB-MUS-PER-28',
+                skillCode: 'HT-CAI-02',
                 explanation: 'Co-produção justa assegura direitos autorais, pagamento e participação nas decisões artísticas.'
             },
             {
@@ -5985,7 +6107,7 @@ export const SUBJECTS = [
                 correct: 1,
                 difficulty: 'medium',
                 bloomLevel: 'Analisar',
-                skillCode: 'DCRB-MUS-PER-29',
+                skillCode: 'CE-DCRB-03',
                 explanation: 'Quando músicas são citadas, sampleadas ou tocadas em mídias nacionais, sinalizam circulação além do local.'
             },
             {
@@ -5995,7 +6117,7 @@ export const SUBJECTS = [
                 correct: 0,
                 difficulty: 'medium',
                 bloomLevel: 'Criar',
-                skillCode: 'DCRB-MUS-PER-30',
+                skillCode: 'DCRB-ART-06',
                 explanation: 'A proposta etnográfica é localizada, aplicável e relevante para políticas culturais e salvaguarda.'
             }
         ],

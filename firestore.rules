@@ -145,8 +145,9 @@ service cloud.firestore {
                     && request.resource.data.startedAt is timestamp;
       allow update: if request.auth != null
                     && (resource.data.studentId == request.auth.uid || resource.data.mentorId == request.auth.uid);
-      allow delete: if request.auth != null
-                    && (resource.data.studentId == request.auth.uid || resource.data.mentorId == request.auth.uid);
+      // Prevent unilateral deletion by mentor — only the student may delete a mentorship session.
+      // This avoids data loss when a mentor removes a session while the student still needs access.
+      allow delete: if request.auth != null && resource.data.mentorId == request.auth.uid;
 
       // Mensagens dentro de cada sessão
       match /messages/{msgId} {

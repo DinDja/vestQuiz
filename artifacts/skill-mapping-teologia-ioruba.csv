@@ -1,0 +1,101 @@
+questionId,subjectId,oldSkillCode,newSkillCode,justification
+teo-001,teologia-crista,REL-TEO-001,EM13LGG102,Compreensão e análise de discursos religiosos (hermenêutica/linguagens)
+teo-002,teologia-crista,REL-TEO-002,EM13CHS201,Contexto histórico e formação das identidades religiosas
+teo-003,teologia-crista,REL-TEO-003,EM13LGG102,Análise de textos e doutrinas
+teo-004,teologia-crista,REL-TEO-004,EM13LGG102,Vocabulário e práticas litúrgicas (linguagens)
+teo-005,teologia-crista,REL-TEO-005,EM13LGG102,Leitura crítica de textos religiosos
+teo-006,teologia-crista,REL-TEO-006,EM13LGG102,Interpretação de doutrinas e discursos
+teo-007,teologia-crista,REL-TEO-007,EM13LGG102,Compreensão de conceitos teológicos
+teo-008,teologia-crista,REL-TEO-008,EM13LGG102,Análise de tradição litúrgica (linguagens)
+teo-009,teologia-crista,REL-TEO-009,EM13LGG102,Identificação de elementos textuais e simbólicos
+teo-010,teologia-crista,REL-TEO-010,EM13LGG102,Análise de argumentos teológicos
+teo-011,teologia-crista,REL-TEO-011,EM13CHS201,Critérios históricos de formação canônica
+teo-012,teologia-crista,REL-TEO-012,EM13CHS201,Definições conciliares no contexto histórico
+teo-013,teologia-crista,REL-TEO-013,EM13LGG102,Compreensão de correntes teológicas e discurso
+teo-014,teologia-crista,REL-TEO-014,EM13LGG102,Identificação de gêneros litúrgicos (credos)
+teo-015,teologia-crista,REL-TEO-015,EM13CHS201,Autor medieval e contexto histórico
+teo-016,teologia-crista,REL-TEO-016,EM13LGG102,Ritos e significados litúrgicos
+teo-017,teologia-crista,REL-TEO-017,EM13LGG102,Movimentos ecumênicos e linguagem do diálogo
+teo-018,teologia-crista,REL-TEO-018,EM13LGG102,Hermenêutica e método de leitura bíblica
+teo-019,teologia-crista,REL-TEO-019,EM13LGG102,Correntes patrísticas e produção textual
+teo-020,teologia-crista,REL-TEO-020,EM13LGG102,Identificação de movimentos religiosos contemporâneos
+teo-021,teologia-crista,REL-TEO-021,EM13LGG102,Conceitos doutrinários (expiação)
+teo-022,teologia-crista,REL-TEO-022,EM13LGG102,Linguagem eclesiástica (línguas bíblicas)
+teo-023,teologia-crista,REL-TEO-023,EM13LGG102,Ofícios e suposições discursivas sobre sucessão
+teo-024,teologia-crista,REL-TEO-024,EM13CHS201,Tradições reformadas no contexto histórico
+teo-025,teologia-crista,REL-TEO-025,EM13LGG102,Teologia natural como discurso racional
+teo-026,teologia-crista,REL-TEO-026,EM13LGG102,Doutrinas escatológicas e terminologia
+teo-027,teologia-crista,REL-TEO-027,EM13CHS201,Atores históricos da Reforma
+teo-028,teologia-crista,REL-TEO-028,EM13LGG102,Práticas rituais e seus significados
+teo-029,teologia-crista,REL-TEO-029,EM13LGG102,Práticas sacramentais e funções sociais
+teo-030,teologia-crista,REL-TEO-030,EM13LGG102,Definição de campos teológicos (soteriologia)
+teo-031,teologia-crista,REL-TEO-031,EM13CHS201,Tradições litúrgicas no contexto histórico
+teo-032,teologia-crista,REL-TEO-032,EM13CHS201,Movimentos missionários e história
+teo-033,teologia-crista,REL-TEO-033,EM13CHS201,Preocupações patrísticas no contexto histórico
+teo-034,teologia-crista,REL-TEO-034,EM13CHS201,Práticas institucionais e história eclesiástica
+teo-035,teologia-crista,REL-TEO-035,EM13LGG102,Doutrinas cristológicas e terminologia
+teo-036,teologia-crista,REL-TEO-036,EM13LGG102,Abordagens litúrgicas e foco na proclamação
+teo-037,teologia-crista,REL-TEO-037,EM13LGG102,Conceitos éticos e tradição filosófica
+teo-038,teologia-crista,REL-TEO-038,EM13CHS201,Concílio Vaticano II no contexto histórico
+teo-039,teologia-crista,REL-TEO-039,EM13CHS201,Práticas anabatistas e história religiosa
+teo-040,teologia-crista,REL-TEO-040,EM13LGG102,Hermenêutica histórico-crítica
+teo-041,teologia-crista,REL-TEO-041,EM13LGG102,Conceitos messiânicos na tradição religiosa
+teo-042,teologia-crista,REL-TEO-042,EM13CHS201,Práticas litúrgicas e continuidade histórica
+teo-043,teologia-crista,REL-TEO-043,EM13CHS201,Teologia da libertação: autor e contexto
+teo-044,teologia-crista,REL-TEO-044,EM13CHS201,Credo niceno e formulações conciliares
+teo-045,teologia-crista,REL-TEO-045,EM13LGG102,Sola Scriptura como princípio hermenêutico
+teo-046,teologia-crista,REL-TEO-046,EM13LGG102,Debates teológicos sobre eficácia sacramental
+teo-047,teologia-crista,REL-TEO-047,EM13LGG102,Concepções filosóficas sobre corpo e alma
+teo-048,teologia-crista,REL-TEO-048,EM13CHS201,Questões conciliares sobre cristologia
+teo-049,teologia-crista,REL-TEO-049,HT-DH-01,Formação moral e práticas de exame de consciência
+teo-050,teologia-crista,REL-TEO-050,EM13LGG102,Teologia litúrgica e simbolismo
+yor-001,religiao-ioruba,REL-YOR-001,DCRB-SOC-05,Religiões de matriz africana como instituições sociais
+yor-002,religiao-ioruba,REL-YOR-002,DCRB-SOC-05,Identificação do panteão e função social
+yor-003,religiao-ioruba,REL-YOR-003,DCRB-SOC-05,Conceito de divindade suprema na cosmologia
+yor-004,religiao-ioruba,REL-YOR-004,DCRB-SOC-05,Identificação de orixás e funções sociais
+yor-005,religiao-ioruba,REL-YOR-005,DCRB-SOC-05,Ifá como sistema divinatório e prática social
+yor-006,religiao-ioruba,REL-YOR-006,DCRB-SOC-05,Papel do sacerdote e transmissão de saberes
+yor-007,religiao-ioruba,REL-YOR-007,DCRB-SOC-05,Função ritual e mediação de Esù
+yor-008,religiao-ioruba,REL-YOR-008,DCRB-ART-01,Manifestações performáticas (Egúngún)
+yor-009,religiao-ioruba,REL-YOR-009,DCRB-SOC-05,Associações simbólicas (Yemọja e maternidade)
+yor-010,religiao-ioruba,REL-YOR-010,DCRB-SOC-05,Definição de orixá como força/divindade
+yor-011,religiao-ioruba,REL-YOR-011,DCRB-ART-01,Egúngún como manifestação performática
+yor-012,religiao-ioruba,REL-YOR-012,DCRB-SOC-05,Conceito de Ori e destino pessoal
+yor-013,religiao-ioruba,REL-YOR-013,DCRB-SOC-05,Identificação de atributos de orixás
+yor-014,religiao-ioruba,REL-YOR-014,DCRB-SOC-05,Rituais como mecanismos de transmissão de axé
+yor-015,religiao-ioruba,REL-YOR-015,DCRB-LIN-05,Odu como corpus oral e textual
+yor-016,religiao-ioruba,REL-YOR-016,DCRB-SOC-05,Caracterização de Ọya
+yor-017,religiao-ioruba,REL-YOR-017,DCRB-SOC-05,Papel social de iniciadores religiosos
+yor-018,religiao-ioruba,REL-YOR-018,DCRB-SOC-05,Diáspora e influência sincrética
+yor-019,religiao-ioruba,REL-YOR-019,DCRB-SOC-05,Função social dos egúngún
+yor-020,religiao-ioruba,REL-YOR-020,DCRB-SOC-05,Importância simbólica dos gêmeos (Ibeji)
+yor-021,religiao-ioruba,REL-YOR-021,DCRB-SOC-05,Características funcionais de Esù
+yor-022,religiao-ioruba,REL-YOR-022,DCRB-LIN-05,Ôpón Ifá como artefato textual/ritual
+yor-023,religiao-ioruba,REL-YOR-023,DCRB-SOC-05,Associações e atributos de Ọbatala
+yor-024,religiao-ioruba,REL-YOR-024,DCRB-SOC-05,Ẹbọ como prática ritual
+yor-025,religiao-ioruba,REL-YOR-025,DCRB-SOC-05,Elementos cosmológicos (omi)
+yor-026,religiao-ioruba,REL-YOR-026,DCRB-LIN-05,Transmissão oral e papel de griôs
+yor-027,religiao-ioruba,REL-YOR-027,DCRB-SOC-05,Olódùmarè como criador
+yor-028,religiao-ioruba,REL-YOR-028,DCRB-ART-01,Egúngún como festa performática
+yor-029,religiao-ioruba,REL-YOR-029,DCRB-SOC-05,Sincretismo e circulação cultural
+yor-030,religiao-ioruba,REL-YOR-030,DCRB-SOC-05,Associação simbólica de Ọṣun
+yor-031,religiao-ioruba,REL-YOR-031,DCRB-SOC-05,Papel social das festas de orixás
+yor-032,religiao-ioruba,REL-YOR-032,DCRB-LIN-05,Odu Ifá como corpus textual
+yor-033,religiao-ioruba,REL-YOR-033,DCRB-ART-01,Símbolos e identificação performática
+yor-034,religiao-ioruba,REL-YOR-034,DCRB-SOC-05,Lideranças femininas e organização ritual
+yor-035,religiao-ioruba,REL-YOR-035,DCRB-SOC-05,Noção de Ori e agência pessoal
+yor-036,religiao-ioruba,REL-YOR-036,DCRB-SOC-05,Ẹbọ como mecanismo de reconciliação
+yor-037,religiao-ioruba,REL-YOR-037,DCRB-SOC-05,Orun como domínio espiritual
+yor-038,religiao-ioruba,REL-YOR-038,DCRB-LIN-05,Relação Ifá/Odu
+yor-039,religiao-ioruba,REL-YOR-039,DCRB-ART-06,Música e percussão como meio ritual
+yor-040,religiao-ioruba,REL-YOR-040,DCRB-SOC-05,História da diáspora e religiões afro-diaspóricas
+yor-041,religiao-ioruba,REL-YOR-041,DCRB-SOC-05,Associações simbólicas de Ọya
+yor-042,religiao-ioruba,REL-YOR-042,DCRB-SOC-05,Características de iniciação ritual
+yor-043,religiao-ioruba,REL-YOR-043,DCRB-SOC-05,Papel de Orunmila/Ifá
+yor-044,religiao-ioruba,REL-YOR-044,DCRB-SOC-05,Adaptação urbana e persistência cultural
+yor-045,religiao-ioruba,REL-YOR-045,DCRB-SOC-05,Àṣẹ como energia eficaz
+yor-046,religiao-ioruba,REL-YOR-046,DCRB-SOC-05,Reciprocidade humano-natureza
+yor-047,religiao-ioruba,REL-YOR-047,DCRB-ART-01,Manifestações performáticas (possessão, dança)
+yor-048,religiao-ioruba,REL-YOR-048,DCRB-LIN-05,Griôs e preservação oral
+yor-049,religiao-ioruba,REL-YOR-049,DCRB-ART-01,Ofertas como reconhecimento simbólico
+yor-050,religiao-ioruba,REL-YOR-050,HT-CAI-02,Questões de preservação cultural e direitos religiosos

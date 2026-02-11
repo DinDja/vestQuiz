@@ -23,6 +23,12 @@ input, textarea {
   cursor: crosshair !important;
 }
 
+.leaflet-container.leaflet-container--light {
+  /* light fallback while tiles load or if they fail */
+  background: #f8fafc !important;
+  cursor: crosshair !important;
+}
+
 /* Efeito de scanline tático */
 .scanline-overlay {
   position: fixed;

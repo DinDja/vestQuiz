@@ -178,8 +178,17 @@ export default function App() {
       const storedWeekStart = data.weeklyXpResetAt || '';
       const weeklyXp = storedWeekStart === currentWeekStart ? (data.weeklyXp || 0) : 0;
 
+      // Se o documento tiver `profileBg` (versão antiga), mesclar para os campos top-level
+      const profileBg = data.profileBg || {};
+      const mergedBg = {
+        profileGradient: data.profileGradient ?? profileBg.profileGradient ?? '',
+        coverColor: data.coverColor ?? profileBg.coverColor ?? '',
+        coverImage: data.coverImage ?? profileBg.coverImage ?? ''
+      };
+
       const mergedData = {
         ...data,
+        ...mergedBg,
         uid: firebaseUser.uid,
         lastLogin: now,
         streak: Number(daysActive) || 1,
@@ -189,6 +198,7 @@ export default function App() {
         weeklyXpResetAt: currentWeekStart
       };
 
+      // Atualiza estado local e persiste a versão "flattened" (merge) no servidor — não removemos `profileBg` para ser conservador
       setUserData(mergedData);
       await setDoc(userDocRef, mergedData, { merge: true });
     } else {
@@ -286,9 +296,11 @@ export default function App() {
   };
 
   // Verificação automática de badges baseada no estado atual do usuário
-  const checkAndUnlockBadges = async (correctQuestions, currentXp) => {
+  // NOTE: admite um terceiro argumento `overrides` para facilitar verificações imediatas
+  const checkAndUnlockBadges = async (correctQuestions, currentXp, overrides = {}) => {
     if (!auth.currentUser) return;
     const userBadges = [...(userData.badges || [])];
+    const effectiveCorrectStreak = overrides.correctStreak ?? userData.correctStreak ?? 0;
 
     // Mapeamento de prefixo de questão → disciplina (para badge multidisciplinar)
     const disciplineMap = {
@@ -365,7 +377,10 @@ export default function App() {
       if (!shouldUnlock && badge.reqConsecutiveDays) {
         shouldUnlock = (userData.streak || 0) >= badge.reqConsecutiveDays;
       }
-
+      // 6b. Badge de acertos consecutivos (reqStreak) — ex: "badge-perfeccionista"
+      if (!shouldUnlock && badge.reqStreak) {
+        shouldUnlock = effectiveCorrectStreak >= badge.reqStreak;
+      }
       // 7. Badge de ranking semanal (reqWeeklyRank)
       if (!shouldUnlock && badge.reqWeeklyRank) {
         // Calcula a posição do usuário no ranking semanal
@@ -412,11 +427,14 @@ export default function App() {
       if (!updatedCorrectQuestions.includes(currentQuestion.id)) {
         updatedCorrectQuestions.push(currentQuestion.id);
         const userDocRef = doc(db, 'users', auth.currentUser.uid);
-        await updateDoc(userDocRef, { correctQuestions: updatedCorrectQuestions });
-        setUserData(prev => ({ ...prev, correctQuestions: updatedCorrectQuestions }));
 
-        // Verifica se novos badges devem ser desbloqueados
-        checkAndUnlockBadges(updatedCorrectQuestions, userData.xp || 0);
+        // atualiza streak global de acertos consecutivos (persistente)
+        const newCorrectStreak = (userData.correctStreak || 0) + 1;
+        await updateDoc(userDocRef, { correctQuestions: updatedCorrectQuestions, correctStreak: newCorrectStreak });
+        setUserData(prev => ({ ...prev, correctQuestions: updatedCorrectQuestions, correctStreak: newCorrectStreak }));
+
+        // Verifica se novos badges devem ser desbloqueados (passa override da streak)
+        await checkAndUnlockBadges(updatedCorrectQuestions, userData.xp || 0, { correctStreak: newCorrectStreak });
       }
 
       setTimeout(() => {
@@ -431,6 +449,13 @@ export default function App() {
       }, 800);
     } else {
       setAnswerFeedback({ index: idx, status: 'wrong' });
+
+      // reset global de acertos consecutivos (persistir somente se não-zero)
+      if ((userData.correctStreak || 0) > 0 && auth.currentUser) {
+        const userDocRef = doc(db, 'users', auth.currentUser.uid);
+        await updateDoc(userDocRef, { correctStreak: 0 });
+        setUserData(prev => ({ ...prev, correctStreak: 0 }));
+      }
     }
   };
 
@@ -591,18 +616,37 @@ export default function App() {
   };
 
   const handleUpdateProfile = async (updates) => {
-    if (!auth.currentUser) return;
+    if (!auth.currentUser) return Promise.reject(new Error('Usuário não autenticado'));
     try {
+      // Aviso rápido se payloads base64 forem muito grandes (útil para debugging)
+      const maybeData = updates?.profileBg?.coverImage || updates?.coverImage || updates?.photoURL;
+      if (typeof maybeData === 'string' && maybeData.startsWith('data:')) {
+        const b64 = maybeData.split('base64,')[1] || '';
+        const approxBytes = Math.ceil((b64.length * 3) / 4);
+        if (approxBytes > 700 * 1024) {
+          console.warn('Payload base64 grande detectado ao salvar perfil (~' + Math.round(approxBytes / 1024) + 'KB)');
+        }
+      }
+
       const userDocRef = doc(db, 'users', auth.currentUser.uid);
       await updateDoc(userDocRef, updates);
       setUserData(prev => ({ ...prev, ...updates }));
+      return true;
     } catch (error) {
       console.error("Erro Update Profile:", error);
+      // repassa o erro para o chamador (modal poderá exibir mensagem)
+      throw error;
     }
   };
 
   const handleUpdateBackground = async (bg) => {
-    handleUpdateProfile({ profileBg: bg });
+    // salvar os campos do background no nível top-level esperado pelos componentes
+    const payload = {
+      profileGradient: bg?.profileGradient || '',
+      coverColor: bg?.coverColor || '',
+      coverImage: bg?.coverImage || ''
+    };
+    return handleUpdateProfile(payload);
   };
 
   const activeSubject = useMemo(() =>

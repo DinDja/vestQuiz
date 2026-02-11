@@ -99,6 +99,60 @@ export const BADGES = [
     reqQuestions: ['fil-002', 'fil-007', 'fil-010', 'fil-017', 'fil-024', 'fil-032', 'fil-038', 'fil-044']
   },
 
+  // BADGES: TEOLOGIA CRISTÃ (NOVAS)
+  {
+    id: 'badge-teologia-iniciante',
+    name: "Iniciado em Teologia",
+    desc: "Acertou 10 questões básicas do módulo de Teologia Cristã.",
+    icon: '✝️',
+    reqQuestions: ['teo-001','teo-002','teo-003','teo-004','teo-005','teo-006','teo-007','teo-008','teo-009','teo-010']
+  },
+  {
+    id: 'badge-teologia-avancado',
+    name: "Teólogo em Formação",
+    desc: "Respondeu perguntas avançadas sobre cristologia, concílios e soteriologia.",
+    icon: '📜',
+    reqQuestions: ['teo-012','teo-026','teo-031','teo-033','teo-038','teo-043','teo-046','teo-050']
+  },
+  {
+    id: 'badge-teologia-mestre',
+    name: "Mestre da Teologia",
+    desc: "Concluiu 30 questões (nível médio/avançado) do módulo de Teologia Cristã.",
+    icon: '👑',
+    reqQuestions: [
+      'teo-001','teo-002','teo-003','teo-004','teo-005','teo-006','teo-007','teo-008','teo-009','teo-010',
+      'teo-011','teo-012','teo-013','teo-014','teo-015','teo-016','teo-017','teo-018','teo-019','teo-020',
+      'teo-021','teo-022','teo-023','teo-024','teo-025','teo-026','teo-027','teo-028','teo-029','teo-030'
+    ]
+  },
+
+  // BADGES: RELIGIÃO IORUBÁ (NOVAS)
+  {
+    id: 'badge-ioruba-iniciante',
+    name: "Iniciado na Religião Iorubá",
+    desc: "Acertou 10 questões introdutórias sobre cosmovisão e práticas iorubás.",
+    icon: '🪘',
+    reqQuestions: ['yor-001','yor-002','yor-003','yor-004','yor-005','yor-006','yor-007','yor-008','yor-009','yor-010']
+  },
+  {
+    id: 'badge-ioruba-avancado',
+    name: "Guardião do Axé",
+    desc: "Compreendeu rituais, Odu e práticas iniciáticas do sistema iorubá.",
+    icon: '🕯️',
+    reqQuestions: ['yor-022','yor-026','yor-032','yor-036','yor-038','yor-041','yor-044','yor-050']
+  },
+  {
+    id: 'badge-ioruba-mestre',
+    name: "Mestre do Terreiro",
+    desc: "Concluiu 30 questões sobre religiões de matriz iorubá e diáspora.",
+    icon: '👑',
+    reqQuestions: [
+      'yor-001','yor-002','yor-003','yor-004','yor-005','yor-006','yor-007','yor-008','yor-009','yor-010',
+      'yor-011','yor-012','yor-013','yor-014','yor-015','yor-016','yor-017','yor-018','yor-019','yor-020',
+      'yor-021','yor-022','yor-023','yor-024','yor-025','yor-026','yor-027','yor-028','yor-029','yor-030'
+    ]
+  },
+
   // BADGES POR TEMÁTICA TRANSVERSAL
   {
     id: 'badge-cultura-afro',

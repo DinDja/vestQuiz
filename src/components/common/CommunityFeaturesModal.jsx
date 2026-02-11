@@ -10,7 +10,7 @@ export const CommunityFeaturesModal = ({
   userData
 }) => {
   const { isDark } = useTheme();
-  const [activeTab, setActiveTab] = useState('question'); // 'question', 'feedback'
+  const [activeTab, setActiveTab] = useState('question');
   const [questionData, setQuestionData] = useState({
     question: '',
     options: ['', '', '', ''],

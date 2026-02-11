@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "validate:skills": "node ./scripts/validate-skillcodes.cjs"
   },
   "dependencies": {
     "firebase": "^12.7.0",

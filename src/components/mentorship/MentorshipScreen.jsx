@@ -12,7 +12,7 @@ import {
   Filter,
   Award
 } from 'lucide-react';
-import { collection, query, where, onSnapshot, addDoc, serverTimestamp, updateDoc, doc } from 'firebase/firestore';
+import { collection, query, where, onSnapshot, addDoc, serverTimestamp, doc, setDoc, deleteDoc } from 'firebase/firestore';
 import { auth, db } from '../../firebase';
 
 export const MentorshipScreen = ({
@@ -30,7 +30,7 @@ export const MentorshipScreen = ({
   const [filterRating, setFilterRating] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
-  const subjects = ['Matemática', 'Geografia', 'História', 'Biologia', 'Linguagens', 'Sociologia', 'Filosofia'];
+  const subjects = ['Matemática', 'Geografia', 'História', 'Biologia', 'Linguagens', 'Sociologia', 'Filosofia', 'Teologia', 'Religião Iorubá'];
 
   // Carregar mentores disponíveis
   useEffect(() => {
@@ -50,82 +50,199 @@ export const MentorshipScreen = ({
     return () => unsubscribe();
   }, [tab]);
 
-  // Carregar minhas sessões de mentoria
+  // Carregar minhas sessões de mentoria (busca onde o usuário é student OU mentor)
   useEffect(() => {
     if (tab !== 'my-sessions' || !auth.currentUser) return;
-    
-    const q = query(
-      collection(db, 'mentorshipSessions'),
-      where('studentId', '==', auth.currentUser.uid)
-    );
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const sessions = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      setMySessions(sessions.sort((a, b) => new Date(b.startedAt) - new Date(a.startedAt)));
+
+    const uid = auth.currentUser.uid;
+    const qStudent = query(collection(db, 'mentorshipSessions'), where('studentId', '==', uid));
+    const qMentor = query(collection(db, 'mentorshipSessions'), where('mentorId', '==', uid));
+
+    let sessionsStudent = [];
+    let sessionsMentor = [];
+
+    const getTime = (s) => {
+      const t = s.lastMessageAt || s.startedAt;
+      if (!t) return 0;
+      if (typeof t.toDate === 'function') return t.toDate().getTime();
+      if (t._seconds) return t._seconds * 1000;
+      return new Date(t).getTime?.() || 0;
+    };
+
+    const mergeAndSet = () => {
+      const map = new Map();
+      sessionsStudent.concat(sessionsMentor).forEach(s => map.set(s.id, s));
+      const merged = Array.from(map.values()).sort((a, b) => getTime(b) - getTime(a));
+      setMySessions(merged);
+    };
+
+    const unsubS = onSnapshot(qStudent, (snap) => {
+      sessionsStudent = snap.docs.map(d => ({ id: d.id, ...d.data(), _role: 'student' }));
+      mergeAndSet();
     });
 
-    return () => unsubscribe();
+    const unsubM = onSnapshot(qMentor, (snap) => {
+      sessionsMentor = snap.docs.map(d => ({ id: d.id, ...d.data(), _role: 'mentor' }));
+      mergeAndSet();
+    });
+
+    return () => {
+      unsubS();
+      unsubM();
+    };
   }, [tab]);
 
-  // Carregar mensagens da sessão selecionada
+  // Carregar mensagens da sessão selecionada (escuta ambas variantes de sessionId e faz merge)
+  // Também tenta recriar o documento de sessão canônica quando o estudante abre o chat —
+  // se o mentor havia apagado o documento, o estudante recria a sessão; se o usuário
+  // for mentor a tentativa será rejeitada pelo security rules e ignorada.
   useEffect(() => {
-    if (!selectedMentor) return;
+    if (!selectedMentor || !auth.currentUser) return;
 
-    const sessionId = `${auth.currentUser?.uid}-${selectedMentor.uid}`;
-    const q = query(collection(db, 'mentorshipChats', sessionId, 'messages'));
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const msgs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      setMessages(msgs.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp)));
+    const studentId = auth.currentUser.uid;
+    const mentorId = selectedMentor.uid;
+    const sessionA = `${studentId}-${mentorId}`; // canonical (studentId-mentorId)
+    const sessionB = `${mentorId}-${studentId}`; // possible inverted
+
+    const getMsgTime = (m) => {
+      if (!m.timestamp) return 0;
+      if (typeof m.timestamp.toDate === 'function') return m.timestamp.toDate().getTime();
+      if (m.timestamp._seconds) return m.timestamp._seconds * 1000;
+      return 0;
+    };
+
+    const qA = query(collection(db, 'mentorshipChats', sessionA, 'messages'));
+    const qB = query(collection(db, 'mentorshipChats', sessionB, 'messages'));
+
+    let latestA = [];
+    let latestB = [];
+
+    const mergeAndSet = () => {
+      const map = new Map();
+      latestA.concat(latestB).forEach(m => map.set(m.id, m));
+      const merged = Array.from(map.values()).sort((a, b) => getMsgTime(a) - getMsgTime(b));
+      setMessages(merged);
+    };
+
+    const unsubA = onSnapshot(qA, (snapshot) => {
+      latestA = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+      mergeAndSet();
     });
 
-    return () => unsubscribe();
+    const unsubB = onSnapshot(qB, (snapshot) => {
+      latestB = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+      mergeAndSet();
+    });
+
+    // Tenta recriar/upsert o documento de sessão canônica — permitido somente quando
+    // o currentUser é o estudante (rules exigem studentId == request.auth.uid).
+    (async () => {
+      try {
+        await setDoc(doc(db, 'mentorshipSessions', sessionA), {
+          sessionId: sessionA,
+          studentId: studentId,
+          studentName: userData.displayName,
+          mentorId: mentorId,
+          mentorName: selectedMentor.displayName,
+          lastMessageAt: serverTimestamp(),
+          status: 'active'
+        }, { merge: true });
+      } catch (err) {
+        // Se o usuário for mentor a gravação será negada pelas rules — ignoramos.
+        // Mantemos as subscriptions de mensagens para continuar mostrando chat.
+        // eslint-disable-next-line no-console
+        console.debug('upsert mentorshipSessions (ignored if not student):', err?.code || err?.message || err);
+      }
+    })();
+
+    return () => {
+      unsubA();
+      unsubB();
+    };
   }, [selectedMentor]);
 
   const handleSelectMentor = async (mentor) => {
-    setSelectedMentor(mentor);
-    
-    // Criar sessão de mentoria
-    const sessionId = `${auth.currentUser?.uid}-${mentor.uid}`;
+    // marca selectedMentor com informações da sessão canônica (usuário atual é estudante)
+    const studentId = auth.currentUser?.uid;
+    const mentorId = mentor.uid;
+    const sessionId = `${studentId}-${mentorId}`;
+
+    setSelectedMentor({ uid: mentor.uid, displayName: mentor.displayName, sessionId, isStudent: true });
+
+    // Criar/upsert sessão de mentoria (usa ID canônico studentId-mentorId)
     try {
       const sessionRef = doc(db, 'mentorshipSessions', sessionId);
-      await updateDoc(sessionRef, {
+      await setDoc(sessionRef, {
+        sessionId,
+        studentId,
+        studentName: userData.displayName,
+        mentorId,
+        mentorName: mentor.displayName,
+        subject: 'Geral',
+        startedAt: serverTimestamp(),
         lastMessageAt: serverTimestamp(),
         status: 'active'
-      }).catch(async () => {
-        await addDoc(collection(db, 'mentorshipSessions'), {
-          sessionId,
-          studentId: auth.currentUser.uid,
-          studentName: userData.displayName,
-          mentorId: mentor.uid,
-          mentorName: mentor.displayName,
-          subject: 'Geral',
-          startedAt: serverTimestamp(),
-          status: 'active'
-        });
-      });
+      }, { merge: true });
     } catch (error) {
       console.error('Erro ao criar sessão:', error);
     }
   };
 
   const handleSendMessage = async () => {
-    if (!messageText.trim() || !selectedMentor) return;
+    if (!messageText.trim() || !selectedMentor || !auth.currentUser) return;
 
     try {
-      const sessionId = `${auth.currentUser?.uid}-${selectedMentor.uid}`;
-      const messagesRef = collection(db, 'mentorshipChats', sessionId, 'messages');
-      
-      await addDoc(messagesRef, {
-        senderId: auth.currentUser.uid,
+      const studentId = auth.currentUser.uid;
+      const mentorId = selectedMentor.uid;
+      const sessionA = `${studentId}-${mentorId}`;
+      const sessionB = `${mentorId}-${studentId}`;
+
+      const payload = {
+        senderId: studentId,
         senderName: userData.displayName,
         senderPhoto: userData.photoURL,
         text: messageText,
         timestamp: serverTimestamp(),
-        readBy: [auth.currentUser.uid]
-      });
+        readBy: [studentId]
+      };
+
+      const refA = collection(db, 'mentorshipChats', sessionA, 'messages');
+      const refB = collection(db, 'mentorshipChats', sessionB, 'messages');
+
+      // grava em ambas paths para garantir visibilidade caso o outro usuário use a ordem invertida
+      await Promise.allSettled([addDoc(refA, payload), addDoc(refB, payload)]);
+
+      // atualiza/garante sessão canônica tenha última interação
+      await setDoc(doc(db, 'mentorshipSessions', sessionA), {
+        lastMessageAt: serverTimestamp(),
+        status: 'active'
+      }, { merge: true });
 
       setMessageText('');
     } catch (error) {
       console.error('Erro ao enviar mensagem:', error);
+    }
+  };
+
+  // Deleta a sessão canônica (apenas estudante, regras Firestore aplicam)
+  const deleteSession = async (sessionId) => {
+    if (!sessionId || !auth.currentUser) return;
+
+    const confirm = window.confirm('Confirma excluir esta sessão? As mensagens não serão exibidas na lista após a exclusão.');
+    if (!confirm) return;
+
+    try {
+      await deleteDoc(doc(db, 'mentorshipSessions', sessionId));
+      setMySessions(prev => prev.filter(s => s.id !== sessionId));
+
+      // se a sessão aberta for a mesma, fecha o chat
+      if (selectedMentor?.sessionId === sessionId) {
+        setSelectedMentor(null);
+        setMessages([]);
+      }
+    } catch (err) {
+      console.error('Erro ao excluir sessão:', err);
+      alert('Não foi possível excluir a sessão. Tente novamente.');
     }
   };
 
@@ -252,33 +369,52 @@ export const MentorshipScreen = ({
           )}
 
           {tab === 'my-sessions' && (
-            <div className="p-4 space-y-3">
+            <div className="p-4 space-y-3" style={{maxHeight: "690px"}}>
               {mySessions.length === 0 ? (
                 <div className={`text-center py-8 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
                   <MessageCircle size={32} className="mx-auto mb-2 opacity-50" />
                   <p className="text-sm">Você ainda não tem sessões de mentoria</p>
                 </div>
               ) : (
-                mySessions.map(session => (
-                  <motion.button
-                    key={session.id}
-                    onClick={() => setSelectedMentor({ uid: session.mentorId, displayName: session.mentorName })}
-                    whileHover={{ scale: 1.02 }}
-                    className={`w-full p-4 rounded-xl text-left ${cardBg} hover:border-blue-600/50`}
-                  >
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <h3 className={`font-bold ${textColor}`}>{session.mentorName}</h3>
-                        <p className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-                          {session.subject}
-                        </p>
+                mySessions.map(session => {
+                  const isMentor = session.mentorId === auth.currentUser?.uid;
+                  const isStudent = session.studentId === auth.currentUser?.uid;
+                  const otherId = isMentor ? session.studentId : session.mentorId;
+                  const otherName = isMentor ? session.studentName : session.mentorName;
+
+                  return (
+                    <motion.button
+                      key={session.id}
+                      onClick={() => setSelectedMentor({ uid: otherId, displayName: otherName, sessionId: session.id, isMentor, isStudent })}
+                      whileHover={{ scale: 1.02 }}
+                      className={`w-full p-4 rounded-xl text-left ${cardBg} hover:border-blue-600/50`}>
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <h3 className={`font-bold ${textColor}`}>{otherName}</h3>
+                          <p className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                            {session.subject}
+                          </p>
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs px-2 py-1 rounded bg-blue-600/20 text-blue-400">
+                            {session.status === 'active' ? '🟢 Ativa' : '⚪ Inativa'}{isMentor ? ' • Você (mentor)' : ''}
+                          </span>
+
+                          {isStudent && (
+                            <button
+                              onClick={(e) => { e.stopPropagation(); deleteSession(session.id); }}
+                              className={`p-2 rounded-md text-sm text-red-500 hover:bg-red-50 transition ${isDark ? 'hover:bg-red-900/20' : ''}`}
+                              aria-label="Excluir sessão"
+                            >
+                              <X size={14} />
+                            </button>
+                          )}
+                        </div>
                       </div>
-                      <span className="text-xs px-2 py-1 rounded bg-blue-600/20 text-blue-400">
-                        {session.status === 'active' ? '🟢 Ativa' : '⚪ Inativa'}
-                      </span>
-                    </div>
-                  </motion.button>
-                ))
+                    </motion.button>
+                  );
+                })
               )}
             </div>
           )}
@@ -324,10 +460,25 @@ export const MentorshipScreen = ({
                 </button>
                 <div>
                   <h3 className={`font-bold ${textColor}`}>{selectedMentor.displayName}</h3>
-                  <p className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>Mentor</p>
+                  <p className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                    {selectedMentor?.isMentor ? 'Aluno' : selectedMentor?.isStudent ? 'Mentor' : 'Usuário'}
+                  </p>
                 </div>
               </div>
-              <Clock size={20} className={isDark ? 'text-gray-600' : 'text-gray-400'} />
+
+              <div className="flex items-center gap-3">
+                {selectedMentor?.sessionId && (selectedMentor?.isStudent || selectedMentor?.isMentor) && (
+                  <button
+                    onClick={() => deleteSession(selectedMentor.sessionId)}
+                    className={`p-2 rounded-md text-sm text-red-500 hover:bg-red-50 transition ${isDark ? 'hover:bg-red-900/20' : ''}`}
+                    aria-label="Excluir sessão"
+                  >
+                    <X size={16} />
+                  </button>
+                )}
+
+                <Clock size={20} className={isDark ? 'text-gray-600' : 'text-gray-400'} />
+              </div>
             </div>
 
             {/* Mensagens */}

@@ -74,7 +74,10 @@ export const GAME_CATEGORIES = [
   { id: 'linguagens', label: 'Linguagens', icon: '📖' },
   { id: 'cultura', label: 'Cultura', icon: '🎭' },
   { id: 'sociologia', label: 'Sociologia', icon: '🏙️' },
-  { id: 'filosofia', label: 'Filosofia', icon: '🤔' }
+  { id: 'filosofia', label: 'Filosofia', icon: '🤔' },
+  // categorias adicionadas para as novas matérias
+  { id: 'teologia', label: 'Teologia', icon: '✝️' },
+  { id: 'religiao', label: 'Religião Iorubá', icon: '🪘' }
 ];
 
 // ─── Hook principal ─────────────────────────────────────────────────

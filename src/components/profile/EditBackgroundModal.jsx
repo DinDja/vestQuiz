@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { X, Image, Palette, Check, Upload, Trash2 } from 'lucide-react';
+import { X, Image as ImageIcon, Palette, Check, Upload, Trash2 } from 'lucide-react';
 
 const GRADIENTS = [
     { id: 'indigo', value: 'bg-gradient-to-br from-indigo-600 to-purple-600', name: 'Índigo', color1: '#4f46e5', color2: '#9333ea' },
@@ -30,10 +30,46 @@ export const EditBackgroundModal = ({ isOpen, onClose, onSave, currentBackground
     const [selectedColor, setSelectedColor] = useState(currentBackground?.coverColor || SOLID_COLORS[0].value);
     const [imageUrl, setImageUrl] = useState(currentBackground?.coverImage || '');
     const [customColor, setCustomColor] = useState('#4f46e5');
+    const [isSaving, setIsSaving] = useState(false);
 
     if (!isOpen) return null;
 
-    const handleSave = () => {
+    // compress dataURL using a canvas (returns dataURL)
+    const compressDataUrl = (dataUrl, { maxDim = 1200, quality = 0.8 } = {}) => {
+        return new Promise((resolve, reject) => {
+            try {
+                const ImgCtor = globalThis?.Image || window?.Image;
+                if (!ImgCtor) return reject(new Error('Image constructor not available in this environment'));
+                const img = new ImgCtor();
+                img.onload = () => {
+                    const ratio = Math.min(1, maxDim / Math.max(img.width, img.height));
+                    const w = Math.round(img.width * ratio);
+                    const h = Math.round(img.height * ratio);
+                    const canvas = document.createElement('canvas');
+                    canvas.width = w;
+                    canvas.height = h;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, w, h);
+                    // prefer jpeg for better compression on photos
+                    const compressed = canvas.toDataURL('image/jpeg', quality);
+                    resolve(compressed);
+                };
+                img.onerror = (err) => reject(err);
+                img.src = dataUrl;
+            } catch (err) {
+                reject(err);
+            }
+        });
+    }; 
+
+    const approxDataUrlBytes = (dataUrl) => {
+        // roughly estimate bytes from base64 length
+        if (!dataUrl || !dataUrl.includes('base64,')) return 0;
+        const b64 = dataUrl.split('base64,')[1] || '';
+        return Math.ceil((b64.length * 3) / 4);
+    };
+
+    const handleSave = async () => {
         let backgroundData = {};
 
         if (selectedTab === 'gradient') {
@@ -57,20 +93,74 @@ export const EditBackgroundModal = ({ isOpen, onClose, onSave, currentBackground
             };
         }
 
-        console.log('Salvando fundo:', backgroundData); // Para debug
-        onSave(backgroundData);
-        onClose();
+        // Se for dataURL muito grande, tente comprimir antes de enviar
+        if (selectedTab === 'image' && backgroundData.coverImage && backgroundData.coverImage.startsWith('data:')) {
+            const bytes = approxDataUrlBytes(backgroundData.coverImage);
+            const MAX_BYTES = 350 * 1024; // 350 KB — conservador para Firestore
+
+            if (bytes > MAX_BYTES) {
+                try {
+                    const compressed = await compressDataUrl(backgroundData.coverImage, { maxDim: 1200, quality: 0.75 });
+                    const newSize = approxDataUrlBytes(compressed);
+                    if (newSize < bytes) {
+                        backgroundData.coverImage = compressed;
+                        setImageUrl(compressed);
+                    }
+                } catch (err) {
+                    console.warn('Compressão falhou:', err);
+                }
+            }
+
+            // última verificação: se ainda for grande, bloquear e avisar o usuário
+            const finalSize = approxDataUrlBytes(backgroundData.coverImage);
+            if (finalSize > MAX_BYTES) {
+                alert('A imagem ainda está muito grande para ser salva no perfil. Use uma imagem menor ou insira uma URL pública.');
+                return;
+            }
+        }
+
+        console.log('Salvando fundo (pré-envio):', backgroundData);
+
+        setIsSaving(true);
+        try {
+            // onSave pode ser assíncrono — aguardar para capturar erros e exibir feedback
+            await onSave(backgroundData);
+            onClose();
+        } catch (err) {
+            console.error('Erro ao salvar fundo:', err);
+            alert('Não foi possível salvar o fundo. Tente uma imagem menor ou use uma URL pública. Veja o console para detalhes.');
+        } finally {
+            setIsSaving(false);
+        }
     };
 
-    const handleImageUpload = (e) => {
+    const handleImageUpload = async (e) => {
         const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                setImageUrl(event.target.result);
-            };
-            reader.readAsDataURL(file);
+        if (!file) return;
+
+        // validação simples de tipo e tamanho bruto antes de ler
+        const maxRawMB = 6;
+        if (file.size > maxRawMB * 1024 * 1024) {
+            alert(`Arquivo muito grande — selecione uma imagem menor que ${maxRawMB}MB.`);
+            e.target.value = '';
+            return;
         }
+
+        const reader = new FileReader();
+        reader.onload = async (event) => {
+            const dataUrl = event.target.result;
+            try {
+                // comprimir já no upload para evitar payloads enormes
+                const compressed = await compressDataUrl(dataUrl, { maxDim: 1600, quality: 0.8 });
+                setImageUrl(compressed);
+            } catch (err) {
+                // fallback: usar dataUrl original
+                console.warn('Compressão no upload falhou, usando original:', err);
+                setImageUrl(dataUrl);
+            }
+        };
+        reader.readAsDataURL(file);
+        e.target.value = '';
     };
 
     // Função para obter estilos de fundo baseado na tab selecionada
@@ -149,7 +239,7 @@ export const EditBackgroundModal = ({ isOpen, onClose, onSave, currentBackground
                                     : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
                                 }`}
                         >
-                            <Image size={16} /> Imagem
+                            <ImageIcon size={16} /> Imagem
                         </button>
                     </div>
                 </div>

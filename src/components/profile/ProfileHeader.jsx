@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Edit3, X, Save, Palette } from 'lucide-react';
+import { Edit3, X, Save, Palette, Upload, Trash2 } from 'lucide-react';
 import { EditBackgroundModal } from './EditBackgroundModal';
 
 export const ProfileHeader = ({ 
@@ -15,6 +15,7 @@ export const ProfileHeader = ({
   isDark 
 }) => {
   const [isBackgroundModalOpen, setIsBackgroundModalOpen] = useState(false);
+  const [uploadingAvatar, setUploadingAvatar] = useState(false);
 
   // Função para separar as classes do gradiente
   const getGradientClasses = (gradientString) => {
@@ -149,6 +150,76 @@ export const ProfileHeader = ({
                 <span className="text-4xl font-black text-white uppercase relative z-10">
                   {userData.displayName?.charAt(0) || 'P'}
                 </span>
+              )}
+
+              {/* UPLOAD (apenas quando editando) */}
+              {isEditing && (
+                <div className="absolute inset-0 flex items-end justify-end p-2 gap-2 z-20">
+                  <input
+                    id="avatar-upload"
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0];
+                      if (!file) return;
+
+                      // validação simples
+                      const maxMB = 3;
+                      if (file.size > maxMB * 1024 * 1024) {
+                        alert(`Imagem muito grande — máximo ${maxMB}MB.`);
+                        e.target.value = '';
+                        return;
+                      }
+
+                      try {
+                        setUploadingAvatar(true);
+                        const reader = new FileReader();
+                        reader.onload = async (ev) => {
+                          const dataUrl = ev.target.result;
+                          // salva diretamente no user doc (Data URL) — evita mudar Storage
+                          await handleUpdateProfile({ photoURL: dataUrl });
+                        };
+                        reader.readAsDataURL(file);
+                      } catch (err) {
+                        console.error('Erro ao fazer upload do avatar:', err);
+                        alert('Não foi possível enviar a imagem. Tente novamente.');
+                      } finally {
+                        setUploadingAvatar(false);
+                        e.target.value = '';
+                      }
+                    }}
+                  />
+
+                  <label
+                    htmlFor="avatar-upload"
+                    className={`p-2 bg-white/20 hover:bg-white/30 backdrop-blur-md text-white rounded-xl transition-all shadow-lg border border-white/20 flex items-center justify-center ${uploadingAvatar ? 'opacity-60 pointer-events-none' : ''}`}
+                    title="Alterar foto"
+                  >
+                    <Upload size={16} />
+                  </label>
+
+                  {userData.photoURL && (
+                    <button
+                      onClick={async () => {
+                        if (!confirm('Remover foto do perfil?')) return;
+                        try {
+                          setUploadingAvatar(true);
+                          await handleUpdateProfile({ photoURL: '' });
+                        } catch (err) {
+                          console.error('Erro ao remover avatar:', err);
+                          alert('Não foi possível remover a foto.');
+                        } finally {
+                          setUploadingAvatar(false);
+                        }
+                      }}
+                      className="p-2 bg-rose-500/20 hover:bg-rose-500/30 backdrop-blur-md text-rose-200 rounded-xl transition-all shadow-lg border border-rose-500/20"
+                      title="Remover foto"
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  )}
+                </div>
               )}
             </div>
           </div>

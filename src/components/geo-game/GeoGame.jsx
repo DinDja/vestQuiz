@@ -10,6 +10,8 @@ import {
     LocateFixed,
     ChevronRight,
     Zap,
+    Sun,
+    Moon,
     X
 } from 'lucide-react';
 import { MapContainer, TileLayer, Marker, useMapEvents, Circle, useMap } from 'react-leaflet';
@@ -62,6 +64,7 @@ export const GeoGame = ({ setView, userData, updateProgress, unlockBadge }) => {
     const [showHintConfirm, setShowHintConfirm] = useState(false);
     const [lastResult, setLastResult] = useState(null);
     const [mapFly, setMapFly] = useState(null);
+    const [mapStyle, setMapStyle] = useState('light'); // 'light' = clearer basemap for GeoGame
 
     const initializeGame = (limit) => {
         const shuffled = [...MISSION_DATABASE].sort(() => Math.random() - 0.5).slice(0, limit);
@@ -166,6 +169,9 @@ export const GeoGame = ({ setView, userData, updateProgress, unlockBadge }) => {
                     </div>
                 </div>
                 <div className="flex gap-2 pointer-events-auto">
+                    <button onClick={() => setMapStyle(s => s === 'dark' ? 'light' : 'dark')} title="Alternar estilo do mapa" className="hud-glass w-10 h-10 rounded-xl flex items-center justify-center text-white border border-white/10 active:bg-emerald-500/20 pointer-events-auto">
+                        {mapStyle === 'dark' ? <Sun size={18} className="text-amber-300" /> : <Moon size={18} className="text-slate-400" />}
+                    </button>
                     <div className="hud-glass px-4 py-2 rounded-2xl text-center min-w-[60px]">
                         <p className="text-[8px] opacity-40 font-black uppercase">STREAK</p>
                         <p className="text-sm font-black text-amber-400 leading-none">{streak}</p>
@@ -178,8 +184,13 @@ export const GeoGame = ({ setView, userData, updateProgress, unlockBadge }) => {
             </header>
 
             <div className="flex-1 relative z-0">
-                <MapContainer center={[20, 0]} zoom={2} zoomControl={false} className="h-full w-full" worldCopyJump={true}>
-                    <TileLayer url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png" noWrap={false} />
+                <MapContainer center={[20, 0]} zoom={2} zoomControl={false} className={`h-full w-full ${mapStyle === 'light' ? 'leaflet-container--light' : ''}`} worldCopyJump={true}>
+                    <TileLayer
+                      url={mapStyle === 'dark'
+                        ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
+                        : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png'}
+                      noWrap={false}
+                    />
                     <ClickHandler setPos={setUserGuess} active={!showResult} />
                     <MapController targetPos={mapFly?.pos} zoomLevel={mapFly?.zoom} />
                     {userGuess && <Marker position={userGuess} icon={customIcon} />}

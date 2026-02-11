@@ -56,6 +56,12 @@ export const useUserData = () => {
             newBadgesList.push(badge.id);
           }
         }
+
+        // suporte a badges baseadas em acertos consecutivos (reqStreak)
+        if (badge.reqStreak) {
+          const streak = userData.correctStreak || 0;
+          if (streak >= badge.reqStreak) newBadgesList.push(badge.id);
+        }
       }
     });
 
