@@ -95,6 +95,7 @@ export const useGroupGame = (userData) => {
   const timerRef = useRef(null);
   const countdownRef = useRef(null);
   const lastQuestionRef = useRef(-1);
+  const questionTimerStartedRef = useRef(false);
   const submittingRef = useRef(false);
 
   // ── Limpa listeners ao desmontar ──
@@ -213,6 +214,7 @@ export const useGroupGame = (userData) => {
 
       if (needsReset) {
         lastQuestionRef.current = currentQ;
+        questionTimerStartedRef.current = true; // marca que o timer foi inicializado para esta questão
         setMyAnswer(null);
         setShowExplanation(false);
         setTimer(remaining);
@@ -437,7 +439,8 @@ export const useGroupGame = (userData) => {
   // ── Auto-submit quando o timer zerar (garante que o timer foi inicializado para a questão atual) ──
   useEffect(() => {
     const currentQ = typeof roomData?.currentQuestion === 'number' ? roomData.currentQuestion : null;
-    // evitar race: só auto-submit se o timer foi inicializado para essa questão (index válido)
+
+    // evitar race: só auto-submit se o timer foi inicializado para essa questão (flag) e o index bater
     if (
       timer === 0 &&
       phase === 'playing' &&
@@ -445,8 +448,10 @@ export const useGroupGame = (userData) => {
       roomData &&
       currentQ !== null &&
       lastQuestionRef.current === currentQ &&
-      lastQuestionRef.current !== -1
+      lastQuestionRef.current !== -1 &&
+      questionTimerStartedRef.current === true
     ) {
+      console.debug('group-game: auto-submit triggered', { timer, currentQ, lastQuestion: lastQuestionRef.current, questionTimerStarted: questionTimerStartedRef.current });
       handleSubmitAnswer(-1); // -1 = não respondeu
     }
   }, [timer, phase, myAnswer, roomData, handleSubmitAnswer]);
@@ -474,6 +479,7 @@ export const useGroupGame = (userData) => {
           questionStartedAt: Timestamp.now()
         });
         lastQuestionRef.current = -1; // força reset do timer
+        questionTimerStartedRef.current = false; // garantir flag limpa durante transição
       }
     } catch (e) {
       console.error('Erro avançando questão:', e);
@@ -530,6 +536,7 @@ export const useGroupGame = (userData) => {
     setTimer(0);
     setShowExplanation(false);
     lastQuestionRef.current = -1;
+    questionTimerStartedRef.current = false;
   };
 
   // ── Helpers derivados ──
