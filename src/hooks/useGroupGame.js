@@ -96,6 +96,7 @@ export const useGroupGame = (userData) => {
   const countdownRef = useRef(null);
   const lastQuestionRef = useRef(-1);
   const questionTimerStartedRef = useRef(false);
+  const timerSeenPositiveRef = useRef(false); // só auto-submit se timer já foi > 0 nesta questão
   const submittingRef = useRef(false);
 
   // ── Limpa listeners ao desmontar ──
@@ -215,6 +216,7 @@ export const useGroupGame = (userData) => {
       if (needsReset) {
         lastQuestionRef.current = currentQ;
         questionTimerStartedRef.current = true; // marca que o timer foi inicializado para esta questão
+        timerSeenPositiveRef.current = remaining > 0; // marca se já temos tempo positivo
         setMyAnswer(null);
         setShowExplanation(false);
         setTimer(remaining);
@@ -228,6 +230,8 @@ export const useGroupGame = (userData) => {
         if (remaining > 0) {
           timerRef.current = setInterval(() => {
             setTimer(prev => {
+              const next = prev <= 1 ? 0 : prev - 1;
+              if (next > 0) timerSeenPositiveRef.current = true;
               if (prev <= 1) {
                 clearInterval(timerRef.current);
                 timerRef.current = null;
@@ -451,6 +455,11 @@ export const useGroupGame = (userData) => {
       lastQuestionRef.current !== -1 &&
       questionTimerStartedRef.current === true
     ) {
+      if (!timerSeenPositiveRef.current) {
+        console.debug('group-game: suppressing auto-submit (timer never observed >0 for this question)', { timer, currentQ, lastQuestion: lastQuestionRef.current, questionTimerStarted: questionTimerStartedRef.current });
+        return;
+      }
+
       console.debug('group-game: auto-submit triggered', { timer, currentQ, lastQuestion: lastQuestionRef.current, questionTimerStarted: questionTimerStartedRef.current });
       handleSubmitAnswer(-1); // -1 = não respondeu
     }
@@ -480,6 +489,7 @@ export const useGroupGame = (userData) => {
         });
         lastQuestionRef.current = -1; // força reset do timer
         questionTimerStartedRef.current = false; // garantir flag limpa durante transição
+        timerSeenPositiveRef.current = false;
       }
     } catch (e) {
       console.error('Erro avançando questão:', e);
@@ -537,6 +547,7 @@ export const useGroupGame = (userData) => {
     setShowExplanation(false);
     lastQuestionRef.current = -1;
     questionTimerStartedRef.current = false;
+    timerSeenPositiveRef.current = false;
   };
 
   // ── Helpers derivados ──
