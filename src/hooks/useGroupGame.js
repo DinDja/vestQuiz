@@ -450,6 +450,7 @@ export const useGroupGame = (userData) => {
     submittingRef.current = true;
 
     setMyAnswer(answerRecord);
+    console.log('group-game: myAnswer set (local)', answerRecord);
 
     try {
       const roomRef = doc(db, 'rooms', roomCode);

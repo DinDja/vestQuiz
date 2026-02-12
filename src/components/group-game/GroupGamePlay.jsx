@@ -207,6 +207,11 @@ export const GroupGamePlay = ({
 
           const isDisabled = hasAnswered || isTimeUp;
 
+          const handleOptionClick = () => {
+            console.log('group-game: option click', { idx, isDisabled, hasAnswered, isTimeUp, myAnswer, timer, currentQuestionIndex });
+            if (!isDisabled) onSubmitAnswer(idx);
+          };
+
           return (
             <motion.button
               type="button"
@@ -214,7 +219,7 @@ export const GroupGamePlay = ({
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.05 }}
-              onClick={() => !isDisabled && onSubmitAnswer(idx)}
+              onClick={handleOptionClick}
               disabled={isDisabled}
               aria-disabled={isDisabled}
               className={`w-full text-left p-4 rounded-xl border text-sm font-medium transition-all duration-300 flex items-center justify-between ${
