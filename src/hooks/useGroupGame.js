@@ -225,11 +225,13 @@ export const useGroupGame = (userData) => {
 
       console.log('group-game: sync timer', { currentQ, remaining, timeLimit, questionStartedAt: startedAtTs?.toMillis?.() });
 
-      // Se for nova questão ou se o tempo restante difere do estado atual, (re)inicia o timer
+      // Se for nova questão, precisamos resetar estado; se apenas houve dessincronização do timer,
+      // atualizamos `timer` sem limpar `myAnswer` para não sobrescrever escolhas locais.
       const isNewQuestion = currentQ !== lastQuestionRef.current;
-      const needsReset = isNewQuestion || timer !== remaining;
+      const needsTimerSync = timer !== remaining;
 
-      if (needsReset) {
+      if (isNewQuestion) {
+        // reset completo para nova questão
         lastQuestionRef.current = currentQ;
         // não marca questionTimerStarted imediatamente — espera o state `timer` ser aplicado
         setMyAnswer(null);
@@ -240,7 +242,7 @@ export const useGroupGame = (userData) => {
         setTimeout(() => {
           questionTimerStartedRef.current = true;
           if (remaining > 0) timerSeenPositiveRef.current = true;
-          console.log('group-game: refs marked after setTimer', { questionTimerStarted: questionTimerStartedRef.current, timerSeenPositive: timerSeenPositiveRef.current, remaining });
+          console.log('group-game: refs marked after setTimer (new question)', { questionTimerStarted: questionTimerStartedRef.current, timerSeenPositive: timerSeenPositiveRef.current, remaining });
         }, 20);
 
         if (timerRef.current) {
@@ -263,6 +265,10 @@ export const useGroupGame = (userData) => {
             });
           }, 1000);
         }
+      } else if (needsTimerSync) {
+        // apenas sincroniza o timer local sem resetar o estado do jogador
+        console.log('group-game: timer desync detected — syncing timer only', { timer, remaining });
+        setTimer(remaining);
       }
     }
 
