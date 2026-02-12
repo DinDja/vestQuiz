@@ -87,7 +87,7 @@ export const useGroupGame = (userData) => {
   const [phase, setPhase] = useState('menu'); // menu | lobby | countdown | playing | results
   const [error, setError] = useState(null);
   const [timer, setTimer] = useState(0);
-  const [countdownValue, setCountdownValue] = useState(3);
+  const [countdownValue, setCountdownValue] = useState(null);
   const [myAnswer, setMyAnswer] = useState(null);
   const [showExplanation, setShowExplanation] = useState(false);
 
@@ -139,20 +139,35 @@ export const useGroupGame = (userData) => {
   // ── Timer do countdown (3, 2, 1, JÁ!) ──
   useEffect(() => {
     if (phase === 'countdown') {
+      // garante que não existam múltiplos intervals ativos
+      if (countdownRef.current) {
+        clearInterval(countdownRef.current);
+        countdownRef.current = null;
+      }
+
       setCountdownValue(3);
       let val = 3;
+
       countdownRef.current = setInterval(() => {
         val -= 1;
         if (val <= 0) {
+          // mostra 0 (frame final) e aguarda curtamente antes de mudar para 'playing'
           clearInterval(countdownRef.current);
-          setPhase('playing');
+          countdownRef.current = null;
+          setCountdownValue(0);
+          // pequeno delay para evitar flashing/duplicação na transição do AnimatePresence
+          setTimeout(() => setPhase('playing'), 120);
         } else {
           setCountdownValue(val);
         }
       }, 1000);
     }
+
     return () => {
-      if (countdownRef.current) clearInterval(countdownRef.current);
+      if (countdownRef.current) {
+        clearInterval(countdownRef.current);
+        countdownRef.current = null;
+      }
     };
   }, [phase]);
 
