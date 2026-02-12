@@ -122,6 +122,7 @@ export const useGroupGame = (userData) => {
 
       const data = { id: snap.id, ...snap.data() };
       setRoomData(data);
+      console.debug('group-game: room snapshot', { code: snap.id, status: data.status, currentQuestion: data.currentQuestion, questionStartedAt: data.questionStartedAt?.toMillis?.() });
 
       // normalize server status -> local phase
       if (data.status === 'waiting') setPhase('lobby');
@@ -139,6 +140,7 @@ export const useGroupGame = (userData) => {
   // ── Timer do countdown (3, 2, 1, JÁ!) ──
   useEffect(() => {
     if (phase === 'countdown') {
+      console.debug('group-game: local countdown start');
       // garante que não existam múltiplos intervals ativos
       if (countdownRef.current) {
         clearInterval(countdownRef.current);
@@ -185,6 +187,8 @@ export const useGroupGame = (userData) => {
         const elapsed = Math.floor((Date.now() - startedAtTs.toMillis()) / 1000);
         remaining = Math.max(0, timeLimit - elapsed);
       }
+
+      console.debug('group-game: sync timer', { currentQ, remaining, timeLimit, questionStartedAt: startedAtTs?.toMillis?.() });
 
       // Se for nova questão ou se o tempo restante difere do estado atual, (re)inicia o timer
       const isNewQuestion = currentQ !== lastQuestionRef.current;

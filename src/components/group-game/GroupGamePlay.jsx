@@ -1,5 +1,5 @@
 // src/components/group-game/GroupGamePlay.jsx
-import React, { useMemo } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Clock,
@@ -18,38 +18,47 @@ import {
 import { auth } from '../../firebase';
 
 // ─── Countdown Overlay ──────────────────────────────────────────────
-export const CountdownOverlay = ({ value, isDark }) => (
-  <motion.div
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0 }}
-    className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/90 backdrop-blur-md"
-    style={{ zIndex: 99999 }}
-  >
-    <div className="text-center space-y-6">
-      <motion.div
-        animate={{ rotate: [0, 5, -5, 0] }}
-        transition={{ repeat: Infinity, duration: 1.5 }}
-      >
-        <Shield size={48} className="text-indigo-500 mx-auto" />
-      </motion.div>
-      <p className="text-sm font-black uppercase tracking-widest text-slate-400">
-        Preparados?
-      </p>
-      <motion.div
-        key={value}
-        initial={{ scale: 2, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.5, opacity: 0 }}
-        transition={{ type: 'spring', stiffness: 400, damping: 15 }}
-        className="text-8xl font-black text-white"
-      >
-        {value}
-      </motion.div>
-      <p className="text-lg font-bold text-indigo-400">A partida vai começar!</p>
-    </div>
-  </motion.div>
-);
+export const CountdownOverlay = ({ value, isDark }) => {
+  const prev = useRef(null);
+  useEffect(() => {
+    prev.current = value;
+  }, [value]);
+
+  // não renderiza se não houver valor definido (defensivo)
+  if (value === null || typeof value === 'undefined') return null;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/90 backdrop-blur-md"
+      style={{ zIndex: 99999 }}
+    >
+      <div className="text-center space-y-6">
+        <motion.div
+          animate={{ rotate: [0, 5, -5, 0] }}
+          transition={{ repeat: Infinity, duration: 1.5 }}
+        >
+          <Shield size={48} className="text-indigo-500 mx-auto" />
+        </motion.div>
+        <p className="text-sm font-black uppercase tracking-widest text-slate-400">
+          Preparados?
+        </p>
+        <motion.div
+          initial={{ scale: 2, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          exit={{ scale: 0.5, opacity: 0 }}
+          transition={{ type: 'spring', stiffness: 400, damping: 15 }}
+          className="text-8xl font-black text-white"
+        >
+          {value}
+        </motion.div>
+        <p className="text-lg font-bold text-indigo-400">A partida vai começar!</p>
+      </div>
+    </motion.div>
+  );
+};
 
 // ─── Tela de Jogo ───────────────────────────────────────────────────
 export const GroupGamePlay = ({
