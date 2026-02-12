@@ -171,35 +171,59 @@ export const useGroupGame = (userData) => {
     };
   }, [phase]);
 
-  // ── Timer de cada questão ──
+  // ── Timer de cada questão (sincroniza com questionStartedAt para evitar races) ──
   useEffect(() => {
     if (phase === 'playing' && roomData) {
       const currentQ = roomData.currentQuestion ?? 0;
+      const timeLimit = roomData.settings?.timePerQuestion || 20;
 
-      // Nova questão detectada
-      if (currentQ !== lastQuestionRef.current) {
+      // calcula tempo restante a partir do questionStartedAt (se disponível)
+      const startedAtTs = roomData.questionStartedAt;
+      let remaining = timeLimit;
+
+      if (startedAtTs && typeof startedAtTs.toMillis === 'function') {
+        const elapsed = Math.floor((Date.now() - startedAtTs.toMillis()) / 1000);
+        remaining = Math.max(0, timeLimit - elapsed);
+      }
+
+      // Se for nova questão ou se o tempo restante difere do estado atual, (re)inicia o timer
+      const isNewQuestion = currentQ !== lastQuestionRef.current;
+      const needsReset = isNewQuestion || timer !== remaining;
+
+      if (needsReset) {
         lastQuestionRef.current = currentQ;
         setMyAnswer(null);
         setShowExplanation(false);
-        const timeLimit = roomData.settings?.timePerQuestion || 20;
-        setTimer(timeLimit);
+        setTimer(remaining);
 
-        if (timerRef.current) clearInterval(timerRef.current);
-        timerRef.current = setInterval(() => {
-          setTimer(prev => {
-            if (prev <= 1) {
-              clearInterval(timerRef.current);
-              return 0;
-            }
-            return prev - 1;
-          });
-        }, 1000);
+        if (timerRef.current) {
+          clearInterval(timerRef.current);
+          timerRef.current = null;
+        }
+
+        // se o tempo já expirou, não cria interval
+        if (remaining > 0) {
+          timerRef.current = setInterval(() => {
+            setTimer(prev => {
+              if (prev <= 1) {
+                clearInterval(timerRef.current);
+                timerRef.current = null;
+                return 0;
+              }
+              return prev - 1;
+            });
+          }, 1000);
+        }
       }
     }
+
     return () => {
-      if (timerRef.current && phase !== 'playing') clearInterval(timerRef.current);
+      if (timerRef.current && phase !== 'playing') {
+        clearInterval(timerRef.current);
+        timerRef.current = null;
+      }
     };
-  }, [phase, roomData?.currentQuestion]);
+  }, [phase, roomData?.currentQuestion, roomData?.questionStartedAt, roomData?.settings?.timePerQuestion]);
 
   // ═══════════════════════════════════════════════════════════════════
   // AÇÕES
@@ -390,9 +414,17 @@ export const useGroupGame = (userData) => {
 
   // ── Auto-submit quando o timer zerar (garante que o timer foi inicializado para a questão atual) ──
   useEffect(() => {
-    const currentQ = roomData?.currentQuestion ?? -1;
-    // evitar race: só auto-submit se o timer chegou a 0 *depois* de ter sido iniciado
-    if (timer === 0 && phase === 'playing' && myAnswer === null && roomData && lastQuestionRef.current === currentQ) {
+    const currentQ = typeof roomData?.currentQuestion === 'number' ? roomData.currentQuestion : null;
+    // evitar race: só auto-submit se o timer foi inicializado para essa questão (index válido)
+    if (
+      timer === 0 &&
+      phase === 'playing' &&
+      myAnswer === null &&
+      roomData &&
+      currentQ !== null &&
+      lastQuestionRef.current === currentQ &&
+      lastQuestionRef.current !== -1
+    ) {
       handleSubmitAnswer(-1); // -1 = não respondeu
     }
   }, [timer, phase, myAnswer, roomData, handleSubmitAnswer]);
