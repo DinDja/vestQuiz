@@ -9,6 +9,10 @@ import { GroupGameResults } from './GroupGameResults';
 export const GroupGameScreen = ({ setView, isDark, userData, updateProgress, unlockBadge }) => {
   const game = useGroupGame(userData);
 
+  React.useEffect(() => {
+    console.log('group-game: GameScreen state', { phase: game.phase, countdownValue: game.countdownValue, timer: game.timer });
+  }, [game.phase, game.countdownValue, game.timer]);
+
   return (
     <div className="min-h-screen relative">
       <AnimatePresence mode="wait">

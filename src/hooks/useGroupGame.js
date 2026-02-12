@@ -98,6 +98,7 @@ export const useGroupGame = (userData) => {
   const questionTimerStartedRef = useRef(false);
   const timerSeenPositiveRef = useRef(false); // só auto-submit se timer já foi > 0 nesta questão
   const submittingRef = useRef(false);
+  const prevRoomSnapshotRef = useRef({ status: null, currentQuestion: null, questionStartedAt: null });
 
   // ── Limpa listeners ao desmontar ──
   useEffect(() => {
@@ -112,6 +113,7 @@ export const useGroupGame = (userData) => {
   const subscribeToRoom = useCallback((code) => {
     if (unsubRef.current) unsubRef.current();
 
+    console.log('group-game: subscribeToRoom', code);
     const roomRef = doc(db, 'rooms', code);
     const unsub = onSnapshot(roomRef, (snap) => {
       if (!snap.exists()) {
@@ -123,8 +125,16 @@ export const useGroupGame = (userData) => {
       }
 
       const data = { id: snap.id, ...snap.data() };
+      const prev = prevRoomSnapshotRef.current;
+      console.log('group-game: room snapshot (delta)', {
+        code: snap.id,
+        prev: { status: prev.status, currentQuestion: prev.currentQuestion, questionStartedAt: prev.questionStartedAt },
+        next: { status: data.status, currentQuestion: data.currentQuestion, questionStartedAt: data.questionStartedAt?.toMillis?.() }
+      });
+
+      prevRoomSnapshotRef.current = { status: data.status, currentQuestion: data.currentQuestion, questionStartedAt: data.questionStartedAt?.toMillis?.() };
+
       setRoomData(data);
-      console.debug('group-game: room snapshot', { code: snap.id, status: data.status, currentQuestion: data.currentQuestion, questionStartedAt: data.questionStartedAt?.toMillis?.() });
 
       // normalize server status -> local phase
       if (data.status === 'waiting') setPhase('lobby');
@@ -144,7 +154,7 @@ export const useGroupGame = (userData) => {
   // ── Timer do countdown (3, 2, 1, JÁ!) ──
   useEffect(() => {
     if (phase === 'countdown') {
-      console.debug('group-game: local countdown start');
+      console.log('group-game: local countdown start');
       // garante que não existam múltiplos intervals ativos
       if (countdownRef.current) {
         clearInterval(countdownRef.current);
@@ -179,6 +189,7 @@ export const useGroupGame = (userData) => {
             }
           }, 120);
         } else {
+          console.log('group-game: countdown tick', val);
           setCountdownValue(val);
         }
       }, 1000);
@@ -191,6 +202,11 @@ export const useGroupGame = (userData) => {
       }
     };
   }, [phase, roomCode, roomData?.hostId]);
+
+  // log das mudanças do phase (útil para debug de transições)
+  useEffect(() => {
+    console.log('group-game: phase changed', { phase, roomCode, currentQuestion: roomData?.currentQuestion, roomStatus: roomData?.status });
+  }, [phase, roomCode, roomData?.currentQuestion, roomData?.status]);
 
   // ── Timer de cada questão (sincroniza com questionStartedAt para evitar races) ──
   useEffect(() => {
@@ -207,7 +223,7 @@ export const useGroupGame = (userData) => {
         remaining = Math.max(0, timeLimit - elapsed);
       }
 
-      console.debug('group-game: sync timer', { currentQ, remaining, timeLimit, questionStartedAt: startedAtTs?.toMillis?.() });
+      console.log('group-game: sync timer', { currentQ, remaining, timeLimit, questionStartedAt: startedAtTs?.toMillis?.() });
 
       // Se for nova questão ou se o tempo restante difere do estado atual, (re)inicia o timer
       const isNewQuestion = currentQ !== lastQuestionRef.current;
@@ -215,11 +231,17 @@ export const useGroupGame = (userData) => {
 
       if (needsReset) {
         lastQuestionRef.current = currentQ;
-        questionTimerStartedRef.current = true; // marca que o timer foi inicializado para esta questão
-        timerSeenPositiveRef.current = remaining > 0; // marca se já temos tempo positivo
+        // não marca questionTimerStarted imediatamente — espera o state `timer` ser aplicado
         setMyAnswer(null);
         setShowExplanation(false);
         setTimer(remaining);
+
+        // marcar refs depois que o state for aplicado (evita auto-submit por estado 'timer' ainda = 0)
+        setTimeout(() => {
+          questionTimerStartedRef.current = true;
+          if (remaining > 0) timerSeenPositiveRef.current = true;
+          console.log('group-game: refs marked after setTimer', { questionTimerStarted: questionTimerStartedRef.current, timerSeenPositive: timerSeenPositiveRef.current, remaining });
+        }, 20);
 
         if (timerRef.current) {
           clearInterval(timerRef.current);
@@ -251,6 +273,11 @@ export const useGroupGame = (userData) => {
       }
     };
   }, [phase, roomData?.currentQuestion, roomData?.questionStartedAt, roomData?.settings?.timePerQuestion]);
+
+  // debug do timer local (ticks)
+  useEffect(() => {
+    console.log('group-game: local timer tick', { timer, questionIndex: lastQuestionRef.current, timerSeenPositive: timerSeenPositiveRef.current });
+  }, [timer]);
 
   // ═══════════════════════════════════════════════════════════════════
   // AÇÕES
@@ -391,6 +418,7 @@ export const useGroupGame = (userData) => {
   };
 
   const handleSubmitAnswer = async (answerIdx) => {
+    console.log('group-game: submitAttempt', { answerIdx, timer, phase, currentQ: roomData?.currentQuestion });
     if (!roomCode || !roomData || myAnswer !== null) return;
 
     const uid = auth.currentUser.uid;
@@ -456,11 +484,11 @@ export const useGroupGame = (userData) => {
       questionTimerStartedRef.current === true
     ) {
       if (!timerSeenPositiveRef.current) {
-        console.debug('group-game: suppressing auto-submit (timer never observed >0 for this question)', { timer, currentQ, lastQuestion: lastQuestionRef.current, questionTimerStarted: questionTimerStartedRef.current });
+        console.warn('group-game: suppressing auto-submit (timer never observed >0 for this question)', { timer, currentQ, lastQuestion: lastQuestionRef.current, questionTimerStarted: questionTimerStartedRef.current });
         return;
       }
 
-      console.debug('group-game: auto-submit triggered', { timer, currentQ, lastQuestion: lastQuestionRef.current, questionTimerStarted: questionTimerStartedRef.current });
+      console.warn('group-game: auto-submit triggered', { timer, currentQ, lastQuestion: lastQuestionRef.current, questionTimerStarted: questionTimerStartedRef.current });
       handleSubmitAnswer(-1); // -1 = não respondeu
     }
   }, [timer, phase, myAnswer, roomData, handleSubmitAnswer]);
@@ -471,6 +499,8 @@ export const useGroupGame = (userData) => {
 
     const currentQ = roomData.currentQuestion ?? 0;
     const totalQuestions = roomData.questions?.length || 0;
+
+    console.log('group-game: advanceQuestion called', { currentQ, totalQuestions });
 
     try {
       const roomRef = doc(db, 'rooms', roomCode);

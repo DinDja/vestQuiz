@@ -22,6 +22,7 @@ export const CountdownOverlay = ({ value, isDark }) => {
   const prev = useRef(null);
   useEffect(() => {
     prev.current = value;
+    console.log('group-game: CountdownOverlay value', value);
   }, [value]);
 
   // não renderiza se não houver valor definido (defensivo)
@@ -78,6 +79,7 @@ export const GroupGamePlay = ({
   sortedPlayers,
   allAnswered
 }) => {
+  useEffect(() => { console.log('group-game: GroupGamePlay mounted/props', { currentQuestionIndex, timer, myAnswer }); }, [currentQuestionIndex, timer, myAnswer]);
   const uid = auth.currentUser?.uid;
 
   // Calcular porcentagem do timer
