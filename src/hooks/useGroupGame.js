@@ -373,9 +373,11 @@ export const useGroupGame = (userData) => {
     }
   };
 
-  // ── Auto-submit quando o timer zerar (moved below declaration of handleSubmitAnswer to avoid TDZ) ──
+  // ── Auto-submit quando o timer zerar (garante que o timer foi inicializado para a questão atual) ──
   useEffect(() => {
-    if (timer === 0 && phase === 'playing' && myAnswer === null && roomData) {
+    const currentQ = roomData?.currentQuestion ?? -1;
+    // evitar race: só auto-submit se o timer chegou a 0 *depois* de ter sido iniciado
+    if (timer === 0 && phase === 'playing' && myAnswer === null && roomData && lastQuestionRef.current === currentQ) {
       handleSubmitAnswer(-1); // -1 = não respondeu
     }
   }, [timer, phase, myAnswer, roomData, handleSubmitAnswer]);
