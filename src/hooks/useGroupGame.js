@@ -138,6 +138,34 @@ export const useGroupGame = (userData) => {
 
       setRoomData(data);
 
+      // Auto-delete se a sala expirou
+      try {
+        if (data.expiresAt && typeof data.expiresAt.toMillis === 'function' && data.expiresAt.toMillis() <= Date.now()) {
+          console.log('group-game: sala expirada — deletando', code);
+          // tenta deletar o documento da sala
+          deleteDoc(roomRef).catch(err => console.error('Erro deletando sala expirada:', err));
+          setError('Sala expirada.');
+          setPhase('menu');
+          setRoomData(null);
+          setRoomCode(null);
+          return;
+        }
+      } catch (err) {
+        console.error('Erro checando expiresAt:', err);
+      }
+
+      // Se o host não existe mais entre os players e a sala não está finalizada, encerra o jogo
+      try {
+        const hostId = data.hostId;
+        const playersObj = data.players || {};
+        if (hostId && !playersObj[hostId] && data.status !== 'finished') {
+          console.log('group-game: host ausente — encerrando sala', code);
+          updateDoc(roomRef, { status: 'finished', finishedAt: Timestamp.now() }).catch(err => console.error('Erro marcando sala como finished após host sair:', err));
+        }
+      } catch (err) {
+        console.error('Erro checando host presence:', err);
+      }
+
       // normalize server status -> local phase
       if (data.status === 'waiting') setPhase('lobby');
       else if (data.status === 'countdown') {
@@ -317,6 +345,8 @@ export const useGroupGame = (userData) => {
       hostName: userData.displayName || 'Anfitrião',
       status: 'waiting',
       createdAt: serverTimestamp(),
+      // expira em 30 minutos por padrão
+      expiresAt: Timestamp.fromMillis(Date.now() + 30 * 60 * 1000),
       settings: {
         maxPlayers: settings.maxPlayers || 8,
         questionCount: questions.length,
@@ -557,11 +587,19 @@ export const useGroupGame = (userData) => {
         const isHost = data.hostId === uid;
         const playerCount = Object.keys(data.players || {}).length;
 
-        if (isHost || playerCount <= 1) {
-          // Se é o host ou último jogador, deleta a sala
+        if (isHost) {
+          // Se o host está saindo, encerra o jogo caso já esteja em andamento,
+          // caso contrário remove a sala (espera)
+          if (data.status === 'playing' || data.status === 'countdown') {
+            await updateDoc(roomRef, { status: 'finished', finishedAt: Timestamp.now() });
+          } else {
+            await deleteDoc(roomRef);
+          }
+        } else if (playerCount <= 1) {
+          // último jogador: remove a sala
           await deleteDoc(roomRef);
         } else {
-          // Remove o jogador
+          // Remove apenas o jogador
           const updatedPlayers = { ...data.players };
           delete updatedPlayers[uid];
           await updateDoc(roomRef, { players: updatedPlayers });

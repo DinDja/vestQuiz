@@ -74,9 +74,9 @@ service cloud.firestore {
 
       allow update: if request.auth != null && (
         // existing player updating only their submap (answers, isReady, isConnected)
-        (resource.data.players[request.auth.uid] != null
-          && request.resource.data.players.keys().hasOnly([request.auth.uid])
-          && request.resource.data.players[request.auth.uid].keys().hasAny(['answers','isReady','isConnected'])
+        (
+          resource.data.players[request.auth.uid] != null
+          && request.resource.data.players[request.auth.uid].uid == request.auth.uid
         )
         // host updating game-flow fields
         || (resource.data.hostId == request.auth.uid
