@@ -8,7 +8,9 @@ import {
   onSnapshot,
   deleteDoc,
   serverTimestamp,
-  Timestamp
+  Timestamp,
+  arrayUnion,
+  increment
 } from 'firebase/firestore';
 import { db, auth } from '../firebase';
 import { SUBJECTS } from '../constants/subjects';
@@ -231,10 +233,12 @@ export const useGroupGame = (userData) => {
       const needsTimerSync = timer !== remaining;
 
       if (isNewQuestion) {
-        // reset completo para nova questão
+        // reset completo para nova questão (mas preserva resposta local se já existir
+        // para esta mesma questão — evita perder seleção por dessincronização)
         lastQuestionRef.current = currentQ;
         // não marca questionTimerStarted imediatamente — espera o state `timer` ser aplicado
-        setMyAnswer(null);
+        // preserve local answer if it already corresponds to this question
+        setMyAnswer(prev => (prev && prev.questionIndex === currentQ ? prev : null));
         setShowExplanation(false);
         setTimer(remaining);
 
@@ -460,14 +464,13 @@ export const useGroupGame = (userData) => {
 
     try {
       const roomRef = doc(db, 'rooms', roomCode);
-      const playerData = roomData.players[uid];
-      const updatedAnswers = [...(playerData?.answers || []), answerRecord];
-      const updatedScore = (playerData?.score || 0) + points;
 
-      await updateDoc(roomRef, {
-        [`players.${uid}.answers`]: updatedAnswers,
-        [`players.${uid}.score`]: updatedScore
-      });
+      // Use arrayUnion and increment to avoid races/overwrites entre clientes
+      const updates = {};
+      updates[`players.${uid}.answers`] = arrayUnion(answerRecord);
+      if (points !== 0) updates[`players.${uid}.score`] = increment(points);
+
+      await updateDoc(roomRef, updates);
     } catch (e) {
       console.error('Erro enviando resposta:', e);
     } finally {
