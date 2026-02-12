@@ -126,8 +126,10 @@ export const useGroupGame = (userData) => {
 
       // normalize server status -> local phase
       if (data.status === 'waiting') setPhase('lobby');
-      else if (data.status === 'countdown') setPhase('countdown');
-      else if (data.status === 'playing') setPhase('playing');
+      else if (data.status === 'countdown') {
+        // não força 'countdown' se já estivermos em 'playing' (cliente local avançou após o countdown)
+        setPhase(prev => (prev === 'playing' ? 'playing' : 'countdown'));
+      } else if (data.status === 'playing') setPhase('playing');
       else if (data.status === 'finished') setPhase('results');
     }, (err) => {
       console.error('Erro listener da sala:', err);
@@ -153,12 +155,27 @@ export const useGroupGame = (userData) => {
       countdownRef.current = setInterval(() => {
         val -= 1;
         if (val <= 0) {
-          // mostra 0 (frame final) e aguarda curtamente antes de mudar para 'playing'
+          // mostra 0 (frame final)
           clearInterval(countdownRef.current);
           countdownRef.current = null;
           setCountdownValue(0);
+
           // pequeno delay para evitar flashing/duplicação na transição do AnimatePresence
-          setTimeout(() => setPhase('playing'), 120);
+          setTimeout(async () => {
+            // avança localmente para playing
+            setPhase('playing');
+
+            // se sou o host, atualizo o documento da sala com o status 'playing' e o timestamp
+            try {
+              const uid = auth.currentUser?.uid;
+              if (roomCode && roomData?.hostId === uid) {
+                const roomRef = doc(db, 'rooms', roomCode);
+                await updateDoc(roomRef, { status: 'playing', questionStartedAt: Timestamp.now() });
+              }
+            } catch (err) {
+              console.error('Erro atualizando room->playing após countdown:', err);
+            }
+          }, 120);
         } else {
           setCountdownValue(val);
         }
@@ -171,7 +188,7 @@ export const useGroupGame = (userData) => {
         countdownRef.current = null;
       }
     };
-  }, [phase]);
+  }, [phase, roomCode, roomData?.hostId]);
 
   // ── Timer de cada questão (sincroniza com questionStartedAt para evitar races) ──
   useEffect(() => {
@@ -355,10 +372,11 @@ export const useGroupGame = (userData) => {
 
     try {
       const roomRef = doc(db, 'rooms', roomCode);
+      // apenas inicia countdown no servidor — questionStartedAt será marcado quando
+      // o countdown terminar (host) para sincronizar corretamente o tempo das questões
       await updateDoc(roomRef, {
         status: 'countdown',
-        currentQuestion: 0,
-        questionStartedAt: Timestamp.now()
+        currentQuestion: 0
       });
     } catch (e) {
       console.error('Erro iniciando jogo:', e);
