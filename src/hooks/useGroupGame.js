@@ -14,6 +14,8 @@ import {
 } from 'firebase/firestore';
 import { db, auth } from '../firebase';
 import { SUBJECTS } from '../constants/subjects';
+import L from 'leaflet';
+import { MISSION_DATABASE } from '../components/geo-game/missionDatabase';
 
 // ─── Utilitários ────────────────────────────────────────────────────
 const generateRoomCode = () => {
@@ -33,6 +35,24 @@ const shuffleArray = (arr) => {
 };
 
 const pickQuestions = (category = 'mixed', count = 10) => {
+  // Geo missions: usar MISSION_DATABASE (retorna objetos tipo 'geo')
+  if (category === 'geografia') {
+    const pool = [...MISSION_DATABASE];
+    const selected = shuffleArray(pool).slice(0, count);
+    return selected.map((m, idx) => ({
+      id: `geo_${m.title.replace(/\s+/g, '_').toLowerCase()}_${idx}`,
+      type: 'geo',
+      title: m.title,
+      q: m.description || m.title,
+      lat: m.lat,
+      lng: m.lng,
+      precision: m.precision || 50000,
+      hint: m.hint || '',
+      tags: m.tags || [],
+      difficulty: m.difficulty || 'medium'
+    }));
+  }
+
   let pool = [];
 
   if (category === 'mixed') {
@@ -154,13 +174,15 @@ export const useGroupGame = (userData) => {
         console.error('Erro checando expiresAt:', err);
       }
 
-      // Se o host não existe mais entre os players e a sala não está finalizada, encerra o jogo
+      // Se o host não existe mais entre os players e a sala não está finalizada,
+      // deletar a sala imediatamente para desconectar jogadores (comportamento solicitado).
       try {
         const hostId = data.hostId;
         const playersObj = data.players || {};
         if (hostId && !playersObj[hostId] && data.status !== 'finished') {
-          console.log('group-game: host ausente — encerrando sala', code);
-          updateDoc(roomRef, { status: 'finished', finishedAt: Timestamp.now() }).catch(err => console.error('Erro marcando sala como finished após host sair:', err));
+          console.log('group-game: host ausente — deletando sala', code);
+          deleteDoc(roomRef).catch(err => console.error('Erro deletando sala após host sair:', err));
+          return; // listener retornará early pois o documento some
         }
       } catch (err) {
         console.error('Erro checando host presence:', err);
@@ -466,6 +488,62 @@ export const useGroupGame = (userData) => {
     const question = roomData.questions?.[currentQ];
     if (!question) return;
 
+    // GEO question handling (answerIdx is expected to be an object {lat,lng})
+    if (question.type === 'geo') {
+      const timeLimit = roomData.settings?.timePerQuestion || 20;
+      const timeSpent = timeLimit - timer;
+
+      let answerRecord = { questionIndex: currentQ, timeSpent };
+      let points = 0;
+      let isCorrect = false;
+
+      if (answerIdx && typeof answerIdx === 'object' && typeof answerIdx.lat === 'number' && typeof answerIdx.lng === 'number') {
+        const guessed = L.latLng(answerIdx.lat, answerIdx.lng);
+        const target = L.latLng(question.lat, question.lng);
+        const distMeters = guessed.distanceTo(target);
+        const distKm = Math.round(distMeters / 1000);
+        isCorrect = distMeters <= (question.precision || 50000);
+
+        if (isCorrect) {
+          points = Math.max(0, Math.round(1000 * (1 - distMeters / (question.precision || 50000))));
+        }
+
+        answerRecord = {
+          ...answerRecord,
+          answerIndex: null,
+          guess: { lat: answerIdx.lat, lng: answerIdx.lng },
+          distanceKm: distKm,
+          correct: isCorrect,
+          points
+        };
+      } else {
+        // no answer submitted
+        answerRecord = { ...answerRecord, answerIndex: -1, guess: null, distanceKm: null, correct: false, points: 0 };
+      }
+
+      // guard against double-submit/race
+      if (submittingRef.current) return;
+      submittingRef.current = true;
+
+      setMyAnswer(answerRecord);
+      console.log('group-game: myAnswer set (geo)', answerRecord);
+
+      try {
+        const roomRef = doc(db, 'rooms', roomCode);
+        const updates = {};
+        updates[`players.${uid}.answers`] = arrayUnion(answerRecord);
+        if (points !== 0) updates[`players.${uid}.score`] = increment(points);
+        await updateDoc(roomRef, updates);
+      } catch (e) {
+        console.error('Erro enviando resposta (geo):', e);
+      } finally {
+        submittingRef.current = false;
+      }
+
+      return;
+    }
+
+    // ── fallback: legacy multiple-choice handling ──
     const isCorrect = answerIdx === question.correct;
     const timeLimit = roomData.settings?.timePerQuestion || 20;
     const timeSpent = timeLimit - timer;
@@ -546,10 +624,11 @@ export const useGroupGame = (userData) => {
       const roomRef = doc(db, 'rooms', roomCode);
 
       if (currentQ + 1 >= totalQuestions) {
-        // Jogo acabou
+        // Jogo acabou — marcar finished e agendar auto-delete com expiresAt curto (30s)
         await updateDoc(roomRef, {
           status: 'finished',
-          finishedAt: Timestamp.now()
+          finishedAt: Timestamp.now(),
+          expiresAt: Timestamp.fromMillis(Date.now() + 30 * 1000)
         });
       } else {
         // Próxima questão
@@ -588,13 +667,9 @@ export const useGroupGame = (userData) => {
         const playerCount = Object.keys(data.players || {}).length;
 
         if (isHost) {
-          // Se o host está saindo, encerra o jogo caso já esteja em andamento,
-          // caso contrário remove a sala (espera)
-          if (data.status === 'playing' || data.status === 'countdown') {
-            await updateDoc(roomRef, { status: 'finished', finishedAt: Timestamp.now() });
-          } else {
-            await deleteDoc(roomRef);
-          }
+          // Se o host sai, deletar a sala imediatamente e desconectar todos os jogadores.
+          // Isso garante que a sala não permaneça sem anfitrião.
+          await deleteDoc(roomRef);
         } else if (playerCount <= 1) {
           // último jogador: remove a sala
           await deleteDoc(roomRef);

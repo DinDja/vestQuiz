@@ -3,11 +3,36 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Download, Info, Clock } from 'lucide-react';
 
 // Compact, interactive "map road" showing turns + events. Meant to be rendered persistently.
-export default function MapRoad({ totalTurns = 10, currentTurn = 1, timelineEvents = {}, statsHistory = [], isDark = false }) {
+export default function MapRoad({ totalTurns = 10, currentTurn = 1, timelineEvents = {}, statsHistory = [], isDark = false, small = false }) {
   const svgRef = useRef(null);
+
+  // normalize props
+  totalTurns = Math.max(1, Number(totalTurns || 10));
+  currentTurn = Math.max(1, Math.min(totalTurns, Number(currentTurn || 1)));
   const [selected, setSelected] = useState(null);
   const closeBtnRef = useRef(null);
   const turns = Array.from({ length: totalTurns }, (_, i) => i + 1);
+
+  // versão compacta para previews inline (sem comportamento "fixed" nem bottom-sheet)
+  if (small) {
+    return (
+      <div className="w-full h-12">
+        <svg className="w-full h-12" viewBox={`0 0 ${Math.max(400, totalTurns * 40)} 48`} preserveAspectRatio="xMinYMid meet" role="img" aria-label="Preview de percurso">
+          <rect x="0" y="20" width="100%" height="8" fill={isDark ? '#0f1724' : '#f1f5f9'} rx="4" />
+          {turns.map((t, i) => {
+            const x = 20 + i * 40;
+            const isPast = t < currentTurn;
+            const isNow = t === currentTurn;
+            return (
+              <g key={t} transform={`translate(${x},24)`}>
+                <circle cx={0} cy={0} r={isNow ? 6 : isPast ? 5 : 4} fill={isNow ? '#10b981' : isPast ? '#60a5fa' : '#e6e9ef'} />
+              </g>
+            );
+          })}
+        </svg>
+      </div>
+    );
+  }
 
   React.useEffect(() => {
     if (selected) {

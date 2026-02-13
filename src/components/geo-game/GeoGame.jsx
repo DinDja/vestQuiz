@@ -10,6 +10,7 @@ import {
     LocateFixed,
     ChevronRight,
     Zap,
+    Wifi,
     Sun,
     Moon,
     X
@@ -18,6 +19,7 @@ import { MapContainer, TileLayer, Marker, useMapEvents, Circle, useMap } from 'r
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { MISSION_DATABASE } from './missionDatabase';
+import { GeoGameOnline } from './GeoGameOnline';
 
 const customIcon = L.divIcon({
     className: 'custom-div-icon',
@@ -52,6 +54,7 @@ function ClickHandler({ setPos, active }) {
 }
 
 export const GeoGame = ({ setView, userData, updateProgress, unlockBadge }) => {
+    const [showOnlineMode, setShowOnlineMode] = useState(false);
     const [gameStarted, setGameStarted] = useState(false);
     const [missionLimit, setMissionLimit] = useState(10);
     const [missions, setMissions] = useState([]);
@@ -75,6 +78,12 @@ export const GeoGame = ({ setView, userData, updateProgress, unlockBadge }) => {
         setSessionScore(0);
         setStreak(0);
         setHintUsedCount(0);
+    };
+
+    // debug-friendly opener for online mode (logs + sets state)
+    const openOnlineMode = () => {
+        console.log('GeoGame: openOnlineMode called');
+        setShowOnlineMode(true);
     };
 
     const handleConfirm = () => {
@@ -139,25 +148,96 @@ export const GeoGame = ({ setView, userData, updateProgress, unlockBadge }) => {
 
     if (!gameStarted) {
         return (
-            <div className="fixed inset-0 z-[5000] flex flex-col items-center justify-center p-8 bg-slate-950">
-                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center z-10 w-full max-w-sm">
-                    <div className="w-20 h-20 bg-emerald-500/20 rounded-full flex items-center justify-center mx-auto mb-6 border border-emerald-500/30">
-                        <Target size={40} className="text-emerald-500 animate-pulse" />
+            <div className="fixed inset-0 z-[5000] flex flex-col items-center justify-center p-6 bg-slate-950">
+                <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="w-full max-w-md mx-auto z-10">
+
+                    {/* header */}
+                    <div className="flex items-center gap-3 mb-6">
+                        <div className="w-14 h-14 bg-emerald-500/12 rounded-xl flex items-center justify-center border border-emerald-500/20">
+                            <Target size={34} className="text-emerald-500" />
+                        </div>
+                        <div>
+                            <h2 className="text-lg font-black text-white">Geo</h2>
+                            <p className="text-xs text-slate-400 mt-1">Escolha um modo para começar — toque para selecionar.</p>
+                        </div>
                     </div>
-                    <h2 className="text-2xl font-black mb-6 text-white tracking-widest uppercase italic">Configurar Frota</h2>
-                    <div className="grid grid-cols-2 gap-4 mb-8">
-                        {[10, 50, 100, 300].map((num) => (
-                            <button key={num} onClick={() => initializeGame(num)} className="py-6 bg-slate-900 border border-white/5 rounded-3xl text-white font-black hover:bg-emerald-500 hover:text-slate-950 transition-all active:scale-95">
-                                <span className="text-3xl block">{num}</span>
-                                <span className="text-[10px] opacity-50 uppercase tracking-widest">Alvos</span>
-                            </button>
-                        ))}
+
+                    {/* OFFLINE (stacked, mobile-first) */}
+                    <div className="mb-4 p-5 rounded-2xl bg-slate-900 border border-white/5">
+                        <div className="flex items-center justify-between mb-3">
+                            <div>
+                                <div className="text-sm font-black text-white">Offline — Solo</div>
+                                <div className="text-[11px] text-slate-400 mt-1">Treine no seu ritmo e ganhe XP.</div>
+                            </div>
+                            <div className="text-xs font-black text-emerald-400 px-2 py-1 rounded-lg bg-emerald-500/8">Rápido</div>
+                        </div>
+
+                        <div className="mt-3">
+                            <div className="text-[11px] font-bold text-slate-400 mb-2">Alvos</div>
+                            <div className="flex gap-2 overflow-x-auto no-scrollbar">
+                                {[10, 50, 100, 300].map(num => (
+                                    <button
+                                        key={num}
+                                        onClick={() => setMissionLimit(num)}
+                                        className={`min-w-[72px] py-3 rounded-2xl font-black ${missionLimit === num ? 'bg-emerald-500 text-slate-950' : 'bg-slate-800 text-white'} text-center`}
+                                    >
+                                        {num}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className="mt-4">
+                            <button onClick={() => initializeGame(missionLimit || 10)} className="w-full py-4 rounded-2xl font-black text-slate-950 bg-emerald-500">Começar (offline)</button>
+                        </div>
+
+                        <div className="mt-3 text-xs text-slate-400">Dica: tocar em um número seleciona a quantidade — depois toque "Começar".</div>
                     </div>
-                    <button onClick={() => setView('dashboard')} className="text-slate-500 font-bold uppercase text-xs tracking-widest">Cancelar Operação</button>
+
+                    {/* ONLINE (stacked) */}
+                    <div className="p-5 rounded-2xl bg-slate-900 border border-white/5">
+                        <div className="flex items-center justify-between mb-3">
+                            <div>
+                                <div className="text-sm font-black text-white">Online — Multijogador</div>
+                                <div className="text-[11px] text-slate-400 mt-1">Crie sala ou entre com código e jogue em tempo real.</div>
+                            </div>
+                            <div className="text-xs font-black text-rose-400 px-2 py-1 rounded-lg bg-rose-500/8">Competitivo</div>
+                        </div>
+
+                        <div className="mt-2 grid gap-3">
+                            <button onClick={openOnlineMode} className="w-full py-4 rounded-2xl font-black text-white bg-rose-500">Jogar Online</button>
+                            <button onClick={openOnlineMode} className="w-full py-3 rounded-2xl font-black bg-slate-800 text-white">Criar / Entrar</button>
+                        </div>
+
+                        <div className="mt-3 flex items-center gap-2 text-xs text-slate-400">
+                            <Wifi size={14} className="text-amber-400" />
+                            <div>Partidas sincronizadas em tempo real • anfitrião inicia</div>
+                        </div>
+                    </div>
+
+                    <div className="mt-6 text-center">
+                        <button onClick={() => setView('dashboard')} className="text-xs font-black uppercase text-slate-400">Voltar</button>
+                    </div>
+
                 </motion.div>
+
+                {/* modal de online também disponível na tela inicial */}
+                {showOnlineMode && (
+                    <GeoGameOnline
+                        onClose={() => setShowOnlineMode(false)}
+                        setView={setView}
+                        isDark={mapStyle === 'dark'}
+                        userData={userData}
+                        updateProgress={updateProgress}
+                        unlockBadge={unlockBadge}
+                    />
+                )}
+
             </div>
         );
     }
+
+    // show online overlay when requested (rendered inside main UI)
 
     return (
         <div className="fixed inset-0 z-[4000] flex flex-col bg-slate-950 font-sans select-none touch-none">
@@ -172,6 +252,9 @@ export const GeoGame = ({ setView, userData, updateProgress, unlockBadge }) => {
                     <button onClick={() => setMapStyle(s => s === 'dark' ? 'light' : 'dark')} title="Alternar estilo do mapa" className="hud-glass w-10 h-10 rounded-xl flex items-center justify-center text-white border border-white/10 active:bg-emerald-500/20 pointer-events-auto">
                         {mapStyle === 'dark' ? <Sun size={18} className="text-amber-300" /> : <Moon size={18} className="text-slate-400" />}
                     </button>
+                    <button onClick={() => setShowOnlineMode(true)} title="Jogar Online" className="hud-glass w-10 h-10 rounded-xl flex items-center justify-center text-white border border-white/10 active:bg-emerald-500/20 pointer-events-auto">
+                        <Wifi size={16} />
+                    </button>
                     <div className="hud-glass px-4 py-2 rounded-2xl text-center min-w-[60px]">
                         <p className="text-[8px] opacity-40 font-black uppercase">STREAK</p>
                         <p className="text-sm font-black text-amber-400 leading-none">{streak}</p>
@@ -182,6 +265,17 @@ export const GeoGame = ({ setView, userData, updateProgress, unlockBadge }) => {
                     </div>
                 </div>
             </header>
+
+            {showOnlineMode && (
+                <GeoGameOnline
+                    onClose={() => setShowOnlineMode(false)}
+                    setView={setView}
+                    isDark={mapStyle === 'dark'}
+                    userData={userData}
+                    updateProgress={updateProgress}
+                    unlockBadge={unlockBadge}
+                />
+            )}
 
             <div className="flex-1 relative z-0">
                 <MapContainer center={[20, 0]} zoom={2} zoomControl={false} className={`h-full w-full ${mapStyle === 'light' ? 'leaflet-container--light' : ''}`} worldCopyJump={true}>
